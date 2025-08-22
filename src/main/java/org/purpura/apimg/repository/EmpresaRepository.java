@@ -8,5 +8,12 @@ import java.util.Optional;
 
 @Repository
 public interface EmpresaRepository extends MongoRepository<EmpresaModel, String> {
-    Optional<EmpresaModel> findBycCnpj(String cCnpj);
+    Optional<EmpresaModel> findByCnpj(String cnpj);
+
+//    @Aggregation(pipeline = {
+//            "{ '$match': { 'cnpj': ?0 } }",
+//            "{ '$unwind': '$lsEnderecos' }",
+//            "{ '$replaceRoot': { 'newRoot': '$lsEnderecos' } }"
+//    })
+//    List<EnderecoModel> findEnderecosByCnpj(String cnpj);
 }

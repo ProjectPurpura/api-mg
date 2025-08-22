@@ -22,20 +22,20 @@ public class EmpresaRequestDTO {
     @NotNull(message = "O CNPJ da empresa precisa ser informado")
     @NotBlank(message = "O CNPJ da empresa precisa ser informado")
     @CNPJ(message = "O CNPJ da empresa precisa ser válido")
-    private String cCnpj;
+    private String cnpj;
 
     @NotNull(message = "O nome da empresa precisa ser informado")
     @NotBlank(message = "O nome da empresa precisa ser informado")
     @Length(min = 3, max = 100, message = "O nome da empresa deve ter entre 3 e 100 caracteres")
-    private String cNmEmpresa;
+    private String nome;
 
     @NotNull(message = "O e-mail da empresa precisa ser informado")
     @NotBlank(message = "O e-mail da empresa precisa ser informado")
     @Email(message = "O e-mail da empresa precisa ser um e-mail válido")
-    private String cEmail;
+    private String email;
 
     @NotNull(message = "O telefone da empresa precisa ser informado")
     @NotBlank(message = "O telefone da empresa precisa ser informado")
     @Pattern(regexp = "^\\d{2}(?:9\\d{8}|\\d{8})$", message = "O telefone da empresa deve seguir formato somente números com DDD")
-    private String cTelefone;
+    private String telefone;
 }

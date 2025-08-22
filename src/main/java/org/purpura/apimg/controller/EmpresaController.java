@@ -2,7 +2,7 @@ package org.purpura.apimg.controller;
 
 import jakarta.validation.Valid;
 import org.purpura.apimg.dto.empresa.EmpresaRequestDTO;
-import org.purpura.apimg.model.empresa.EmpresaModel;
+import org.purpura.apimg.dto.empresa.EmpresaResponseDTO;
 import org.purpura.apimg.service.EmpresaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +19,25 @@ public class EmpresaController {
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<Void> saveEmpresa(@RequestBody @Valid EmpresaRequestDTO empresaRequestDTO) {
-        empresaService.save(empresaRequestDTO);
+    public ResponseEntity<Void> save(@RequestBody @Valid EmpresaRequestDTO empresaRequestDTO) {
+        empresaService.insert(empresaRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping(value = "/{cnpj}")
-    public ResponseEntity<EmpresaModel> getEmpresa(@PathVariable String cnpj) {
-        EmpresaModel empresaModel = empresaService.findBycCnpj(cnpj);
-        return ResponseEntity.ok(empresaModel);
+    public ResponseEntity<EmpresaResponseDTO> get(@PathVariable String cnpj) {
+        return ResponseEntity.ok(new EmpresaResponseDTO(empresaService.findByCnpj(cnpj)));
+    }
+
+    @DeleteMapping(value = "/{cnpj}")
+    public ResponseEntity<Void> delete(@PathVariable String cnpj) {
+        empresaService.deleteByCnpj(cnpj);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(value = "/")
+    public ResponseEntity<Void> update(@RequestBody @Valid EmpresaRequestDTO empresaRequestDTO) {
+        empresaService.update(empresaRequestDTO);
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,13 +1,16 @@
 package org.purpura.apimg.service;
 
 import org.purpura.apimg.dto.empresa.EmpresaRequestDTO;
-import org.purpura.apimg.exception.DocumentNotFoundException;
+import org.purpura.apimg.dto.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.exception.EmpresaNotFoundException;
 import org.purpura.apimg.model.empresa.EmpresaModel;
+import org.purpura.apimg.model.empresa.EnderecoModel;
 import org.purpura.apimg.repository.EmpresaRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class EmpresaService {
@@ -17,15 +20,71 @@ public class EmpresaService {
         this.empresaRepository = empresaRepository;
     }
 
+
+    // region EMPRESA
+
     @Transactional
-    public void save(EmpresaRequestDTO empresaRequestDTO) {
+    public void insert(EmpresaRequestDTO empresaRequestDTO) {
         EmpresaModel empresaModel = new EmpresaModel();
         BeanUtils.copyProperties(empresaRequestDTO, empresaModel);
         empresaRepository.save(empresaModel);
     }
 
-    public EmpresaModel findBycCnpj(String cnpj) {
-        return empresaRepository.findBycCnpj(cnpj)
-                .orElseThrow(() -> new EmpresaNotFoundException(cnpj));
+    @Transactional
+    public void update(EmpresaRequestDTO empresaRequestDTO) {
+        EmpresaModel empresaModel = findByCnpj(empresaRequestDTO.getCnpj());
+        BeanUtils.copyProperties(empresaRequestDTO, empresaModel);
+        empresaRepository.save(empresaModel);
     }
+
+
+    public EmpresaModel findByCnpj(String cnpj) {
+        return empresaRepository.findByCnpj(cnpj).orElseThrow(() -> new EmpresaNotFoundException(cnpj));
+    }
+
+    public List<EmpresaModel> findAll(String cnpj) {
+        return empresaRepository.findAll();
+    }
+
+
+    @Transactional
+    public void deleteByCnpj(String cnpj) {
+        empresaRepository.delete(findByCnpj(cnpj));
+    }
+
+    // endregion EMPRESA
+
+    // region ENDERECO
+
+    public List<EnderecoModel> findEnderecosByCnpj(String cnpj) {
+        return findByCnpj(cnpj).getEnderecos();
+    }
+
+    public void addEndereco(String cnpj, EnderecoRequestDTO endereco) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+
+        EnderecoModel enderecoModel = new EnderecoModel();
+        BeanUtils.copyProperties(endereco, enderecoModel);
+
+        empresaModel.getEnderecos().add(enderecoModel);
+        empresaRepository.save(empresaModel);
+    }
+
+    public void deleteEndereco(String cnpj, String id) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        empresaModel.getEnderecos().removeIf(endereco -> endereco.get_id().equals(id));
+    }
+
+    public void updateEndereco(String cnpj, String id, EnderecoRequestDTO endereco) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        empresaModel.getEnderecos().stream()
+                .filter(enderecoModel -> enderecoModel.get_id().equals(id))
+                .findFirst()
+                .ifPresent(enderecoModel -> BeanUtils.copyProperties(endereco, enderecoModel));
+    }
+    // endregion ENDERECO
+
+    // region CHAVE PIX
+
+    // endregion CHAVE PIX
 }
