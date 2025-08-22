@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
-
 import java.util.List;
 
 @Data
@@ -17,11 +16,12 @@ import java.util.List;
 @Document(collection = "Empresa")
 public class EmpresaModel {
     @Id
-    private String cCdEmpresa;
+    private String cCnpj;
     private String cNmEmpresa;
     private String cEmail;
     private String cTelefone;
 
+    private boolean bAtivo = true;
     private List<EnderecoModel> lsEnderecos;
     private List<ChavePixModel> lsChavesPix;
     private List<ResiduoModel> lsResiduos;

@@ -48,4 +48,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleDocumentNotFoundException(DocumentNotFoundException documentNotFoundException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(documentNotFoundException.getMessage());
     }
+
+    @ExceptionHandler(EmpresaNotFoundException.class)
+    public ResponseEntity<String> handleEmpresaNotFoundException(EmpresaNotFoundException empresaNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(empresaNotFoundException.getMessage());
+    }
 }

@@ -24,9 +24,9 @@ public class EmpresaController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<EmpresaModel> getEmpresa(@PathVariable String id) {
-        EmpresaModel empresaModel = empresaService.findById(id);
+    @GetMapping(value = "/{cnpj}")
+    public ResponseEntity<EmpresaModel> getEmpresa(@PathVariable String cnpj) {
+        EmpresaModel empresaModel = empresaService.findBycCnpj(cnpj);
         return ResponseEntity.ok(empresaModel);
     }
 }

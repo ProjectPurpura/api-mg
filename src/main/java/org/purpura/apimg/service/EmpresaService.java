@@ -2,6 +2,7 @@ package org.purpura.apimg.service;
 
 import org.purpura.apimg.dto.empresa.EmpresaRequestDTO;
 import org.purpura.apimg.exception.DocumentNotFoundException;
+import org.purpura.apimg.exception.EmpresaNotFoundException;
 import org.purpura.apimg.model.empresa.EmpresaModel;
 import org.purpura.apimg.repository.EmpresaRepository;
 import org.springframework.beans.BeanUtils;
@@ -19,11 +20,12 @@ public class EmpresaService {
     @Transactional
     public void save(EmpresaRequestDTO empresaRequestDTO) {
         EmpresaModel empresaModel = new EmpresaModel();
-        BeanUtils.copyProperties(empresaModel, empresaRequestDTO);
+        BeanUtils.copyProperties(empresaRequestDTO, empresaModel);
         empresaRepository.save(empresaModel);
     }
 
-    public EmpresaModel findById(String id) {
-        return empresaRepository.findById(id).orElseThrow(() -> new DocumentNotFoundException(id));
+    public EmpresaModel findBycCnpj(String cnpj) {
+        return empresaRepository.findBycCnpj(cnpj)
+                .orElseThrow(() -> new EmpresaNotFoundException(cnpj));
     }
 }
