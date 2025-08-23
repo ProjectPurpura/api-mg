@@ -39,10 +39,11 @@ public class EmpresaService {
 
 
     public EmpresaModel findByCnpj(String cnpj) {
-        return empresaRepository.findByCnpj(cnpj).orElseThrow(() -> new EmpresaNotFoundException(cnpj));
+        return empresaRepository.findById(cnpj)
+                .orElseThrow(() -> new EmpresaNotFoundException(cnpj));
     }
 
-    public List<EmpresaModel> findAll(String cnpj) {
+    public List<EmpresaModel> findAll() {
         return empresaRepository.findAll();
     }
 
