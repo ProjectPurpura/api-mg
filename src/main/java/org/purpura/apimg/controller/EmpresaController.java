@@ -24,18 +24,18 @@ public class EmpresaController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping(value = "/{cnpj}")
+    @GetMapping(value = "/get/{cnpj}")
     public ResponseEntity<EmpresaResponseDTO> get(@PathVariable String cnpj) {
         return ResponseEntity.ok(new EmpresaResponseDTO(empresaService.findByCnpj(cnpj)));
     }
 
-    @DeleteMapping(value = "/{cnpj}")
+    @DeleteMapping(value = "/delete/{cnpj}")
     public ResponseEntity<Void> delete(@PathVariable String cnpj) {
         empresaService.deleteByCnpj(cnpj);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping(value = "/")
+    @PutMapping(value = "/update")
     public ResponseEntity<Void> update(@RequestBody @Valid EmpresaRequestDTO empresaRequestDTO) {
         empresaService.update(empresaRequestDTO);
         return ResponseEntity.ok().build();
