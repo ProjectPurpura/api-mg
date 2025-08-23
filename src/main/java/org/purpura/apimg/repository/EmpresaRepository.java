@@ -4,12 +4,9 @@ import org.purpura.apimg.model.empresa.EmpresaModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 
 @Repository
 public interface EmpresaRepository extends MongoRepository<EmpresaModel, String> {
-    Optional<EmpresaModel> findByCnpj(String cnpj);
-
 //    @Aggregation(pipeline = {
 //            "{ '$match': { 'cnpj': ?0 } }",
 //            "{ '$unwind': '$lsEnderecos' }",
