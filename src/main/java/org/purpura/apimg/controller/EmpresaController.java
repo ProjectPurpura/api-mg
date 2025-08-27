@@ -1,8 +1,9 @@
 package org.purpura.apimg.controller;
 
 import jakarta.validation.Valid;
-import org.purpura.apimg.dto.empresa.EmpresaRequestDTO;
+import org.purpura.apimg.dto.empresa.EmpresaSaveRequestDTO;
 import org.purpura.apimg.dto.empresa.EmpresaResponseDTO;
+import org.purpura.apimg.dto.empresa.EmpresaUpdateRequestDTO;
 import org.purpura.apimg.service.EmpresaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,8 @@ public class EmpresaController {
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<Void> save(@RequestBody @Valid EmpresaRequestDTO empresaRequestDTO) {
-        empresaService.insert(empresaRequestDTO);
+    public ResponseEntity<Void> save(@RequestBody @Valid EmpresaSaveRequestDTO empresaSaveRequestDTO) {
+        empresaService.insert(empresaSaveRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -35,9 +36,11 @@ public class EmpresaController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping(value = "/update")
-    public ResponseEntity<Void> update(@RequestBody @Valid EmpresaRequestDTO empresaRequestDTO) {
-        empresaService.update(empresaRequestDTO);
+    @PutMapping(value = "/update/{cnpj}")
+    public ResponseEntity<Void> update(@PathVariable String cnpj,
+                                       @RequestBody @Valid EmpresaUpdateRequestDTO empresaUpdateRequestDTO)
+    {
+        empresaService.update(cnpj, empresaUpdateRequestDTO);
         return ResponseEntity.ok().build();
     }
 }

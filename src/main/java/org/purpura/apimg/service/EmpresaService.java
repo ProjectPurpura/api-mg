@@ -1,6 +1,7 @@
 package org.purpura.apimg.service;
 
-import org.purpura.apimg.dto.empresa.EmpresaRequestDTO;
+import org.purpura.apimg.dto.empresa.EmpresaSaveRequestDTO;
+import org.purpura.apimg.dto.empresa.EmpresaUpdateRequestDTO;
 import org.purpura.apimg.dto.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.exception.EmpresaNotFoundException;
 import org.purpura.apimg.model.empresa.EmpresaModel;
@@ -24,16 +25,16 @@ public class EmpresaService {
     // region EMPRESA
 
     @Transactional
-    public void insert(EmpresaRequestDTO empresaRequestDTO) {
+    public void insert(EmpresaSaveRequestDTO empresaSaveRequestDTO) {
         EmpresaModel empresaModel = new EmpresaModel();
-        BeanUtils.copyProperties(empresaRequestDTO, empresaModel);
+        BeanUtils.copyProperties(empresaSaveRequestDTO, empresaModel);
         empresaRepository.save(empresaModel);
     }
 
     @Transactional
-    public void update(EmpresaRequestDTO empresaRequestDTO) {
-        EmpresaModel empresaModel = findByCnpj(empresaRequestDTO.getCnpj());
-        BeanUtils.copyProperties(empresaRequestDTO, empresaModel);
+    public void update(String cnpj, EmpresaUpdateRequestDTO empresaUpdateRequestDTO) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        BeanUtils.copyProperties(empresaUpdateRequestDTO, empresaModel);
         empresaRepository.save(empresaModel);
     }
 
@@ -73,13 +74,13 @@ public class EmpresaService {
 
     public void deleteEndereco(String cnpj, String id) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        empresaModel.getEnderecos().removeIf(endereco -> endereco.get_id().equals(id));
+        empresaModel.getEnderecos().removeIf(endereco -> endereco.getId().equals(id));
     }
 
     public void updateEndereco(String cnpj, String id, EnderecoRequestDTO endereco) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
         empresaModel.getEnderecos().stream()
-                .filter(enderecoModel -> enderecoModel.get_id().equals(id))
+                .filter(enderecoModel -> enderecoModel.getId().equals(id))
                 .findFirst()
                 .ifPresent(enderecoModel -> BeanUtils.copyProperties(endereco, enderecoModel));
     }
