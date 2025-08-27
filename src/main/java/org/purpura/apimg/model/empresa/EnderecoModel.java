@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Data
 @NoArgsConstructor
@@ -13,10 +13,10 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @Builder
 @Document
 public class EnderecoModel {
-    @MongoId
-    private String _id;
-
-    private String cCep;
-    private Integer iNumero;
-    private String cComplemento;
+    @Id
+    private String id;
+    private String nome;
+    private Integer numero;
+    private String cep;
+    private String complemento;
 }
