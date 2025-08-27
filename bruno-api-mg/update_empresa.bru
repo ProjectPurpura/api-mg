@@ -1,0 +1,21 @@
+meta {
+  name: update_empresa
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:8081/empresa/update/17424290000101
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "telefone": "1141136003"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
