@@ -5,6 +5,7 @@ import org.purpura.apimg.dto.empresa.EmpresaQueryDTO;
 import org.purpura.apimg.dto.empresa.EmpresaSaveRequestDTO;
 import org.purpura.apimg.dto.empresa.EmpresaResponseDTO;
 import org.purpura.apimg.dto.empresa.EmpresaUpdateRequestDTO;
+import org.purpura.apimg.model.empresa.EmpresaModel;
 import org.purpura.apimg.service.EmpresaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +57,9 @@ public class EmpresaController {
 
     @GetMapping(value = "/search")
     public ResponseEntity<List<EmpresaResponseDTO>> search(@RequestBody @Valid EmpresaQueryDTO empresaQueryDTO) {
-        empresaService.search(empresaQueryDTO);
+        List<EmpresaModel> found = empresaService.search(empresaQueryDTO);
+        return ResponseEntity.ok(found.stream()
+                .map(EmpresaResponseDTO::new)
+                .toList());
     }
 }

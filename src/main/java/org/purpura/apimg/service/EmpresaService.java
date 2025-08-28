@@ -89,8 +89,8 @@ public class EmpresaService {
                 .ifPresent(enderecoModel -> BeanUtils.copyProperties(endereco, enderecoModel));
     }
 
-    public void search(EmpresaQueryDTO queryDTO) {
-        empresaSearcher.search(findAll(), queryDTO.keywords);
+    public List<EmpresaModel> search(EmpresaQueryDTO queryDTO) {
+        return empresaSearcher.search(findAll(), queryDTO.keywords);
     }
     // endregion ENDERECO
 
