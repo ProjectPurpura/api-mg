@@ -1,5 +1,6 @@
 package org.purpura.apimg.service;
 
+import org.purpura.apimg.dto.empresa.EmpresaQueryDTO;
 import org.purpura.apimg.dto.empresa.EmpresaSaveRequestDTO;
 import org.purpura.apimg.dto.empresa.EmpresaUpdateRequestDTO;
 import org.purpura.apimg.dto.endereco.EnderecoRequestDTO;
@@ -7,6 +8,7 @@ import org.purpura.apimg.exception.EmpresaNotFoundException;
 import org.purpura.apimg.model.empresa.EmpresaModel;
 import org.purpura.apimg.model.empresa.EnderecoModel;
 import org.purpura.apimg.repository.EmpresaRepository;
+import org.purpura.apimg.search.empresa.EmpresaSearcher;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +18,11 @@ import java.util.List;
 @Service
 public class EmpresaService {
     private final EmpresaRepository empresaRepository;
+    private final EmpresaSearcher empresaSearcher;
 
-    public EmpresaService(EmpresaRepository empresaRepository) {
+    public EmpresaService(EmpresaRepository empresaRepository, EmpresaSearcher empresaSearcher) {
         this.empresaRepository = empresaRepository;
+        this.empresaSearcher = empresaSearcher;
     }
 
 
@@ -83,6 +87,10 @@ public class EmpresaService {
                 .filter(enderecoModel -> enderecoModel.getId().equals(id))
                 .findFirst()
                 .ifPresent(enderecoModel -> BeanUtils.copyProperties(endereco, enderecoModel));
+    }
+
+    public void search(EmpresaQueryDTO queryDTO) {
+        empresaSearcher.search(findAll(), queryDTO.keywords);
     }
     // endregion ENDERECO
 

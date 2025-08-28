@@ -1,6 +1,7 @@
 package org.purpura.apimg.controller;
 
 import jakarta.validation.Valid;
+import org.purpura.apimg.dto.empresa.EmpresaQueryDTO;
 import org.purpura.apimg.dto.empresa.EmpresaSaveRequestDTO;
 import org.purpura.apimg.dto.empresa.EmpresaResponseDTO;
 import org.purpura.apimg.dto.empresa.EmpresaUpdateRequestDTO;
@@ -51,5 +52,10 @@ public class EmpresaController {
         return ResponseEntity.ok(empresaService.findAll().stream()
                 .map(EmpresaResponseDTO::new)
                 .toList());
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<EmpresaResponseDTO>> search(@RequestBody @Valid EmpresaQueryDTO empresaQueryDTO) {
+        empresaService.search(empresaQueryDTO);
     }
 }
