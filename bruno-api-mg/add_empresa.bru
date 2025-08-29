@@ -1,0 +1,24 @@
+meta {
+  name: add_empresa
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8081/empresa/save
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "cnpj": "17424290000101",
+    "nome": "B2BLUE.COM MERCADO INTELIGENTE E VALORIZACAO DE RESIDUOS LTDA",
+    "email": "contabilidade@b2blue.com",
+    "telefone": "1141136002"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
