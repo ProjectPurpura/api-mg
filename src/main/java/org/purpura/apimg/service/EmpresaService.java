@@ -92,7 +92,6 @@ public class EmpresaService {
         return empresaSearcher.search(findAll(), keywords);
     }
     // endregion ENDERECO
-
     // region CHAVE PIX
 
     // endregion CHAVE PIX

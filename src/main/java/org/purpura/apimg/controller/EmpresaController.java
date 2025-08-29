@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.purpura.apimg.dto.endereco.EnderecoRequestDTO;
+import org.purpura.apimg.model.empresa.EnderecoModel;
+
 @RestController
 @RequestMapping("/empresa")
 public class EmpresaController {
@@ -62,4 +65,37 @@ public class EmpresaController {
                 .map(EmpresaResponseDTO::new)
                 .toList());
     }
+
+    // region Endereco endpoints
+    @GetMapping(value = "/{cnpj}/endereco")
+    public ResponseEntity<List<EnderecoModel>> getEnderecos(@PathVariable String cnpj) {
+        return ResponseEntity.ok(empresaService.findEnderecosByCnpj(cnpj));
+    }
+
+    @PostMapping(value = "/{cnpj}/endereco")
+    public ResponseEntity<Void> addEndereco(@PathVariable String cnpj,
+                                           @RequestBody @Valid EnderecoRequestDTO endereco) {
+        empresaService.addEndereco(cnpj, endereco);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping(value = "/{cnpj}/endereco/{id}")
+    public ResponseEntity<Void> updateEndereco(@PathVariable String cnpj,
+                                              @PathVariable String id,
+                                              @RequestBody @Valid EnderecoRequestDTO endereco) {
+        empresaService.updateEndereco(cnpj, id, endereco);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping(value = "/{cnpj}/endereco/{id}")
+    public ResponseEntity<Void> deleteEndereco(@PathVariable String cnpj,
+                                              @PathVariable String id) {
+        empresaService.deleteEndereco(cnpj, id);
+        return ResponseEntity.ok().build();
+    }
+    // endregion Endereco endpoints
+
+    // region Chave Pix
+
+    // endregion Chave Pix
 }
