@@ -8,6 +8,7 @@ Inclua um resumo da alteração e qual issue foi corrigida. Também inclua motiv
 - [ ] Implementações lógicas
 - [ ] Testes do Bruno
 - [ ] Documentação ou README.md
+- [ ] Esteira de CI/CD
 - [ ] Outros
 
 ## ✅ Checklist:
