@@ -1,6 +1,5 @@
 package org.purpura.apimg.service;
 
-import org.purpura.apimg.dto.empresa.EmpresaQueryDTO;
 import org.purpura.apimg.dto.empresa.EmpresaSaveRequestDTO;
 import org.purpura.apimg.dto.empresa.EmpresaUpdateRequestDTO;
 import org.purpura.apimg.dto.endereco.EnderecoRequestDTO;
@@ -89,8 +88,8 @@ public class EmpresaService {
                 .ifPresent(enderecoModel -> BeanUtils.copyProperties(endereco, enderecoModel));
     }
 
-    public List<EmpresaModel> search(EmpresaQueryDTO queryDTO) {
-        return empresaSearcher.search(findAll(), queryDTO.keywords);
+    public List<EmpresaModel> search(String keywords) {
+        return empresaSearcher.search(findAll(), keywords);
     }
     // endregion ENDERECO
 

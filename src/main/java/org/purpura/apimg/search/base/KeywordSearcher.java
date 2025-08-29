@@ -7,13 +7,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class KeywordSearcher<T> {
-    private @Setter KeywordSearcherOptions options;
+    private @Setter SearchOptions options;
     private final Class<T> clazz;
     
     
     public KeywordSearcher(Class<T> clazz) {
         this.clazz = clazz;
-        this.setOptions(KeywordSearcherOptions.builder().build());
+        this.setOptions(SearchOptions.builder().build());
     }
 
 
@@ -33,7 +33,15 @@ public abstract class KeywordSearcher<T> {
     }
     
     private boolean isExcludeField(String fieldName) {
+        if (options == null) return false;
+        if (options.getExcludeFields() == null) return false;
+
         return options.getExcludeFields().contains(fieldName);
+    }
+
+    private boolean isIgnoreChildren() {
+        if (options == null) return false;
+        return options.isIgnoreChildren();
     }
 
 
@@ -51,7 +59,7 @@ public abstract class KeywordSearcher<T> {
                     if (value == null) continue;
                     
                     // Check if field is a List
-                    if (value instanceof List<?> list && !list.isEmpty()) {
+                    if (value instanceof List<?> list && !list.isEmpty() && !isIgnoreChildren()) {
                         if (matchOnList(keywordList, field, list)) return true;
                     } else {
                         if (matchField(keywordList, value)) return true;

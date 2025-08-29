@@ -1,11 +1,11 @@
 package org.purpura.apimg.controller;
 
 import jakarta.validation.Valid;
-import org.purpura.apimg.dto.empresa.EmpresaQueryDTO;
 import org.purpura.apimg.dto.empresa.EmpresaSaveRequestDTO;
 import org.purpura.apimg.dto.empresa.EmpresaResponseDTO;
 import org.purpura.apimg.dto.empresa.EmpresaUpdateRequestDTO;
 import org.purpura.apimg.model.empresa.EmpresaModel;
+import org.purpura.apimg.search.base.SearchKeywords;
 import org.purpura.apimg.service.EmpresaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,8 +56,8 @@ public class EmpresaController {
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<EmpresaResponseDTO>> search(@RequestBody @Valid EmpresaQueryDTO empresaQueryDTO) {
-        List<EmpresaModel> found = empresaService.search(empresaQueryDTO);
+    public ResponseEntity<List<EmpresaResponseDTO>> search(@RequestParam @SearchKeywords @Valid String query) {
+        List<EmpresaModel> found = empresaService.search(query);
         return ResponseEntity.ok(found.stream()
                 .map(EmpresaResponseDTO::new)
                 .toList());
