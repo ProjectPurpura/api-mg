@@ -4,8 +4,7 @@
 Inclua um resumo da alteração e qual issue foi corrigida. Também inclua motivação e contexto relevantes.
 
 ## ✨ O quê mudou?
-- [ ] Alterar endpoints
-- [ ] Inclusão de endpoints
+- [ ] Inclusão/Alteração de endpoints
 - [ ] Implementações lógicas
 - [ ] Testes do Bruno
 - [ ] Documentação ou README.md
