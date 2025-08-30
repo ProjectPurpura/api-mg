@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.List;
+import java.util.ArrayList;
 
 @Data
 @NoArgsConstructor
@@ -23,11 +23,11 @@ public class EmpresaModel {
     private boolean ativo = true;
 
     @Builder.Default
-    private List<EnderecoModel> enderecos = List.of();
+    private ArrayList<EnderecoModel> enderecos = new ArrayList<>();
 
     @Builder.Default
-    private List<ChavePixModel> chavesPix = List.of();
+    private ArrayList<ChavePixModel> chavesPix = new ArrayList<>();
 
     @Builder.Default
-    private List<ResiduoModel> residuos = List.of();
+    private ArrayList<ResiduoModel> residuos = new ArrayList<>();
 }

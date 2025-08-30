@@ -11,6 +11,7 @@ import org.purpura.apimg.search.base.SearchKeywords;
 import org.purpura.apimg.service.EmpresaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import org.purpura.apimg.model.empresa.EnderecoModel;
 
 @RestController
 @RequestMapping("/empresa")
+@Validated
 public class EmpresaController {
 
     private final EmpresaService empresaService;

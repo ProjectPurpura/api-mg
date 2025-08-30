@@ -86,10 +86,6 @@ public class EmpresaService {
         EnderecoModel enderecoModel = new EnderecoModel();
         BeanUtils.copyProperties(endereco, enderecoModel);
 
-        if (empresaModel.getEnderecos() == null) {
-            empresaModel.setEnderecos(List.of(enderecoModel));
-        }
-
         empresaModel.getEnderecos().add(enderecoModel);
         empresaRepository.save(empresaModel);
     }
