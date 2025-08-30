@@ -4,9 +4,9 @@ import org.purpura.apimg.dto.empresa.EmpresaSaveRequestDTO;
 import org.purpura.apimg.dto.empresa.EmpresaUpdateRequestDTO;
 import org.purpura.apimg.dto.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.dto.empresa.pix.ChavePixRequestDTO;
-import org.purpura.apimg.exception.EmpresaNotFoundException;
-import org.purpura.apimg.exception.EnderecoNotFoundException;
-import org.purpura.apimg.exception.ChavePixNotFoundException;
+import org.purpura.apimg.exception.empresa.EmpresaNotFoundException;
+import org.purpura.apimg.exception.empresa.EnderecoNotFoundException;
+import org.purpura.apimg.exception.empresa.ChavePixNotFoundException;
 import org.purpura.apimg.model.empresa.ChavePixModel;
 import org.purpura.apimg.model.empresa.EmpresaModel;
 import org.purpura.apimg.model.empresa.EnderecoModel;
@@ -67,6 +67,14 @@ public class EmpresaService {
 
     // region ENDERECO
 
+
+    private static EnderecoModel getEndereco(String cnpj, String id, EmpresaModel empresaModel) {
+        return empresaModel.getEnderecos().stream()
+                .filter(e -> e.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new EnderecoNotFoundException(cnpj, id));
+    }
+
     public List<EnderecoModel> findEnderecosByCnpj(String cnpj) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
         return empresaModel.getEnderecos();
@@ -88,24 +96,32 @@ public class EmpresaService {
 
     public void deleteEndereco(String cnpj, String id) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        empresaModel.getEnderecos().removeIf(endereco -> endereco.getId().equals(id));
+        EnderecoModel enderecoModel = getEndereco(cnpj, id, empresaModel);
+
+        empresaModel.getEnderecos().remove(enderecoModel);
+        empresaRepository.save(empresaModel);
     }
 
 
     public void updateEndereco(String cnpj, String id, EnderecoRequestDTO endereco) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
 
-        EnderecoModel enderecoModel = empresaModel.getEnderecos().stream()
-                .filter(e -> e.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new EnderecoNotFoundException(cnpj, id));
+        EnderecoModel enderecoModel = getEndereco(cnpj, id, empresaModel);
         
         BeanUtils.copyProperties(endereco, enderecoModel);
         empresaRepository.save(empresaModel);
     }
 
     // endregion ENDERECO
+
     // region CHAVE PIX
+
+    private static ChavePixModel getChavePix(String cnpj, String chave, EmpresaModel empresaModel) {
+        return empresaModel.getChavesPix().stream()
+                .filter(c -> c.getChave().equals(chave))
+                .findFirst()
+                .orElseThrow(() -> new ChavePixNotFoundException(cnpj, chave));
+    }
 
     public void addChavePix(String cnpj, ChavePixRequestDTO chavePixRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
@@ -120,7 +136,8 @@ public class EmpresaService {
 
     public void deleteChavePix(String cnpj, String chave) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        empresaModel.getChavesPix().removeIf(chavePixModel -> chavePixModel.getChave().equals(chave));
+        ChavePixModel chavePixModel = getChavePix(cnpj, chave, empresaModel);
+        empresaModel.getChavesPix().remove(chavePixModel);
         empresaRepository.save(empresaModel);
     }
 
@@ -131,12 +148,7 @@ public class EmpresaService {
 
     public void updateChavePix(String cnpj, String chave, ChavePixRequestDTO chavePixRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        
-        ChavePixModel chavePixModel = empresaModel.getChavesPix().stream()
-                .filter(c -> c.getChave().equals(chave))
-                .findFirst()
-                .orElseThrow(() -> new ChavePixNotFoundException(cnpj, chave));
-        
+        ChavePixModel chavePixModel = getChavePix(cnpj, chave, empresaModel);
         BeanUtils.copyProperties(chavePixRequestDTO, chavePixModel);
         empresaRepository.save(empresaModel);
     }
