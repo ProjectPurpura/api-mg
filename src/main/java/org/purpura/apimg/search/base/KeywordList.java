@@ -11,9 +11,4 @@ public record KeywordList(String[] keywords) {
         String[] keywords = list.split(keywordDividePattern);
         return new KeywordList(keywords);
     }
-
-    @Override
-    public String toString() {
-        return keywords.length > 0 ? String.join(", ", keywords) : "";
-    }
 }
