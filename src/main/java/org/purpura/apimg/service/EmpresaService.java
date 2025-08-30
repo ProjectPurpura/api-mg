@@ -116,17 +116,15 @@ public class EmpresaService {
 
     // region CHAVE PIX
 
-    private static ChavePixModel getChavePix(String cnpj, String chave, EmpresaModel empresaModel) {
+    private static ChavePixModel getChavePix(String cnpj, String id, EmpresaModel empresaModel) {
         return empresaModel.getChavesPix().stream()
-                .filter(c -> c.getChave().equals(chave))
+                .filter(c -> c.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new ChavePixNotFoundException(cnpj, chave));
+                .orElseThrow(() -> new ChavePixNotFoundException(cnpj, id));
     }
 
     public void addChavePix(String cnpj, ChavePixRequestDTO chavePixRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        chavePixRequestDTO.setChave(chavePixRequestDTO.getChave());
-
         ChavePixModel model = new ChavePixModel();
         BeanUtils.copyProperties(chavePixRequestDTO, model);
 
@@ -134,9 +132,9 @@ public class EmpresaService {
         empresaRepository.save(empresaModel);
     }
 
-    public void deleteChavePix(String cnpj, String chave) {
+    public void deleteChavePix(String cnpj, String id) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        ChavePixModel chavePixModel = getChavePix(cnpj, chave, empresaModel);
+        ChavePixModel chavePixModel = getChavePix(cnpj, id, empresaModel);
         empresaModel.getChavesPix().remove(chavePixModel);
         empresaRepository.save(empresaModel);
     }
@@ -146,9 +144,9 @@ public class EmpresaService {
         return empresaModel.getChavesPix();
     }
 
-    public void updateChavePix(String cnpj, String chave, ChavePixRequestDTO chavePixRequestDTO) {
+    public void updateChavePix(String cnpj, String id, ChavePixRequestDTO chavePixRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        ChavePixModel chavePixModel = getChavePix(cnpj, chave, empresaModel);
+        ChavePixModel chavePixModel = getChavePix(cnpj, id, empresaModel);
         BeanUtils.copyProperties(chavePixRequestDTO, chavePixModel);
         empresaRepository.save(empresaModel);
     }

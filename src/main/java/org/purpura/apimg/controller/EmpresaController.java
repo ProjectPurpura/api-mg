@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import org.purpura.apimg.dto.empresa.EmpresaSaveRequestDTO;
 import org.purpura.apimg.dto.empresa.EmpresaResponseDTO;
 import org.purpura.apimg.dto.empresa.EmpresaUpdateRequestDTO;
+import org.purpura.apimg.dto.empresa.pix.ChavePixRequestDTO;
+import org.purpura.apimg.model.empresa.ChavePixModel;
 import org.purpura.apimg.model.empresa.EmpresaModel;
 import org.purpura.apimg.search.base.SearchKeywords;
 import org.purpura.apimg.service.EmpresaService;
@@ -96,6 +98,32 @@ public class EmpresaController {
     // endregion Endereco endpoints
 
     // region Chave Pix
+    @GetMapping(value = "/{cnpj}/pix")
+    public ResponseEntity<List<ChavePixModel>> getChaves(@PathVariable String cnpj) {
+        return ResponseEntity.ok(empresaService.findChavesPixByCnpj(cnpj));
+    }
+
+    @PostMapping(value = "/{cnpj}/pix")
+    public ResponseEntity<Void> addChave(@PathVariable String cnpj,
+                                         @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
+        empresaService.addChavePix(cnpj, chavePixRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping(value = "/{cnpj}/pix/{id}")
+    public ResponseEntity<Void> updateChave(@PathVariable String cnpj,
+                                            @PathVariable String id,
+                                            @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
+        empresaService.updateChavePix(cnpj, id, chavePixRequestDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping(value = "/{cnpj}/pix/{id}")
+    public ResponseEntity<Void> deleteChave(@PathVariable String cnpj,
+                                            @PathVariable String id) {
+        empresaService.deleteChavePix(cnpj, id);
+        return ResponseEntity.ok().build();
+    }
 
     // endregion Chave Pix
 }
