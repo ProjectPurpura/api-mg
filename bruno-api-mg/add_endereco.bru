@@ -1,0 +1,23 @@
+meta {
+  name: add_endereco
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:8081/empresa/17424290000101/endereco
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "cep": "05360130",
+    "numero": 4,
+    "complemento": "A"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
