@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import org.purpura.apimg.dto.endereco.EnderecoRequestDTO;
+import org.purpura.apimg.dto.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.model.empresa.EnderecoModel;
 
 @RestController

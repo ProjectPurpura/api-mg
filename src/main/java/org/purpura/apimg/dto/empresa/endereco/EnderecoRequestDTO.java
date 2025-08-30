@@ -1,4 +1,4 @@
-package org.purpura.apimg.dto.endereco;
+package org.purpura.apimg.dto.empresa.endereco;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

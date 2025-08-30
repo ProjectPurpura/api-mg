@@ -14,6 +14,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class ChavePixModel {
     @Id
-    private String cChave;
-    private String cNmChavePix;
+    private String chave;
+    private String nome;
 }

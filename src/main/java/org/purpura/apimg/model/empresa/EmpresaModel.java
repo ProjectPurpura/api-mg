@@ -21,7 +21,13 @@ public class EmpresaModel {
     private String telefone;
 
     private boolean ativo = true;
-    private List<EnderecoModel> enderecos;
-    private List<ChavePixModel> chavesPix;
-    private List<ResiduoModel> residuos;
+
+    @Builder.Default
+    private List<EnderecoModel> enderecos = List.of();
+
+    @Builder.Default
+    private List<ChavePixModel> chavesPix = List.of();
+
+    @Builder.Default
+    private List<ResiduoModel> residuos = List.of();
 }
