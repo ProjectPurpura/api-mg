@@ -28,24 +28,24 @@ public class EmpresaController {
         this.empresaService = empresaService;
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/")
     public ResponseEntity<Void> save(@RequestBody @Valid EmpresaSaveRequestDTO empresaSaveRequestDTO) {
         empresaService.insert(empresaSaveRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping(value = "/get/{cnpj}")
+    @GetMapping(value = "/{cnpj}")
     public ResponseEntity<EmpresaResponseDTO> get(@PathVariable String cnpj) {
         return ResponseEntity.ok(new EmpresaResponseDTO(empresaService.findByCnpj(cnpj)));
     }
 
-    @DeleteMapping(value = "/delete/{cnpj}")
+    @DeleteMapping(value = "/{cnpj}")
     public ResponseEntity<Void> delete(@PathVariable String cnpj) {
         empresaService.deleteByCnpj(cnpj);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping(value = "/update/{cnpj}")
+    @PutMapping(value = "/{cnpj}")
     public ResponseEntity<Void> update(@PathVariable String cnpj,
                                        @RequestBody @Valid EmpresaUpdateRequestDTO empresaUpdateRequestDTO)
     {
