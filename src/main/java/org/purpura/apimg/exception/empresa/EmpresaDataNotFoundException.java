@@ -1,4 +1,6 @@
-package org.purpura.apimg.exception;
+package org.purpura.apimg.exception.empresa;
+
+import org.purpura.apimg.exception.base.NotFoundException;
 
 public class EmpresaDataNotFoundException extends NotFoundException {
     public EmpresaDataNotFoundException(String tipo, String cnpj, String id) {

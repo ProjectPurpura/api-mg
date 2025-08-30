@@ -1,4 +1,4 @@
-package org.purpura.apimg.exception;
+package org.purpura.apimg.exception.base;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {

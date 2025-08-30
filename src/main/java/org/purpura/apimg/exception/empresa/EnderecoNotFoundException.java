@@ -1,4 +1,4 @@
-package org.purpura.apimg.exception;
+package org.purpura.apimg.exception.empresa;
 
 public class EnderecoNotFoundException extends EmpresaDataNotFoundException {
     public static final String ENDERECO = "endereço";
