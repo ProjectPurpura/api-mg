@@ -68,11 +68,16 @@ public class EmpresaService {
     // region ENDERECO
 
 
-    private static EnderecoModel getEndereco(String cnpj, String id, EmpresaModel empresaModel) {
+    private EnderecoModel findEnderecoById(String cnpj, String id, EmpresaModel empresaModel) {
         return empresaModel.getEnderecos().stream()
                 .filter(e -> e.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new EnderecoNotFoundException(cnpj, id));
+    }
+
+    public EnderecoModel findEnderecoById(String cnpj, String id) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        return findEnderecoById(cnpj, id, empresaModel);
     }
 
     public List<EnderecoModel> findEnderecosByCnpj(String cnpj) {
@@ -93,7 +98,7 @@ public class EmpresaService {
 
     public void deleteEndereco(String cnpj, String id) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        EnderecoModel enderecoModel = getEndereco(cnpj, id, empresaModel);
+        EnderecoModel enderecoModel = findEnderecoById(cnpj, id, empresaModel);
 
         empresaModel.getEnderecos().remove(enderecoModel);
         empresaRepository.save(empresaModel);
@@ -103,7 +108,7 @@ public class EmpresaService {
     public void updateEndereco(String cnpj, String id, EnderecoRequestDTO endereco) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
 
-        EnderecoModel enderecoModel = getEndereco(cnpj, id, empresaModel);
+        EnderecoModel enderecoModel = findEnderecoById(cnpj, id, empresaModel);
         
         BeanUtils.copyProperties(endereco, enderecoModel);
         empresaRepository.save(empresaModel);
@@ -113,11 +118,16 @@ public class EmpresaService {
 
     // region CHAVE PIX
 
-    private static ChavePixModel getChavePix(String cnpj, String id, EmpresaModel empresaModel) {
+    private ChavePixModel findChavePixById(String cnpj, String id, EmpresaModel empresaModel) {
         return empresaModel.getChavesPix().stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new ChavePixNotFoundException(cnpj, id));
+    }
+
+    public ChavePixModel findChavePixById(String cnpj, String id) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        return findChavePixById(cnpj, id, empresaModel);
     }
 
     public void addChavePix(String cnpj, ChavePixRequestDTO chavePixRequestDTO) {
@@ -131,7 +141,7 @@ public class EmpresaService {
 
     public void deleteChavePix(String cnpj, String id) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        ChavePixModel chavePixModel = getChavePix(cnpj, id, empresaModel);
+        ChavePixModel chavePixModel = findChavePixById(cnpj, id, empresaModel);
         empresaModel.getChavesPix().remove(chavePixModel);
         empresaRepository.save(empresaModel);
     }
@@ -143,7 +153,7 @@ public class EmpresaService {
 
     public void updateChavePix(String cnpj, String id, ChavePixRequestDTO chavePixRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        ChavePixModel chavePixModel = getChavePix(cnpj, id, empresaModel);
+        ChavePixModel chavePixModel = findChavePixById(cnpj, id, empresaModel);
         BeanUtils.copyProperties(chavePixRequestDTO, chavePixModel);
         empresaRepository.save(empresaModel);
     }

@@ -77,6 +77,11 @@ public class EmpresaController {
         return ResponseEntity.ok(empresaService.findEnderecosByCnpj(cnpj));
     }
 
+    @GetMapping("/{cnpj}/endereco/{id}")
+    public ResponseEntity<EnderecoModel> getEndereco(@PathVariable String cnpj, @PathVariable String id) {
+        return ResponseEntity.ok(empresaService.findEnderecoById(cnpj, id));
+    }
+
     @PostMapping(value = "/{cnpj}/endereco")
     public ResponseEntity<Void> addEndereco(@PathVariable String cnpj,
                                            @RequestBody @Valid EnderecoRequestDTO endereco) {
@@ -105,6 +110,11 @@ public class EmpresaController {
     @GetMapping(value = "/{cnpj}/pix/all")
     public ResponseEntity<List<ChavePixModel>> getChaves(@PathVariable String cnpj) {
         return ResponseEntity.ok(empresaService.findChavesPixByCnpj(cnpj));
+    }
+
+    @GetMapping("/{cnpj}/pix/{id}")
+    public ResponseEntity<ChavePixModel> getChave(@PathVariable String cnpj, @PathVariable String id) {
+        return ResponseEntity.ok(empresaService.findChavePixById(cnpj, id));
     }
 
     @PostMapping(value = "/{cnpj}/pix")
