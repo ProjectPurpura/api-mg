@@ -30,7 +30,8 @@ public class EmpresaController {
         this.empresaService = empresaService;
     }
 
-    @PostMapping(value = "/")
+    // region EMPRESA
+    @PostMapping
     public ResponseEntity<Void> save(@RequestBody @Valid EmpresaSaveRequestDTO empresaSaveRequestDTO) {
         empresaService.insert(empresaSaveRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -57,21 +58,21 @@ public class EmpresaController {
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<EmpresaResponseDTO>> findAll() {
-        return ResponseEntity.ok(empresaService.findAll().stream()
-                .map(EmpresaResponseDTO::new)
-                .toList());
+        return ResponseEntity.ok(mapToDTOs(empresaService.findAll()));
     }
 
     @GetMapping(value = "/search")
     public ResponseEntity<List<EmpresaResponseDTO>> search(@RequestParam @SearchKeywords @Valid String query) {
         List<EmpresaModel> found = empresaService.search(query);
-        return ResponseEntity.ok(found.stream()
-                .map(EmpresaResponseDTO::new)
-                .toList());
+        return ResponseEntity.ok(mapToDTOs(found));
     }
 
+    private static List<EmpresaResponseDTO> mapToDTOs(List<EmpresaModel> models) {
+        return models.stream().map(EmpresaResponseDTO::new).toList();
+    }
+    // endregion EMPRESA
     // region Endereco endpoints
-    @GetMapping(value = "/{cnpj}/endereco")
+    @GetMapping(value = "/{cnpj}/endereco/all")
     public ResponseEntity<List<EnderecoModel>> getEnderecos(@PathVariable String cnpj) {
         return ResponseEntity.ok(empresaService.findEnderecosByCnpj(cnpj));
     }
@@ -97,10 +98,11 @@ public class EmpresaController {
         empresaService.deleteEndereco(cnpj, id);
         return ResponseEntity.ok().build();
     }
+
     // endregion Endereco endpoints
 
     // region Chave Pix
-    @GetMapping(value = "/{cnpj}/pix")
+    @GetMapping(value = "/{cnpj}/pix/all")
     public ResponseEntity<List<ChavePixModel>> getChaves(@PathVariable String cnpj) {
         return ResponseEntity.ok(empresaService.findChavesPixByCnpj(cnpj));
     }
