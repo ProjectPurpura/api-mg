@@ -85,6 +85,7 @@ public class EmpresaService {
 
         EnderecoModel enderecoModel = new EnderecoModel();
         BeanUtils.copyProperties(endereco, enderecoModel);
+        enderecoModel.setId(java.util.UUID.randomUUID().toString());
 
         empresaModel.getEnderecos().add(enderecoModel);
         empresaRepository.save(empresaModel);
@@ -123,7 +124,7 @@ public class EmpresaService {
         EmpresaModel empresaModel = findByCnpj(cnpj);
         ChavePixModel model = new ChavePixModel();
         BeanUtils.copyProperties(chavePixRequestDTO, model);
-
+        model.setId(java.util.UUID.randomUUID().toString());
         empresaModel.getChavesPix().add(model);
         empresaRepository.save(empresaModel);
     }
