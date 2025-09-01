@@ -1,0 +1,15 @@
+meta {
+  name: alive
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8081/alive/
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
