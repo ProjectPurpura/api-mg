@@ -1,0 +1,15 @@
+meta {
+  name: get_enderecos
+  type: http
+  seq: 10
+}
+
+get {
+  url: http://localhost:8081/empresa/17424290000101/endereco/all
+  body: json
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
