@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AliveController {
     public record AliveResponseDTO(String status, String message) {}
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<AliveResponseDTO> get() {
         return ResponseEntity.ok(new AliveResponseDTO("banana", "API is alive!"));
     }
