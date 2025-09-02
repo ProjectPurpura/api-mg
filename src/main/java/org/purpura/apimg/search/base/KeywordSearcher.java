@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class KeywordSearcher<T> {
+public class KeywordSearcher<T> {
     private @Setter SearchOptions options;
     private final Class<T> clazz;
     
@@ -106,8 +106,6 @@ public abstract class KeywordSearcher<T> {
      */
     @SuppressWarnings("unchecked")
     private KeywordSearcher<Object> createChildSearcher(Class<?> elementType) {
-        return new KeywordSearcher<>((Class<Object>) elementType) {
-            // Anonymous implementation - inherits all functionality from parent
-        };
+        return new KeywordSearcher<>((Class<Object>) elementType);
     }
 }

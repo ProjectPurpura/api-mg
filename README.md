@@ -23,4 +23,4 @@ O objetivo da API de MongoDB é gerenciar os dados do Purpura nos domínios de:
 Coleção do bruno de testes: [bruno-api-mg](bruno-api-mg)
 
 ### Swagger:
-- Acesse o Swagger: [http://localhost:8080/swagger-ui/index.html#](http://localhost:8080/swagger-ui/index.html#)
+- Acesse o Swagger: [http://localhost:8081/swagger-ui/index.html#](http://localhost:8081/swagger-ui/index.html#)

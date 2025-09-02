@@ -1,6 +1,9 @@
 package org.purpura.apimg.exception;
 
+import com.mongodb.DuplicateKeyException;
 import jakarta.validation.ConstraintViolationException;
+import org.purpura.apimg.exception.base.NotFoundException;
+import org.purpura.apimg.exception.empresa.EmpresaNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -44,13 +47,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 
-    @ExceptionHandler(DocumentNotFoundException.class)
-    public ResponseEntity<String> handleDocumentNotFoundException(DocumentNotFoundException documentNotFoundException) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(documentNotFoundException.getMessage());
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<String> handleNotFoundException(NotFoundException notFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundException.getMessage());
     }
 
     @ExceptionHandler(EmpresaNotFoundException.class)
     public ResponseEntity<String> handleEmpresaNotFoundException(EmpresaNotFoundException empresaNotFoundException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(empresaNotFoundException.getMessage());
+    }
+
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<String> handleDuplicateKeyException(DuplicateKeyException duplicateKeyException) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(duplicateKeyException.getMessage());
     }
 }

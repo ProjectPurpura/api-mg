@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class ResiduoModel {
     @Id
-    private String _id;
+    private String id;
     private String cNmResiduo;
     private String cTpUnidade;
     private Double nPreco;
