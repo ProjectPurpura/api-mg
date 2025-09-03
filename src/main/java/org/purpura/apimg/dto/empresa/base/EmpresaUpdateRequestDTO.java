@@ -1,4 +1,4 @@
-package org.purpura.apimg.dto.empresa;
+package org.purpura.apimg.dto.empresa.base;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
