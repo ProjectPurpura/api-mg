@@ -1,15 +1,17 @@
 package org.purpura.apimg.service;
 
-import org.purpura.apimg.dto.empresa.EmpresaSaveRequestDTO;
-import org.purpura.apimg.dto.empresa.EmpresaUpdateRequestDTO;
+import org.purpura.apimg.dto.empresa.base.EmpresaSaveRequestDTO;
+import org.purpura.apimg.dto.empresa.base.EmpresaUpdateRequestDTO;
 import org.purpura.apimg.dto.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.dto.empresa.pix.ChavePixRequestDTO;
+import org.purpura.apimg.dto.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.exception.empresa.EmpresaNotFoundException;
 import org.purpura.apimg.exception.empresa.EnderecoNotFoundException;
 import org.purpura.apimg.exception.empresa.ChavePixNotFoundException;
 import org.purpura.apimg.model.empresa.ChavePixModel;
 import org.purpura.apimg.model.empresa.EmpresaModel;
 import org.purpura.apimg.model.empresa.EnderecoModel;
+import org.purpura.apimg.model.empresa.ResiduoModel;
 import org.purpura.apimg.repository.EmpresaRepository;
 import org.purpura.apimg.search.empresa.EmpresaSearcher;
 import org.springframework.beans.BeanUtils;
@@ -157,6 +159,47 @@ public class EmpresaService {
         BeanUtils.copyProperties(chavePixRequestDTO, chavePixModel);
         empresaRepository.save(empresaModel);
     }
-
     // endregion CHAVE PIX
+
+    // region RESÍDUO
+    private ResiduoModel findResiduoById(String cnpj, String id, EmpresaModel empresaModel) {
+        return empresaModel.getResiduos().stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ChavePixNotFoundException(cnpj, id));
+    }
+
+    public ResiduoModel findResiduoById(String cnpj, String id) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        return findResiduoById(cnpj, id, empresaModel);
+    }
+
+    public void addResiduo(String cnpj, ResiduoRequestDTO residuoRequestDTO) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        ResiduoModel model = new ResiduoModel();
+        BeanUtils.copyProperties(residuoRequestDTO, model);
+        model.setId(java.util.UUID.randomUUID().toString());
+        empresaModel.getResiduos().add(model);
+        empresaRepository.save(empresaModel);
+    }
+
+    public void deleteResiduo(String cnpj, String id) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        ResiduoModel chavePixModel = findResiduoById(cnpj, id, empresaModel);
+        empresaModel.getResiduos().remove(chavePixModel);
+        empresaRepository.save(empresaModel);
+    }
+
+    public List<ResiduoModel> findResiduosByCnpj(String cnpj) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        return empresaModel.getResiduos();
+    }
+
+    public void updateResiduo(String cnpj, String id, ResiduoRequestDTO residuoRequestDTO) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        ResiduoModel chavePixModel = findResiduoById(cnpj, id, empresaModel);
+        BeanUtils.copyProperties(residuoRequestDTO, chavePixModel);
+        empresaRepository.save(empresaModel);
+    }
+    // endregion RESÍDUO
 }
