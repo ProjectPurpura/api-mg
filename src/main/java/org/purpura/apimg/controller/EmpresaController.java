@@ -1,12 +1,14 @@
 package org.purpura.apimg.controller;
 
 import jakarta.validation.Valid;
-import org.purpura.apimg.dto.empresa.EmpresaSaveRequestDTO;
-import org.purpura.apimg.dto.empresa.EmpresaResponseDTO;
-import org.purpura.apimg.dto.empresa.EmpresaUpdateRequestDTO;
+import org.purpura.apimg.dto.empresa.base.EmpresaSaveRequestDTO;
+import org.purpura.apimg.dto.empresa.base.EmpresaResponseDTO;
+import org.purpura.apimg.dto.empresa.base.EmpresaUpdateRequestDTO;
 import org.purpura.apimg.dto.empresa.pix.ChavePixRequestDTO;
+import org.purpura.apimg.dto.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.model.empresa.ChavePixModel;
 import org.purpura.apimg.model.empresa.EmpresaModel;
+import org.purpura.apimg.model.empresa.ResiduoModel;
 import org.purpura.apimg.search.base.SearchKeywords;
 import org.purpura.apimg.service.EmpresaService;
 import org.springframework.http.HttpStatus;
@@ -140,4 +142,38 @@ public class EmpresaController {
     }
 
     // endregion Chave Pix
+
+    // region Resíduo
+    @GetMapping(value = "/{cnpj}/residuo/all")
+    public ResponseEntity<List<ResiduoModel>> getResiduos(@PathVariable String cnpj) {
+        return ResponseEntity.ok(empresaService.findResiduosByCnpj(cnpj));
+    }
+
+    @GetMapping("/{cnpj}/residuo/{id}")
+    public ResponseEntity<ResiduoModel> getResiduo(@PathVariable String cnpj, @PathVariable String id) {
+        return ResponseEntity.ok(empresaService.findResiduoById(cnpj, id));
+    }
+
+    @PostMapping(value = "/{cnpj}/residuo")
+    public ResponseEntity<Void> addResiduo(@PathVariable String cnpj,
+                                         @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
+        empresaService.addResiduo(cnpj, residuoRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping(value = "/{cnpj}/residuo/{id}")
+    public ResponseEntity<Void> updateChave(@PathVariable String cnpj,
+                                            @PathVariable String id,
+                                            @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
+        empresaService.updateResiduo(cnpj, id, residuoRequestDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping(value = "/{cnpj}/residuo/{id}")
+    public ResponseEntity<Void> deleteResiduo(@PathVariable String cnpj,
+                                            @PathVariable String id) {
+        empresaService.deleteResiduo(cnpj, id);
+        return ResponseEntity.ok().build();
+    }
+    // endregion Resíduo
 }
