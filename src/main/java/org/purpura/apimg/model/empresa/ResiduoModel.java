@@ -15,7 +15,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class ResiduoModel {
     @Id
     private String id;
-    private String cNmResiduo;
-    private String cTpUnidade;
-    private Double nPreco;
+    private String nome;
+    private String descricao;
+    private Double preco;
+    private Unidade unidade;
+    private Long estoque;
+    private String urlFoto;
 }
