@@ -6,7 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Unidade {
-    KILO("KG"),
+    KILO("kg"),
     TONELADA("T"),
     LITRO("L"),
     MILILITRO("mL"),
