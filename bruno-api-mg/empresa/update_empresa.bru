@@ -1,13 +1,19 @@
 meta {
-  name: delete_empresa
+  name: update_empresa
   type: http
-  seq: 7
+  seq: 3
 }
 
-delete {
+put {
   url: http://localhost:8081/empresa/17424290000101
-  body: none
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+    "telefone": "1141136003"
+  }
 }
 
 settings {
