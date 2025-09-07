@@ -6,9 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ApiMgApplication {
-    // Carrega as variáveis de ambiente do arquivo .env
-    Dotenv dotenv = Dotenv.load();
     public static void main(String[] args) {
+        // Carrega as variáveis de ambiente do arquivo .env
+        Dotenv.load();
+
         SpringApplication.run(ApiMgApplication.class, args);
     }
 }
