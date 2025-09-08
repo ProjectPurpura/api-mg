@@ -5,9 +5,16 @@ meta {
 }
 
 patch {
-  url: http://localhost:8081/empresa/17424290000101/residuo/1
-  body: none
+  url: http://localhost:8081/empresa/17424290000101/residuo/ea96f971-0836-49e6-be68-c306b1f3052e
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+    "nome": "Cana",
+    "preco": 35.52
+  }
 }
 
 settings {
