@@ -1,19 +1,24 @@
 meta {
   name: update_residuo
   type: http
-  seq: 3
+  seq: 2
 }
 
-patch {
-  url: http://localhost:8081/empresa/17424290000101/residuo/ea96f971-0836-49e6-be68-c306b1f3052e
+put {
+  url: http://localhost:8081/empresa/17424290000101/residuo/2a6f08d5-4383-4e31-8120-c482a78f9e02
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "nome": "Cana",
-    "preco": 35.52
+    "nome": "Cana de Açúcar",
+    "descricao": "lorem ipsum barata sit amet",
+    "preco": 2.533,
+    "estoque": 5293,
+    "unidade": "MC",
+    "urlFoto": "https://casaefesta.com/wp-content/uploads/2023/12/como-plantar-cana-de-acucar-150x85.jpg"
+  
   }
 }
 
