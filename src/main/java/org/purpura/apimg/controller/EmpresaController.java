@@ -127,9 +127,9 @@ public class EmpresaController {
     }
 
     @PutMapping(value = "/{cnpj}/pix/{id}")
-    public ResponseEntity<Void> updateChave(@PathVariable String cnpj,
-                                            @PathVariable String id,
-                                            @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
+    public ResponseEntity<Void> updateResiduo(@PathVariable String cnpj,
+                                              @PathVariable String id,
+                                              @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
         empresaService.updateChavePix(cnpj, id, chavePixRequestDTO);
         return ResponseEntity.ok().build();
     }
@@ -162,9 +162,9 @@ public class EmpresaController {
     }
 
     @PutMapping(value = "/{cnpj}/residuo/{id}")
-    public ResponseEntity<Void> updateChave(@PathVariable String cnpj,
-                                            @PathVariable String id,
-                                            @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
+    public ResponseEntity<Void> updateResiduo(@PathVariable String cnpj,
+                                              @PathVariable String id,
+                                              @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
         empresaService.updateResiduo(cnpj, id, residuoRequestDTO);
         return ResponseEntity.ok().build();
     }
