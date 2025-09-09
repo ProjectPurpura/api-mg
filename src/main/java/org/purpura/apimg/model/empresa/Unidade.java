@@ -6,12 +6,12 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Unidade {
-    KILO("kg"),
-    TONELADA("T"),
-    LITRO("L"),
-    MILILITRO("mL"),
-    METRO("m"),
-    METRO_CUBICO("m³");
+    KG("kilo"),
+    T("tonelada"),
+    L("litro"),
+    ML("mililitro"),
+    M("metro"),
+    MC("metro cúbico");
 
-    private final String sigla;
+    private final String nome;
 }
