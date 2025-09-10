@@ -1,0 +1,15 @@
+meta {
+  name: get_all_pixes
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:8081/empresa/17424290000101/pix/all
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,4 +1,4 @@
-package org.purpura.apimg.dto.empresa;
+package org.purpura.apimg.dto.empresa.base;
 
 import lombok.Data;
 import org.purpura.apimg.model.empresa.EmpresaModel;

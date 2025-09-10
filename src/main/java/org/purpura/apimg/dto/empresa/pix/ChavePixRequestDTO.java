@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChavePixRequestDTO {
     @NotNull(message = "O nome da chave pix precisa ser informado e não nula")
-    @Pattern(regexp = "\\S{5,50}", message = "O nome da chave pix deve ter entre 5 e 50 caracteres alfanuméricos latinos ou especiais")
+    @Pattern(regexp = ".*\\S.*\\S.*", message = "O nome da chave pix deve ter no mínimo dois caracteres que não sejam espaços.")
     private String nome;
 
     @NotNull(message = "A chave pix precisa ser informada e não nula")

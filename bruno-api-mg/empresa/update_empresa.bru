@@ -1,21 +1,20 @@
 meta {
-  name: add_empresa
+  name: update_empresa
   type: http
-  seq: 3
+  seq: 2
 }
 
-post {
-  url: http://localhost:8081/empresa
+put {
+  url: http://localhost:8081/empresa/17424290000101
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "cnpj": "17424290000101",
     "nome": "B2BLUE.COM MERCADO INTELIGENTE E VALORIZACAO DE RESIDUOS LTDA",
     "email": "contabilidade@b2blue.com",
-    "telefone": "1141136002"
+    "telefone": "1141136003"
   }
 }
 

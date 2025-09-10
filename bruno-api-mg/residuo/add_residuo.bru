@@ -1,0 +1,27 @@
+meta {
+  name: add_residuo
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8081/empresa/17424290000101/residuo
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nome": "Cana de Açúcar",
+    "descricao": "lorem ipsum barata sit amet",
+    "preco": 2.15,
+    "estoque": 393,
+    "unidade": "KG",
+    "urlFoto": "https://casaefesta.com/wp-content/uploads/2023/12/como-plantar-cana-de-acucar-150x85.jpg"
+  
+  }
+}
+
+settings {
+  encodeUrl: true
+}

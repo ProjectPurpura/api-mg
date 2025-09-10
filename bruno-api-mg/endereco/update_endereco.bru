@@ -1,0 +1,24 @@
+meta {
+  name: update_endereco
+  type: http
+  seq: 2
+}
+
+put {
+  url: http://localhost:8081/empresa/17424290000101/endereco/aa1f641b-9110-48f3-bf70-6c52cf063d15
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nome": "Carambolas",
+    "numero": 4,
+    "cep": "05360130",
+    "complemento": "A"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

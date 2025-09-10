@@ -1,0 +1,21 @@
+meta {
+  name: delete_pix
+  type: http
+  seq: 3
+}
+
+delete {
+  url: http://localhost:8081/empresa/17424290000101/pix/93f1eeb3-5472-475a-859a-a0e0f8d9caee
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  **OBS**:
+  
+  O ID é um UUID gerado no back-end, e deve ser passado diretamente na URL`.
+}

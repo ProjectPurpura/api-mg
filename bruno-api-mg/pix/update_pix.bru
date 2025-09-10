@@ -1,0 +1,22 @@
+meta {
+  name: update_pix
+  type: http
+  seq: 2
+}
+
+put {
+  url: http://localhost:8081/empresa/17424290000101/pix/113d698c-17a9-46ac-847a-0b67ffec1a3c
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nome": "CENTRO DE CUSTOS DE CONTABILIDADE B2BLUE",
+    "chave": "22188565000187"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

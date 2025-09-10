@@ -1,0 +1,22 @@
+meta {
+  name: add_pix
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8081/empresa/17424290000101/pix
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nome": "CENTRO DE CUSTOS ANEXO B2BLUE DISTRIBUIÇÕES",
+    "chave": "221865545000185"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
