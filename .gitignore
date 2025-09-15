@@ -34,3 +34,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Python tests ###
+websocket-test-api-mg/venv
