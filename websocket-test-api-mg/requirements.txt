@@ -1,1 +1,1 @@
-stomp.py
+websocket-client
