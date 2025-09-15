@@ -1,0 +1,21 @@
+meta {
+  name: create_chat
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8081/chat/new
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "participants": ["17424290000101", "42318310000107"]
+  }
+}
+
+settings {
+  encodeUrl: true
+}
