@@ -16,7 +16,7 @@ O objetivo da API de MongoDB é gerenciar os dados do Purpura nos domínios de:
   - Resíduo
 
 - **Conversa**
-  - Chat Realtime
+  - Chat Realtime usando WebSocket
 
 ## Testes 🧪
 ### Bruno:
@@ -24,3 +24,24 @@ Coleção do bruno de testes: [bruno-api-mg](bruno-api-mg)
 
 ### Swagger:
 - Acesse o Swagger: [http://localhost:8081/swagger-ui/index.html#](http://localhost:8081/swagger-ui/index.html#)
+
+### Testando o WebSocket do Chat
+
+
+**Exemplo de conexão:**
+- Conexão websocket de um chat: [ws://localhost:8081/ws-chat](ws://localhost:8081/ws-chat)
+
+**Exemplo de mensagem para enviar para `/app/chat.sendMessage`:**
+```json
+{
+  "chatId": "room1",
+  "senderId": "user123",
+  "content": "Hello, world!"
+}
+``` 
+
+**Assine para receber mensagens do chat**
+- `/topic/chat.room1`
+
+
+
