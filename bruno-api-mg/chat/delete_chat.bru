@@ -1,0 +1,15 @@
+meta {
+  name: delete_chat
+  type: http
+  seq: 2
+}
+
+delete {
+  url: http://localhost:8081/chat/6bc589e1-8d4e-44f1-99b8-96d2bb088a21
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
