@@ -1,47 +1,30 @@
-# API para acesso ao MongoDB do Purpura 💜
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
-![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
-![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
-![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+# **API para acesso ao MongoDB do Purpura 💜**
 
-## O que ela faz? 📝
+## **O que ela faz? 📝**
 
-O objetivo da API de MongoDB é gerenciar os dados do Purpura nos domínios de:
-- **Empresa**
-  - Chaves Pix
-  - Endereços
-  - Resíduo
+A API do MongoDB é responsável por gerenciar os dados do Purpura nos seguintes domínios:
 
-- **Conversa**
-  - Chat Realtime usando WebSocket
+* Empresa
+* Chaves Pix
+* Endereços
+* Resíduos
+* Conversa
+    * Chat em tempo real usando WebSockets.
 
-## Testes 🧪
-### Bruno:
-Coleção do bruno de testes: [bruno-api-mg](bruno-api-mg)
+-----
 
-### Swagger:
-- Acesse o Swagger: [http://localhost:8081/swagger-ui/index.html#](http://localhost:8081/swagger-ui/index.html#)
+## **Testes 🧪**
 
-### Testando o WebSocket do Chat
+* **Bruno:**
+    * Coleção de testes do Bruno: `bruno-api-mg`
+* **Swagger:**
+    * Acesse a documentação do Swagger: `http://localhost:8081/swagger-ui/index.html#`
+* **Websockets**
+    * Acesse o projeto python para testar os websockets em [websocket-test-api-mg](websocket-test-api-mg/README.md)
 
+-----
 
-**Exemplo de conexão:**
-- Conexão websocket de um chat: [ws://localhost:8081/ws-chat](ws://localhost:8081/ws-chat)
-
-**Exemplo de mensagem para enviar para `/app/chat.sendMessage`:**
-```json
-{
-  "chatId": "room1",
-  "senderId": "user123",
-  "content": "Hello, world!"
-}
-``` 
-
-**Assine para receber mensagens do chat**
-- `/topic/chat.room1`
-
-
-
+## **Autores 💃**
+Criado com 💜 por:
+- Felipe Fernandes dos Santos Oliveira (Back-end, testes)
+- Emílio Stuart Palumbo (Esteira de deploy)
