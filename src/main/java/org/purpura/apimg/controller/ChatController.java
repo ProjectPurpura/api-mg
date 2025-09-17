@@ -1,8 +1,8 @@
 package org.purpura.apimg.controller;
 
-import org.purpura.apimg.dto.conversa.ChatResponseDTO;
-import org.purpura.apimg.dto.conversa.CreateChatRequestDTO;
-import org.purpura.apimg.dto.conversa.MessageRequestDTO;
+import org.purpura.apimg.dto.conversa.chat.ChatResponseDTO;
+import org.purpura.apimg.dto.conversa.chat.CreateChatRequestDTO;
+import org.purpura.apimg.dto.conversa.mensagem.MessageRequestDTO;
 import org.purpura.apimg.model.conversa.ChatModel;
 import org.purpura.apimg.service.ChatService;
 import org.springframework.beans.BeanUtils;

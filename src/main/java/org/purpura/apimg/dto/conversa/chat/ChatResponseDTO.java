@@ -1,4 +1,4 @@
-package org.purpura.apimg.dto.conversa;
+package org.purpura.apimg.dto.conversa.chat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
