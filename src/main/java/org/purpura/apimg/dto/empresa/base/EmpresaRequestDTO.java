@@ -17,7 +17,7 @@ import org.springframework.validation.annotation.Validated;
 @Data
 @Builder
 @Validated
-public class EmpresaSaveRequestDTO {
+public class EmpresaRequestDTO {
 
     @NotNull(message = "O CNPJ da empresa precisa ser informado")
     @NotBlank(message = "O CNPJ da empresa precisa ser informado")
