@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.purpura.apimg.common.Constants;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class EmpresaModel {
     private String telefone;
 
     private boolean ativo = true;
+
+    @Builder.Default
+    private String urlFoto = Constants.DEFAULT_URL_FOTO;
 
     @Builder.Default
     private ArrayList<EnderecoModel> enderecos = new ArrayList<>();

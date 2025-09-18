@@ -1,7 +1,6 @@
 package org.purpura.apimg.service;
 
-import org.purpura.apimg.dto.empresa.base.EmpresaSaveRequestDTO;
-import org.purpura.apimg.dto.empresa.base.EmpresaUpdateRequestDTO;
+import org.purpura.apimg.dto.empresa.base.EmpresaRequestDTO;
 import org.purpura.apimg.dto.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.dto.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.empresa.residuo.ResiduoRequestDTO;
@@ -33,14 +32,14 @@ public class EmpresaService {
     // region EMPRESA
 
     @Transactional
-    public void insert(EmpresaSaveRequestDTO empresaSaveRequestDTO) {
+    public void insert(EmpresaRequestDTO empresaRequestDTO) {
         EmpresaModel empresaModel = new EmpresaModel();
-        BeanUtils.copyProperties(empresaSaveRequestDTO, empresaModel);
+        BeanUtils.copyProperties(empresaRequestDTO, empresaModel);
         empresaRepository.save(empresaModel);
     }
 
     @Transactional
-    public void update(String cnpj, EmpresaUpdateRequestDTO empresaUpdateRequestDTO) {
+    public void update(String cnpj, EmpresaRequestDTO empresaUpdateRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
         BeanUtils.copyProperties(empresaUpdateRequestDTO, empresaModel);
         empresaRepository.save(empresaModel);

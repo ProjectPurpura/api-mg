@@ -1,4 +1,4 @@
-package org.purpura.apimg.dto.conversa;
+package org.purpura.apimg.dto.conversa.mensagem;
 
 import lombok.Builder;
 import lombok.Data;

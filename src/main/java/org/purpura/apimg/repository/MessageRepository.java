@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends MongoRepository<MessageModel, String> {
     List<MessageModel> findByChatIdOrderByTimestampDesc(String chatId);
+
+    long countByChatIdAndSenderIdNotAndReadFalse(String chatId, String senderId);
 }

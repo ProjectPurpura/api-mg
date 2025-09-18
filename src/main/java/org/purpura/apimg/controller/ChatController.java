@@ -1,15 +1,18 @@
 package org.purpura.apimg.controller;
 
-import org.purpura.apimg.dto.conversa.ChatResponseDTO;
-import org.purpura.apimg.dto.conversa.CreateChatRequestDTO;
-import org.purpura.apimg.dto.conversa.MessageRequestDTO;
+import org.purpura.apimg.dto.conversa.chat.ChatResponseDTO;
+import org.purpura.apimg.dto.conversa.chat.CreateChatRequestDTO;
+import org.purpura.apimg.dto.conversa.mensagem.MessageRequestDTO;
 import org.purpura.apimg.model.conversa.ChatModel;
 import org.purpura.apimg.service.ChatService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/chat")
@@ -20,6 +23,17 @@ public class ChatController {
 
     public ChatController(ChatService service) {
         this.service = service;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<ChatResponseDTO>> getAllByParticipantId(@PathVariable String id) {
+        return ResponseEntity.ok(service.findAllByParticipantId(id).stream()
+                .map(e -> {
+                    ChatResponseDTO dto = new ChatResponseDTO();
+                    BeanUtils.copyProperties(e, dto);
+                    return dto;
+                }).toList())
+                ;
     }
 
     @PostMapping("/new")

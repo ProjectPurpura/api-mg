@@ -2,8 +2,8 @@ package org.purpura.apimg.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.purpura.apimg.dto.conversa.CreateChatRequestDTO;
-import org.purpura.apimg.dto.conversa.MessageRequestDTO;
+import org.purpura.apimg.dto.conversa.chat.CreateChatRequestDTO;
+import org.purpura.apimg.dto.conversa.mensagem.MessageRequestDTO;
 import org.purpura.apimg.exception.conversa.ChatNotFoundException;
 import org.purpura.apimg.model.conversa.ChatModel;
 import org.purpura.apimg.model.conversa.MessageModel;
@@ -12,6 +12,8 @@ import org.purpura.apimg.repository.MessageRepository;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ChatService {
@@ -55,9 +57,9 @@ public class ChatService {
 
 
 
-    public MessageModel sendMessage(MessageRequestDTO messageRequestDTO) {
+    public void sendMessage(MessageRequestDTO messageRequestDTO) {
         String chatId = messageRequestDTO.getChatId();
-        ChatModel chat = findById(chatId); // ensures exists
+        ChatModel chat = findById(chatId);
 
         validateSender(chat, messageRequestDTO.getSenderId());
 
@@ -82,7 +84,6 @@ public class ChatService {
             throw new RuntimeException("Could not serialize message", e);
         }
 
-        return saved;
     }
 
     private void validateSender(ChatModel chat, String senderId) {
@@ -91,4 +92,7 @@ public class ChatService {
         }
     }
 
+    public List<ChatModel> findAllByParticipantId(String id) {
+        return chatRepository.findByParticipantsContains(id);
+    }
 }

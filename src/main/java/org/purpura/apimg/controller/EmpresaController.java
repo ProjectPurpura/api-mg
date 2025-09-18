@@ -1,9 +1,8 @@
 package org.purpura.apimg.controller;
 
 import jakarta.validation.Valid;
-import org.purpura.apimg.dto.empresa.base.EmpresaSaveRequestDTO;
+import org.purpura.apimg.dto.empresa.base.EmpresaRequestDTO;
 import org.purpura.apimg.dto.empresa.base.EmpresaResponseDTO;
-import org.purpura.apimg.dto.empresa.base.EmpresaUpdateRequestDTO;
 import org.purpura.apimg.dto.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.model.empresa.ChavePixModel;
@@ -34,8 +33,8 @@ public class EmpresaController {
 
     // region EMPRESA
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody @Valid EmpresaSaveRequestDTO empresaSaveRequestDTO) {
-        empresaService.insert(empresaSaveRequestDTO);
+    public ResponseEntity<Void> save(@RequestBody @Valid EmpresaRequestDTO empresaRequestDTO) {
+        empresaService.insert(empresaRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -52,7 +51,7 @@ public class EmpresaController {
 
     @PutMapping(value = "/{cnpj}")
     public ResponseEntity<Void> update(@PathVariable String cnpj,
-                                       @RequestBody @Valid EmpresaUpdateRequestDTO empresaUpdateRequestDTO)
+                                       @RequestBody @Valid EmpresaRequestDTO empresaUpdateRequestDTO)
     {
         empresaService.update(cnpj, empresaUpdateRequestDTO);
         return ResponseEntity.ok().build();

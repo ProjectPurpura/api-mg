@@ -1,7 +1,7 @@
 package org.purpura.apimg.config.redis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.purpura.apimg.dto.conversa.MessageRequestDTO;
+import org.purpura.apimg.dto.conversa.mensagem.MessageRequestDTO;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 

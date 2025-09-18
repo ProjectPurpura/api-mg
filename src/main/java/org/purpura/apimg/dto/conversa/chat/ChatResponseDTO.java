@@ -1,12 +1,16 @@
-package org.purpura.apimg.dto.conversa;
+package org.purpura.apimg.dto.conversa.chat;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ChatResponseDTO {
     private String chatId;
     private List<String> participants;
