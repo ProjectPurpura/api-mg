@@ -10,7 +10,6 @@ import org.purpura.apimg.dto.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.model.empresa.ChavePixModel;
-import org.purpura.apimg.model.empresa.EmpresaModel;
 import org.purpura.apimg.model.empresa.ResiduoModel;
 import org.purpura.apimg.model.empresa.EnderecoModel;
 import org.purpura.apimg.search.base.SearchKeywords;
