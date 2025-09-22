@@ -17,38 +17,36 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * OpenAPI-documented contract for chat operations.
- */
+
 public interface ChatContract {
 
     @Operation(
-        summary = "Get all chats by participant ID",
-        description = "Returns a list of chats where the given participant is involved."
+        summary = "Buscar todos os chats por participante",
+        description = "Retorna uma lista de chats onde o participante informado está presente."
     )
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "List of chats returned successfully",
+        @ApiResponse(responseCode = "200", description = "Lista de chats retornada com sucesso",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ChatResponseDTO.class)))
     })
-    @GetMapping("/chat/{id}")
+    @GetMapping("/{id}")
     ResponseEntity<List<ChatResponseDTO>> getAllByParticipantId(
-        @Parameter(description = "ID of the participant", required = true)
+        @Parameter(description = "ID do participante", required = true)
         @PathVariable String id
     );
 
     @Operation(
-        summary = "Create a new chat",
-        description = "Creates a new chat with the specified participants."
+        summary = "Criar novo chat",
+        description = "Cria um novo chat com os participantes informados."
     )
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Chat created successfully",
+        @ApiResponse(responseCode = "200", description = "Chat criado com sucesso",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ChatResponseDTO.class))),
-        @ApiResponse(responseCode = "400", description = "Invalid request body")
+        @ApiResponse(responseCode = "400", description = "Requisição inválida")
     })
-    @PostMapping("/chat/new")
+    @PostMapping("/new")
     ResponseEntity<ChatResponseDTO> createChat(
         @RequestBody(
-            description = "DTO containing participants for the new chat",
+            description = "DTO contendo os participantes para o novo chat",
             required = true,
             content = @Content(schema = @Schema(implementation = CreateChatRequestDTO.class))
         )
@@ -56,32 +54,31 @@ public interface ChatContract {
     );
 
     @Operation(
-        summary = "Delete a chat",
-        description = "Deletes the chat with the specified chat ID."
+        summary = "Excluir chat",
+        description = "Exclui o chat com o ID informado."
     )
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Chat deleted successfully"),
-        @ApiResponse(responseCode = "404", description = "Chat not found")
+        @ApiResponse(responseCode = "200", description = "Chat excluído com sucesso"),
+        @ApiResponse(responseCode = "404", description = "Chat não encontrado")
     })
-    @DeleteMapping("/chat/{chatId}")
+    @DeleteMapping("/{chatId}")
     ResponseEntity<Void> deleteChat(
-        @Parameter(description = "ID of the chat to delete", required = true)
+        @Parameter(description = "ID do chat a ser excluído", required = true)
         @PathVariable String chatId
     );
 
     @Operation(
-        summary = "Send a message to a chat (WebSocket)",
-        description = "Processes and sends a message to the specified chat via WebSocket."
+        summary = "Enviar mensagem para o chat (WebSocket)",
+        description = "Processa e envia uma mensagem para o chat especificado via WebSocket."
     )
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Message sent successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid message payload")
+        @ApiResponse(responseCode = "200", description = "Mensagem enviada com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Payload da mensagem inválido")
     })
     @MessageMapping("/chat")
     void processMessage(
         @Payload
-        @Parameter(description = "DTO containing message data", required = true)
+        @Parameter(description = "DTO contendo os dados da mensagem", required = true)
         MessageRequestDTO dto
     );
 }
-
