@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.springframework.validation.annotation.Validated;
 
@@ -38,4 +39,7 @@ public class EmpresaRequestDTO {
     @NotBlank(message = "O telefone da empresa precisa ser informado")
     @Pattern(regexp = "^\\d{2}(?:9\\d{8}|\\d{8})$", message = "O telefone da empresa deve seguir formato somente números com DDD")
     private String telefone;
+
+    @URL
+    private String urlFoto;
 }

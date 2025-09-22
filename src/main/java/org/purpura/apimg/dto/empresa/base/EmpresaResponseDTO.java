@@ -10,6 +10,7 @@ public class EmpresaResponseDTO {
     private String telefone;
     private String email;
     private String nome;
+    private String urlFoto;
 
     public EmpresaResponseDTO(EmpresaModel empresaModel) {
         BeanUtils.copyProperties(empresaModel, this);
