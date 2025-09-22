@@ -1,16 +1,14 @@
-package org.purpura.apimg.controller;
+package org.purpura.apimg.controller.alive;
 
+import org.purpura.apimg.dto.alive.AliveResponseDTO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/alive")
-public class AliveController {
-    public record AliveResponseDTO(String status, String message) {}
+public class AliveController implements AliveContract {
 
-    @GetMapping
     public ResponseEntity<AliveResponseDTO> get() {
         return ResponseEntity.ok(new AliveResponseDTO("banana", "API is alive!"));
     }

@@ -1,4 +1,4 @@
-package org.purpura.apimg.controller;
+package org.purpura.apimg.controller.empresa;
 
 import jakarta.validation.Valid;
 import org.purpura.apimg.dto.empresa.base.EmpresaRequestDTO;

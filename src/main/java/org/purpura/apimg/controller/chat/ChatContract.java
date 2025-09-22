@@ -1,4 +1,4 @@
-package org.purpura.apimg.controller;
+package org.purpura.apimg.controller.chat;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
