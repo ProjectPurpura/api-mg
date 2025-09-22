@@ -1,4 +1,4 @@
-package org.purpura.apimg.controller;
+package org.purpura.apimg.controller.chat;
 
 import org.purpura.apimg.dto.conversa.chat.ChatResponseDTO;
 import org.purpura.apimg.dto.conversa.chat.CreateChatRequestDTO;
@@ -7,8 +7,6 @@ import org.purpura.apimg.model.conversa.ChatModel;
 import org.purpura.apimg.service.ChatService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/chat")
 @Validated
-public class ChatController {
+public class ChatController implements ChatContract {
 
     private final ChatService service;
 
@@ -25,19 +23,18 @@ public class ChatController {
         this.service = service;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<ChatResponseDTO>> getAllByParticipantId(@PathVariable String id) {
+    @Override
+    public ResponseEntity<List<ChatResponseDTO>> getAllByParticipantId(String id) {
         return ResponseEntity.ok(service.findAllByParticipantId(id).stream()
                 .map(e -> {
                     ChatResponseDTO dto = new ChatResponseDTO();
                     BeanUtils.copyProperties(e, dto);
                     return dto;
-                }).toList())
-                ;
+                }).toList());
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<ChatResponseDTO> createChat(@RequestBody CreateChatRequestDTO createChatRequestDTO) {
+    @Override
+    public ResponseEntity<ChatResponseDTO> createChat(CreateChatRequestDTO createChatRequestDTO) {
         ChatModel model =  service.createChat(createChatRequestDTO);
         return ResponseEntity.ok(ChatResponseDTO.builder()
                 .chatId(model.getId())
@@ -45,15 +42,14 @@ public class ChatController {
                 .build());
     }
 
-    @DeleteMapping("/{chatId}")
-    public ResponseEntity<Void> deleteChat(@PathVariable String chatId) {
+    @Override
+    public ResponseEntity<Void> deleteChat(String chatId) {
         service.deleteChat(chatId);
         return ResponseEntity.ok().build();
     }
 
-    @MessageMapping("/chat")
-    public void processMessage(@Payload MessageRequestDTO dto) {
-        // chatId comes from payload
+    @Override
+    public void processMessage(MessageRequestDTO dto) {
         service.sendMessage(dto);
     }
 }
