@@ -85,22 +85,22 @@ public class EmpresaController {
 
     @PostMapping(value = "/{cnpj}/endereco")
     public ResponseEntity<Void> addEndereco(@PathVariable String cnpj,
-                                           @RequestBody @Valid EnderecoRequestDTO endereco) {
+                                            @RequestBody @Valid EnderecoRequestDTO endereco) {
         empresaService.addEndereco(cnpj, endereco);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping(value = "/{cnpj}/endereco/{id}")
     public ResponseEntity<Void> updateEndereco(@PathVariable String cnpj,
-                                              @PathVariable String id,
-                                              @RequestBody @Valid EnderecoRequestDTO endereco) {
+                                               @PathVariable String id,
+                                               @RequestBody @Valid EnderecoRequestDTO endereco) {
         empresaService.updateEndereco(cnpj, id, endereco);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(value = "/{cnpj}/endereco/{id}")
     public ResponseEntity<Void> deleteEndereco(@PathVariable String cnpj,
-                                              @PathVariable String id) {
+                                               @PathVariable String id) {
         empresaService.deleteEndereco(cnpj, id);
         return ResponseEntity.ok().build();
     }
@@ -155,7 +155,7 @@ public class EmpresaController {
 
     @PostMapping(value = "/{cnpj}/residuo")
     public ResponseEntity<Void> addResiduo(@PathVariable String cnpj,
-                                         @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
+                                           @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
         empresaService.addResiduo(cnpj, residuoRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -170,7 +170,7 @@ public class EmpresaController {
 
     @DeleteMapping(value = "/{cnpj}/residuo/{id}")
     public ResponseEntity<Void> deleteResiduo(@PathVariable String cnpj,
-                                            @PathVariable String id) {
+                                              @PathVariable String id) {
         empresaService.deleteResiduo(cnpj, id);
         return ResponseEntity.ok().build();
     }
