@@ -23,7 +23,7 @@ import org.purpura.apimg.model.empresa.EnderecoModel;
 @RestController
 @RequestMapping("/empresa")
 @Validated
-public class EmpresaController {
+public class EmpresaController implements EmpresaContract {
 
     private final EmpresaService empresaService;
 
@@ -32,24 +32,24 @@ public class EmpresaController {
     }
 
     // region EMPRESA
-    @PostMapping
+    @Override
     public ResponseEntity<Void> save(@RequestBody @Valid EmpresaRequestDTO empresaRequestDTO) {
         empresaService.insert(empresaRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping(value = "/{cnpj}")
+    @Override
     public ResponseEntity<EmpresaResponseDTO> get(@PathVariable String cnpj) {
         return ResponseEntity.ok(new EmpresaResponseDTO(empresaService.findByCnpj(cnpj)));
     }
 
-    @DeleteMapping(value = "/{cnpj}")
+    @Override
     public ResponseEntity<Void> delete(@PathVariable String cnpj) {
         empresaService.deleteByCnpj(cnpj);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping(value = "/{cnpj}")
+    @Override
     public ResponseEntity<Void> update(@PathVariable String cnpj,
                                        @RequestBody @Valid EmpresaRequestDTO empresaUpdateRequestDTO)
     {
@@ -57,12 +57,12 @@ public class EmpresaController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = "/all")
+    @Override
     public ResponseEntity<List<EmpresaResponseDTO>> findAll() {
         return ResponseEntity.ok(mapToDTOs(empresaService.findAll()));
     }
 
-    @GetMapping(value = "/search")
+    @Override
     public ResponseEntity<List<EmpresaResponseDTO>> search(@RequestParam @SearchKeywords @Valid String query) {
         List<EmpresaModel> found = empresaService.search(query);
         return ResponseEntity.ok(mapToDTOs(found));
@@ -73,24 +73,24 @@ public class EmpresaController {
     }
     // endregion EMPRESA
     // region Endereco endpoints
-    @GetMapping(value = "/{cnpj}/endereco/all")
+    @Override
     public ResponseEntity<List<EnderecoModel>> getEnderecos(@PathVariable String cnpj) {
         return ResponseEntity.ok(empresaService.findEnderecosByCnpj(cnpj));
     }
 
-    @GetMapping("/{cnpj}/endereco/{id}")
+    @Override
     public ResponseEntity<EnderecoModel> getEndereco(@PathVariable String cnpj, @PathVariable String id) {
         return ResponseEntity.ok(empresaService.findEnderecoById(cnpj, id));
     }
 
-    @PostMapping(value = "/{cnpj}/endereco")
+    @Override
     public ResponseEntity<Void> addEndereco(@PathVariable String cnpj,
                                             @RequestBody @Valid EnderecoRequestDTO endereco) {
         empresaService.addEndereco(cnpj, endereco);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping(value = "/{cnpj}/endereco/{id}")
+    @Override
     public ResponseEntity<Void> updateEndereco(@PathVariable String cnpj,
                                                @PathVariable String id,
                                                @RequestBody @Valid EnderecoRequestDTO endereco) {
@@ -98,7 +98,7 @@ public class EmpresaController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(value = "/{cnpj}/endereco/{id}")
+    @Override
     public ResponseEntity<Void> deleteEndereco(@PathVariable String cnpj,
                                                @PathVariable String id) {
         empresaService.deleteEndereco(cnpj, id);
@@ -108,24 +108,24 @@ public class EmpresaController {
     // endregion Endereco endpoints
 
     // region Chave Pix
-    @GetMapping(value = "/{cnpj}/pix/all")
+    @Override
     public ResponseEntity<List<ChavePixModel>> getChaves(@PathVariable String cnpj) {
         return ResponseEntity.ok(empresaService.findChavesPixByCnpj(cnpj));
     }
 
-    @GetMapping("/{cnpj}/pix/{id}")
+    @Override
     public ResponseEntity<ChavePixModel> getChave(@PathVariable String cnpj, @PathVariable String id) {
         return ResponseEntity.ok(empresaService.findChavePixById(cnpj, id));
     }
 
-    @PostMapping(value = "/{cnpj}/pix")
+    @Override
     public ResponseEntity<Void> addChave(@PathVariable String cnpj,
                                          @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
         empresaService.addChavePix(cnpj, chavePixRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping(value = "/{cnpj}/pix/{id}")
+    @Override
     public ResponseEntity<Void> updateResiduo(@PathVariable String cnpj,
                                               @PathVariable String id,
                                               @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
@@ -133,7 +133,7 @@ public class EmpresaController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(value = "/{cnpj}/pix/{id}")
+    @Override
     public ResponseEntity<Void> deleteChave(@PathVariable String cnpj,
                                             @PathVariable String id) {
         empresaService.deleteChavePix(cnpj, id);
@@ -143,24 +143,24 @@ public class EmpresaController {
     // endregion Chave Pix
 
     // region Resíduo
-    @GetMapping(value = "/{cnpj}/residuo/all")
+    @Override
     public ResponseEntity<List<ResiduoModel>> getResiduos(@PathVariable String cnpj) {
         return ResponseEntity.ok(empresaService.findResiduosByCnpj(cnpj));
     }
 
-    @GetMapping("/{cnpj}/residuo/{id}")
+    @Override
     public ResponseEntity<ResiduoModel> getResiduo(@PathVariable String cnpj, @PathVariable String id) {
         return ResponseEntity.ok(empresaService.findResiduoById(cnpj, id));
     }
 
-    @PostMapping(value = "/{cnpj}/residuo")
+    @Override
     public ResponseEntity<Void> addResiduo(@PathVariable String cnpj,
                                            @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
         empresaService.addResiduo(cnpj, residuoRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping(value = "/{cnpj}/residuo/{id}")
+    @Override
     public ResponseEntity<Void> updateResiduo(@PathVariable String cnpj,
                                               @PathVariable String id,
                                               @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
@@ -168,7 +168,7 @@ public class EmpresaController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(value = "/{cnpj}/residuo/{id}")
+    @Override
     public ResponseEntity<Void> deleteResiduo(@PathVariable String cnpj,
                                               @PathVariable String id) {
         empresaService.deleteResiduo(cnpj, id);
