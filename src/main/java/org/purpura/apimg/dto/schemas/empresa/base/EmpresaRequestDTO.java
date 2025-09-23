@@ -1,4 +1,4 @@
-package org.purpura.apimg.dto.empresa.base;
+package org.purpura.apimg.dto.schemas.empresa.base;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;

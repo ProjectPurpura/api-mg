@@ -1,4 +1,4 @@
-package org.purpura.apimg.dto.empresa.pix;
+package org.purpura.apimg.dto.schemas.empresa.pix;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

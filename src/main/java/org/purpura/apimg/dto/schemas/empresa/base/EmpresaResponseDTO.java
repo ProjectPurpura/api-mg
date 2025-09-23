@@ -1,4 +1,4 @@
-package org.purpura.apimg.dto.empresa.base;
+package org.purpura.apimg.dto.schemas.empresa.base;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -18,8 +18,4 @@ public class EmpresaResponseDTO {
     private String nome;
     @Schema(description = "URL da foto da empresa.", example = "https://empresa.com/foto.png")
     private String urlFoto;
-
-    public EmpresaResponseDTO(EmpresaModel empresaModel) {
-        BeanUtils.copyProperties(empresaModel, this);
-    }
 }

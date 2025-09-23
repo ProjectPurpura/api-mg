@@ -1,4 +1,4 @@
-package org.purpura.apimg.dto.alive;
+package org.purpura.apimg.dto.schemas.alive;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
