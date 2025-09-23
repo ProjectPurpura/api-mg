@@ -1,10 +1,12 @@
 package org.purpura.apimg.controller.empresa;
 
 import jakarta.validation.Valid;
-import org.purpura.apimg.dto.empresa.base.EmpresaRequestDTO;
-import org.purpura.apimg.dto.empresa.base.EmpresaResponseDTO;
-import org.purpura.apimg.dto.empresa.pix.ChavePixRequestDTO;
-import org.purpura.apimg.dto.empresa.residuo.ResiduoRequestDTO;
+import org.purpura.apimg.dto.mapper.empresa.EmpresaMapper;
+import org.purpura.apimg.dto.mapper.empresa.EnderecoMapper;
+import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.base.EmpresaResponseDTO;
+import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.model.empresa.ChavePixModel;
 import org.purpura.apimg.model.empresa.EmpresaModel;
 import org.purpura.apimg.model.empresa.ResiduoModel;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import org.purpura.apimg.dto.empresa.endereco.EnderecoRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.model.empresa.EnderecoModel;
 
 @RestController
