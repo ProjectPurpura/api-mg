@@ -1,0 +1,15 @@
+meta {
+  name: get_chat_messages
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:8081/chat/256a4c5a-258f-46e4-a41f-7dae4cbfadf4/messages
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
