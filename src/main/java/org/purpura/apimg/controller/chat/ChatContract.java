@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.purpura.apimg.dto.conversa.chat.ChatResponseDTO;
 import org.purpura.apimg.dto.conversa.chat.CreateChatRequestDTO;
 import org.purpura.apimg.dto.conversa.mensagem.MessageRequestDTO;
+import org.purpura.apimg.dto.conversa.mensagem.MessageResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -28,11 +29,23 @@ public interface ChatContract {
         @ApiResponse(responseCode = "200", description = "Lista de chats retornada com sucesso",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ChatResponseDTO.class)))
     })
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     ResponseEntity<List<ChatResponseDTO>> getAllByParticipantId(
         @Parameter(description = "ID do participante", required = true)
         @PathVariable String id
     );
+
+    @Operation(
+            summary = "Buscar os dados de um chat por ID",
+            description = "Retorna os metadados de um chat."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Lista de chats retornada com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ChatResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Chat não encontrado")
+    })
+    @GetMapping("/{chatId}")
+    ResponseEntity<ChatResponseDTO> getChat(@PathVariable String chatId);
 
     @Operation(
         summary = "Criar novo chat",
@@ -81,4 +94,16 @@ public interface ChatContract {
         @Parameter(description = "DTO contendo os dados da mensagem", required = true)
         MessageRequestDTO dto
     );
+
+
+    @Operation(
+            summary = "Buscar mensagens de um chat",
+            description = "Retorna uma lista de mensagens de um chat com o ID informado."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Lista de mensagens retornada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Chat não encontrado")
+    })
+    @GetMapping("/{chatId}/messages")
+    ResponseEntity<List<MessageResponseDTO>> getMessagesByChatId(@PathVariable String chatId);
 }
