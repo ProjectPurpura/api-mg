@@ -28,9 +28,14 @@ import org.purpura.apimg.model.empresa.EnderecoModel;
 public class EmpresaController implements EmpresaContract {
 
     private final EmpresaService empresaService;
+    private final EmpresaMapper empresaMapper;
+    private final EnderecoMapper enderecoMapper;
 
-    public EmpresaController(EmpresaService empresaService) {
+
+    public EmpresaController(EmpresaService empresaService, EmpresaMapper empresaMapper, EnderecoMapper enderecoMapper) {
         this.empresaService = empresaService;
+        this.empresaMapper = empresaMapper;
+        this.enderecoMapper = enderecoMapper;
     }
 
     // region EMPRESA
@@ -42,7 +47,7 @@ public class EmpresaController implements EmpresaContract {
 
     @Override
     public ResponseEntity<EmpresaResponseDTO> get(@PathVariable String cnpj) {
-        return ResponseEntity.ok(new EmpresaResponseDTO(empresaService.findByCnpj(cnpj)));
+        return ResponseEntity.ok(empresaMapper.toResponse(empresaService.findByCnpj(cnpj)));
     }
 
     @Override
@@ -61,18 +66,15 @@ public class EmpresaController implements EmpresaContract {
 
     @Override
     public ResponseEntity<List<EmpresaResponseDTO>> findAll() {
-        return ResponseEntity.ok(mapToDTOs(empresaService.findAll()));
+        return ResponseEntity.ok(empresaMapper.toResponseList(empresaService.findAll()));
     }
 
     @Override
     public ResponseEntity<List<EmpresaResponseDTO>> search(@RequestParam @SearchKeywords @Valid String query) {
         List<EmpresaModel> found = empresaService.search(query);
-        return ResponseEntity.ok(mapToDTOs(found));
+        return ResponseEntity.ok(empresaMapper.toResponseList(found));
     }
 
-    private static List<EmpresaResponseDTO> mapToDTOs(List<EmpresaModel> models) {
-        return models.stream().map(EmpresaResponseDTO::new).toList();
-    }
     // endregion EMPRESA
     // region Endereco endpoints
     @Override

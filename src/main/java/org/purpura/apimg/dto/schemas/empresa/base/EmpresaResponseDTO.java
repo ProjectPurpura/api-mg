@@ -2,8 +2,6 @@ package org.purpura.apimg.dto.schemas.empresa.base;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.purpura.apimg.model.empresa.EmpresaModel;
-import org.springframework.beans.BeanUtils;
 
 @Data
 @Schema(description = "DTO de resposta para dados de empresa.")
