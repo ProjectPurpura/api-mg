@@ -3,7 +3,9 @@ package org.purpura.apimg.controller.chat;
 import org.purpura.apimg.dto.conversa.chat.ChatResponseDTO;
 import org.purpura.apimg.dto.conversa.chat.CreateChatRequestDTO;
 import org.purpura.apimg.dto.conversa.mensagem.MessageRequestDTO;
+import org.purpura.apimg.dto.conversa.mensagem.MessageResponseDTO;
 import org.purpura.apimg.model.conversa.ChatModel;
+import org.purpura.apimg.model.conversa.MessageModel;
 import org.purpura.apimg.service.ChatService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +36,18 @@ public class ChatController implements ChatContract {
     }
 
     @Override
+    public ResponseEntity<ChatResponseDTO> getChat(String chatId) {
+        ChatModel model = service.findById(chatId);
+        ChatResponseDTO dto = new ChatResponseDTO();
+        BeanUtils.copyProperties(model, dto);
+        return ResponseEntity.ok(dto);
+    }
+
+    @Override
     public ResponseEntity<ChatResponseDTO> createChat(CreateChatRequestDTO createChatRequestDTO) {
         ChatModel model =  service.createChat(createChatRequestDTO);
         return ResponseEntity.ok(ChatResponseDTO.builder()
-                .chatId(model.getId())
+                .id(model.getId())
                 .participants(model.getParticipants())
                 .build());
     }
@@ -46,6 +56,19 @@ public class ChatController implements ChatContract {
     public ResponseEntity<Void> deleteChat(String chatId) {
         service.deleteChat(chatId);
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<List<MessageResponseDTO>> getMessagesByChatId(String chatId) {
+        List<MessageModel> messageModels = service.findMessagesByChatId(chatId);
+        List<MessageResponseDTO> responseDTOS = messageModels.stream()
+                .map(x -> {
+                    MessageResponseDTO dto = new MessageResponseDTO();
+                    BeanUtils.copyProperties(x, dto);
+                    return dto;
+                }).toList();
+
+        return ResponseEntity.ok(responseDTOS);
     }
 
     @Override

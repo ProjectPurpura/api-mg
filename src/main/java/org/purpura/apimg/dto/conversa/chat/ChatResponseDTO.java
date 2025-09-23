@@ -15,7 +15,7 @@ import java.util.List;
 @Schema(description = "DTO que representa a resposta de um chat, incluindo o ID do chat, participantes, prévia da última mensagem, data da última atualização e quantidade de mensagens não lidas.")
 public class ChatResponseDTO {
     @Schema(description = "Identificador único do chat")
-    private String chatId;
+    private String id;
     @Schema(description = "Lista de IDs dos participantes do chat")
     private List<String> participants;
     @Schema(description = "Prévia da última mensagem do chat, ou nulo se for um chat novo")
