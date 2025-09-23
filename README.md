@@ -18,7 +18,7 @@ A API do MongoDB é responsável por gerenciar os dados do Purpura nos seguintes
 * **Bruno:**
     * Coleção de testes do Bruno: `bruno-api-mg`
 * **Swagger:**
-    * Acesse a documentação do Swagger: `http://localhost:8081/swagger-ui/index.html#`
+    * Acesse o Swagger (produção): [https://mongodb-api-purpura.onrender.com/swagger-ui/index.html#](https://mongodb-api-purpura.onrender.com/swagger-ui/index.html#)
 * **Websockets**
     * Acesse o projeto python para testar os websockets em [websocket-test-api-mg](websocket-test-api-mg/README.md)
 
