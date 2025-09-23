@@ -1,9 +1,9 @@
 package org.purpura.apimg.service;
 
-import org.purpura.apimg.dto.empresa.base.EmpresaRequestDTO;
-import org.purpura.apimg.dto.empresa.endereco.EnderecoRequestDTO;
-import org.purpura.apimg.dto.empresa.pix.ChavePixRequestDTO;
-import org.purpura.apimg.dto.empresa.residuo.ResiduoRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.exception.empresa.EmpresaNotFoundException;
 import org.purpura.apimg.exception.empresa.EnderecoNotFoundException;
 import org.purpura.apimg.exception.empresa.ChavePixNotFoundException;
