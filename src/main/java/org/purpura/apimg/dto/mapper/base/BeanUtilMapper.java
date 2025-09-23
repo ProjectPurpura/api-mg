@@ -1,9 +1,7 @@
 package org.purpura.apimg.dto.mapper.base;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Component;
 
-@Component
 public class BeanUtilMapper<M, I, O> extends BaseMapper<M, I, O> {
 
     private final Class<M> modelClass;
