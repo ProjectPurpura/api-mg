@@ -4,11 +4,14 @@ import org.purpura.apimg.dto.schemas.conversa.chat.ChatResponseDTO;
 import org.purpura.apimg.dto.schemas.conversa.chat.CreateChatRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageResponseDTO;
+import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageBatchRequestDTO;
 import org.purpura.apimg.model.conversa.ChatModel;
 import org.purpura.apimg.model.conversa.MessageModel;
 import org.purpura.apimg.service.ChatService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,5 +77,11 @@ public class ChatController implements ChatContract {
     @Override
     public void processMessage(MessageRequestDTO dto) {
         service.sendMessage(dto);
+    }
+
+    @Override
+    @MessageMapping("/chat.markRead")
+    public void markMessagesRead(@Payload MessageBatchRequestDTO requestDTO) {
+        service.markMessagesRead(requestDTO.getMessageIds());
     }
 }

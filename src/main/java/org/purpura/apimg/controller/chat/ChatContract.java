@@ -11,6 +11,7 @@ import org.purpura.apimg.dto.schemas.conversa.chat.ChatResponseDTO;
 import org.purpura.apimg.dto.schemas.conversa.chat.CreateChatRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageResponseDTO;
+import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageBatchRequestDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -106,4 +107,15 @@ public interface ChatContract {
     })
     @GetMapping("/{chatId}/messages")
     ResponseEntity<List<MessageResponseDTO>> getMessagesByChatId(@PathVariable String chatId);
+
+    @Operation(
+            summary = "Marcar mensagens como lidas (WebSocket)",
+            description = "Marca as mensagens de um chat como lidas."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Mensagens marcadas como lidas com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Payload inválido")
+    })
+    @MessageMapping("/chat.markRead")
+    void markMessagesRead(@Payload MessageBatchRequestDTO requestDTO);
 }
