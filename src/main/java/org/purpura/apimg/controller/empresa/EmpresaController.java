@@ -13,6 +13,7 @@ import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.model.empresa.ChavePixModel;
 import org.purpura.apimg.model.empresa.EmpresaModel;
@@ -131,26 +132,26 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
 
     // region Chave Pix
     @Override
-    public ResponseEntity<List<ChavePixModel>> getChaves(@PathVariable String cnpj) {
+    public ResponseEntity<List<ChavePixResponseDTO>> getChaves(@PathVariable String cnpj) {
         return ResponseEntity.ok(empresaService.findChavesPixByCnpj(cnpj));
     }
 
     @Override
-    public ResponseEntity<ChavePixModel> getChave(@PathVariable String cnpj, @PathVariable String id) {
+    public ResponseEntity<ChavePixResponseDTO> getChave(@PathVariable String cnpj, @PathVariable String id) {
         return ResponseEntity.ok(empresaService.findChavePixById(cnpj, id));
     }
 
     @Override
-    public ResponseEntity<Void> addChave(@PathVariable String cnpj,
+    public ResponseEntity<ChavePixResponseDTO> addChave(@PathVariable String cnpj,
                                          @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
         empresaService.addChavePix(cnpj, chavePixRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
-    public ResponseEntity<Void> updateResiduo(@PathVariable String cnpj,
-                                              @PathVariable String id,
-                                              @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
+    public ResponseEntity<Void> updateChavePix(@PathVariable String cnpj,
+                                               @PathVariable String id,
+                                               @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
         empresaService.updateChavePix(cnpj, id, chavePixRequestDTO);
         return ResponseEntity.ok().build();
     }
