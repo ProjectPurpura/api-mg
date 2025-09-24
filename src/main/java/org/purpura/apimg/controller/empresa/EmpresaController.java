@@ -1,10 +1,10 @@
 package org.purpura.apimg.controller.empresa;
 
 import jakarta.validation.Valid;
-import org.purpura.apimg.controller.empresa.openapi.ChavePixContract;
-import org.purpura.apimg.controller.empresa.openapi.EmpresaContract;
-import org.purpura.apimg.controller.empresa.openapi.EnderecoContract;
-import org.purpura.apimg.controller.empresa.openapi.ResiduoContract;
+import org.purpura.apimg.controller.empresa.oas.ChavePixContract;
+import org.purpura.apimg.controller.empresa.oas.EmpresaContract;
+import org.purpura.apimg.controller.empresa.oas.EnderecoContract;
+import org.purpura.apimg.controller.empresa.oas.ResiduoContract;
 import org.purpura.apimg.dto.mapper.empresa.ChavePixMapper;
 import org.purpura.apimg.dto.mapper.empresa.EmpresaMapper;
 import org.purpura.apimg.dto.mapper.empresa.EnderecoMapper;

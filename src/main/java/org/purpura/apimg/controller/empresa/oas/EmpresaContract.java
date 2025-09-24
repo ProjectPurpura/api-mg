@@ -1,4 +1,4 @@
-package org.purpura.apimg.controller.empresa.openapi;
+package org.purpura.apimg.controller.empresa.oas;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
