@@ -12,7 +12,7 @@ import org.purpura.apimg.model.empresa.Unidade;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Resíduo da empresa")
-public class ResiduoResponseDTO {
+public class ResiduoResponseDTO implements java.io.Serializable {
     @Schema(description = "Identificador único do resíduo")
     private String id;
     @Schema(description = "Nome do resíduo")

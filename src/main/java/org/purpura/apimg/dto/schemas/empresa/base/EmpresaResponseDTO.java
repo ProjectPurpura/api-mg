@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "DTO de resposta para dados de empresa.")
-public class EmpresaResponseDTO {
+public class EmpresaResponseDTO implements java.io.Serializable {
     @Schema(description = "CNPJ da empresa.", example = "12345678000195")
     private String cnpj;
     @Schema(description = "Telefone da empresa.", example = "11999999999")
