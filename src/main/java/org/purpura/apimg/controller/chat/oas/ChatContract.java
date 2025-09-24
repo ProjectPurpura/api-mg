@@ -1,4 +1,4 @@
-package org.purpura.apimg.controller.chat;
+package org.purpura.apimg.controller.chat.oas;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -10,8 +10,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.purpura.apimg.dto.schemas.conversa.chat.ChatResponseDTO;
 import org.purpura.apimg.dto.schemas.conversa.chat.CreateChatRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
-import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageResponseDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageBatchRequestDTO;
+import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
