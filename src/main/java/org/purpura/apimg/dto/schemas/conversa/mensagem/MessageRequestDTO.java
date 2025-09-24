@@ -1,4 +1,4 @@
-package org.purpura.apimg.dto.conversa.mensagem;
+package org.purpura.apimg.dto.schemas.conversa.mensagem;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

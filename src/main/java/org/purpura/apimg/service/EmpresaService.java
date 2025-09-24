@@ -1,9 +1,9 @@
 package org.purpura.apimg.service;
 
-import org.purpura.apimg.dto.empresa.base.EmpresaRequestDTO;
-import org.purpura.apimg.dto.empresa.endereco.EnderecoRequestDTO;
-import org.purpura.apimg.dto.empresa.pix.ChavePixRequestDTO;
-import org.purpura.apimg.dto.empresa.residuo.ResiduoRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.exception.empresa.EmpresaNotFoundException;
 import org.purpura.apimg.exception.empresa.EnderecoNotFoundException;
 import org.purpura.apimg.exception.empresa.ChavePixNotFoundException;
@@ -87,7 +87,7 @@ public class EmpresaService {
         return empresaModel.getEnderecos();
     }
 
-    public void addEndereco(String cnpj, EnderecoRequestDTO endereco) {
+        public EnderecoModel addEndereco(String cnpj, EnderecoRequestDTO endereco) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
 
         EnderecoModel enderecoModel = new EnderecoModel();
@@ -96,6 +96,8 @@ public class EmpresaService {
 
         empresaModel.getEnderecos().add(enderecoModel);
         empresaRepository.save(empresaModel);
+
+        return enderecoModel;
     }
 
     public void deleteEndereco(String cnpj, String id) {
@@ -132,13 +134,15 @@ public class EmpresaService {
         return findChavePixById(cnpj, id, empresaModel);
     }
 
-    public void addChavePix(String cnpj, ChavePixRequestDTO chavePixRequestDTO) {
+    public ChavePixModel addChavePix(String cnpj, ChavePixRequestDTO chavePixRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
         ChavePixModel model = new ChavePixModel();
         BeanUtils.copyProperties(chavePixRequestDTO, model);
         model.setId(java.util.UUID.randomUUID().toString());
         empresaModel.getChavesPix().add(model);
         empresaRepository.save(empresaModel);
+
+        return model;
     }
 
     public void deleteChavePix(String cnpj, String id) {
@@ -174,13 +178,14 @@ public class EmpresaService {
         return findResiduoById(cnpj, id, empresaModel);
     }
 
-    public void addResiduo(String cnpj, ResiduoRequestDTO residuoRequestDTO) {
+    public ResiduoModel addResiduo(String cnpj, ResiduoRequestDTO residuoRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
         ResiduoModel residuoModel = new ResiduoModel();
         BeanUtils.copyProperties(residuoRequestDTO, residuoModel);
         residuoModel.setId(java.util.UUID.randomUUID().toString());
         empresaModel.getResiduos().add(residuoModel);
         empresaRepository.save(empresaModel);
+        return residuoModel;
     }
 
     public void deleteResiduo(String cnpj, String id) {

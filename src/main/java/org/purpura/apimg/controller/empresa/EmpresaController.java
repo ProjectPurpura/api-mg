@@ -1,13 +1,21 @@
 package org.purpura.apimg.controller.empresa;
 
 import jakarta.validation.Valid;
-import org.purpura.apimg.dto.empresa.base.EmpresaRequestDTO;
-import org.purpura.apimg.dto.empresa.base.EmpresaResponseDTO;
-import org.purpura.apimg.dto.empresa.pix.ChavePixRequestDTO;
-import org.purpura.apimg.dto.empresa.residuo.ResiduoRequestDTO;
-import org.purpura.apimg.model.empresa.ChavePixModel;
-import org.purpura.apimg.model.empresa.EmpresaModel;
-import org.purpura.apimg.model.empresa.ResiduoModel;
+import org.purpura.apimg.controller.empresa.openapi.ChavePixContract;
+import org.purpura.apimg.controller.empresa.openapi.EmpresaContract;
+import org.purpura.apimg.controller.empresa.openapi.EnderecoContract;
+import org.purpura.apimg.controller.empresa.openapi.ResiduoContract;
+import org.purpura.apimg.dto.mapper.empresa.ChavePixMapper;
+import org.purpura.apimg.dto.mapper.empresa.EmpresaMapper;
+import org.purpura.apimg.dto.mapper.empresa.EnderecoMapper;
+import org.purpura.apimg.dto.mapper.empresa.ResiduoMapper;
+import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.base.EmpresaResponseDTO;
+import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
+import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixResponseDTO;
+import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
 import org.purpura.apimg.search.base.SearchKeywords;
 import org.purpura.apimg.service.EmpresaService;
 import org.springframework.http.HttpStatus;
@@ -17,18 +25,33 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import org.purpura.apimg.dto.empresa.endereco.EnderecoRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.model.empresa.EnderecoModel;
 
 @RestController
 @RequestMapping("/empresa")
 @Validated
-public class EmpresaController implements EmpresaContract {
+public class EmpresaController implements EmpresaContract, EnderecoContract, ResiduoContract, ChavePixContract {
 
     private final EmpresaService empresaService;
+    private final EmpresaMapper empresaMapper;
+    private final EnderecoMapper enderecoMapper;
+    private final ChavePixMapper chavePixMapper;
+    private final ResiduoMapper residuoMapper;
 
-    public EmpresaController(EmpresaService empresaService) {
+
+    public EmpresaController(
+            EmpresaService empresaService,
+            EmpresaMapper empresaMapper,
+            EnderecoMapper enderecoMapper,
+            ChavePixMapper chavePixMapper,
+            ResiduoMapper residuoMapper
+    ) {
         this.empresaService = empresaService;
+        this.empresaMapper = empresaMapper;
+        this.enderecoMapper = enderecoMapper;
+        this.chavePixMapper = chavePixMapper;
+        this.residuoMapper = residuoMapper;
     }
 
     // region EMPRESA
@@ -40,7 +63,7 @@ public class EmpresaController implements EmpresaContract {
 
     @Override
     public ResponseEntity<EmpresaResponseDTO> get(@PathVariable String cnpj) {
-        return ResponseEntity.ok(new EmpresaResponseDTO(empresaService.findByCnpj(cnpj)));
+        return ResponseEntity.ok(empresaMapper.toResponse(empresaService.findByCnpj(cnpj)));
     }
 
     @Override
@@ -59,35 +82,32 @@ public class EmpresaController implements EmpresaContract {
 
     @Override
     public ResponseEntity<List<EmpresaResponseDTO>> findAll() {
-        return ResponseEntity.ok(mapToDTOs(empresaService.findAll()));
+        return ResponseEntity.ok(empresaMapper.toResponseList(empresaService.findAll()));
     }
 
     @Override
     public ResponseEntity<List<EmpresaResponseDTO>> search(@RequestParam @SearchKeywords @Valid String query) {
-        List<EmpresaModel> found = empresaService.search(query);
-        return ResponseEntity.ok(mapToDTOs(found));
+        return ResponseEntity.ok(empresaMapper.toResponseList(empresaService.search(query)));
     }
 
-    private static List<EmpresaResponseDTO> mapToDTOs(List<EmpresaModel> models) {
-        return models.stream().map(EmpresaResponseDTO::new).toList();
-    }
     // endregion EMPRESA
     // region Endereco endpoints
     @Override
-    public ResponseEntity<List<EnderecoModel>> getEnderecos(@PathVariable String cnpj) {
-        return ResponseEntity.ok(empresaService.findEnderecosByCnpj(cnpj));
+    public ResponseEntity<List<EnderecoResponseDTO>> getEnderecos(@PathVariable String cnpj) {
+        return ResponseEntity.ok(enderecoMapper.toResponseList(empresaService.findEnderecosByCnpj(cnpj)));
     }
 
     @Override
-    public ResponseEntity<EnderecoModel> getEndereco(@PathVariable String cnpj, @PathVariable String id) {
-        return ResponseEntity.ok(empresaService.findEnderecoById(cnpj, id));
+    public ResponseEntity<EnderecoResponseDTO> getEndereco(@PathVariable String cnpj, @PathVariable String id) {
+        return ResponseEntity.ok(enderecoMapper.toResponse(empresaService.findEnderecoById(cnpj, id)));
     }
 
     @Override
-    public ResponseEntity<Void> addEndereco(@PathVariable String cnpj,
+    public ResponseEntity<EnderecoResponseDTO> addEndereco(@PathVariable String cnpj,
                                             @RequestBody @Valid EnderecoRequestDTO endereco) {
-        empresaService.addEndereco(cnpj, endereco);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        EnderecoModel enderecoModel = empresaService.addEndereco(cnpj, endereco);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(enderecoMapper.toResponse(enderecoModel));
     }
 
     @Override
@@ -109,26 +129,36 @@ public class EmpresaController implements EmpresaContract {
 
     // region Chave Pix
     @Override
-    public ResponseEntity<List<ChavePixModel>> getChaves(@PathVariable String cnpj) {
-        return ResponseEntity.ok(empresaService.findChavesPixByCnpj(cnpj));
+    public ResponseEntity<List<ChavePixResponseDTO>> getChaves(@PathVariable String cnpj) {
+        List<ChavePixResponseDTO> chavesPix = chavePixMapper
+                .toResponseList(empresaService.findChavesPixByCnpj(cnpj));
+
+        return ResponseEntity.ok(chavesPix);
     }
 
     @Override
-    public ResponseEntity<ChavePixModel> getChave(@PathVariable String cnpj, @PathVariable String id) {
-        return ResponseEntity.ok(empresaService.findChavePixById(cnpj, id));
+    public ResponseEntity<ChavePixResponseDTO> getChave(@PathVariable String cnpj, @PathVariable String id) {
+        ChavePixResponseDTO chavePix = chavePixMapper
+                .toResponse(empresaService.findChavePixById(cnpj, id));
+
+        return ResponseEntity.ok(chavePix);
     }
 
     @Override
-    public ResponseEntity<Void> addChave(@PathVariable String cnpj,
+    public ResponseEntity<ChavePixResponseDTO> addChave(@PathVariable String cnpj,
                                          @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
-        empresaService.addChavePix(cnpj, chavePixRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        ChavePixResponseDTO response = chavePixMapper
+                .toResponse(empresaService.addChavePix(cnpj, chavePixRequestDTO));
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(response);
     }
 
     @Override
-    public ResponseEntity<Void> updateResiduo(@PathVariable String cnpj,
-                                              @PathVariable String id,
-                                              @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
+    public ResponseEntity<Void> updateChavePix(@PathVariable String cnpj,
+                                               @PathVariable String id,
+                                               @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
+
         empresaService.updateChavePix(cnpj, id, chavePixRequestDTO);
         return ResponseEntity.ok().build();
     }
@@ -144,20 +174,24 @@ public class EmpresaController implements EmpresaContract {
 
     // region Resíduo
     @Override
-    public ResponseEntity<List<ResiduoModel>> getResiduos(@PathVariable String cnpj) {
-        return ResponseEntity.ok(empresaService.findResiduosByCnpj(cnpj));
+    public ResponseEntity<List<ResiduoResponseDTO>> getResiduos(@PathVariable String cnpj) {
+        List<ResiduoResponseDTO> responseDTOS = residuoMapper
+                .toResponseList(empresaService.findResiduosByCnpj(cnpj));
+
+        return ResponseEntity.ok(responseDTOS);
     }
 
     @Override
-    public ResponseEntity<ResiduoModel> getResiduo(@PathVariable String cnpj, @PathVariable String id) {
-        return ResponseEntity.ok(empresaService.findResiduoById(cnpj, id));
+    public ResponseEntity<ResiduoResponseDTO> getResiduo(@PathVariable String cnpj, @PathVariable String id) {
+        ResiduoResponseDTO responseDTO = residuoMapper.toResponse(empresaService.findResiduoById(cnpj, id));
+        return ResponseEntity.ok(responseDTO);
     }
 
     @Override
-    public ResponseEntity<Void> addResiduo(@PathVariable String cnpj,
-                                           @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
-        empresaService.addResiduo(cnpj, residuoRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ResiduoResponseDTO> addResiduo(@PathVariable String cnpj,
+                                                         @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
+        ResiduoResponseDTO responseDTO = residuoMapper.toResponse(empresaService.addResiduo(cnpj, residuoRequestDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
     @Override

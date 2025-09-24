@@ -2,9 +2,8 @@ package org.purpura.apimg.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.purpura.apimg.dto.conversa.chat.CreateChatRequestDTO;
-import org.purpura.apimg.dto.conversa.mensagem.MessageRequestDTO;
-import org.purpura.apimg.dto.conversa.mensagem.MessageResponseDTO;
+import org.purpura.apimg.dto.schemas.conversa.chat.CreateChatRequestDTO;
+import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
 import org.purpura.apimg.exception.conversa.ChatNotFoundException;
 import org.purpura.apimg.model.conversa.ChatModel;
 import org.purpura.apimg.model.conversa.MessageModel;
