@@ -20,11 +20,11 @@ public class ChatResponseDTO {
     private List<String> participants;
     @Schema(description = "Prévia da última mensagem do chat, ou nulo se for um chat novo")
     @Builder.Default
-    private String lastMessagePreview = null;  // opcional, pode ser nulo se for novo chat
+    private String lastMessagePreview = null;
     @Schema(description = "Data/hora da última atualização do chat (timestamp)")
     @Builder.Default
     private Long lastUpdated = System.currentTimeMillis();
     @Schema(description = "Quantidade de mensagens não lidas para o usuário")
     @Builder.Default
-    private int unreadCount = 0;            // calculado por usuário
+    private int unreadCount = 0;
 }

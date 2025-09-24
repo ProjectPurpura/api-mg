@@ -2,6 +2,7 @@ package org.purpura.apimg.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.purpura.apimg.dto.schemas.conversa.chat.ChatResponseDTO;
 import org.purpura.apimg.dto.schemas.conversa.chat.CreateChatRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
 import org.purpura.apimg.exception.conversa.ChatNotFoundException;
@@ -9,11 +10,15 @@ import org.purpura.apimg.model.conversa.ChatModel;
 import org.purpura.apimg.model.conversa.MessageModel;
 import org.purpura.apimg.repository.ChatRepository;
 import org.purpura.apimg.repository.MessageRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.HashSet;
 
 @Service
 public class ChatService {
@@ -40,6 +45,26 @@ public class ChatService {
                 .orElseThrow(() -> new ChatNotFoundException(chatId));
     }
 
+    public ChatResponseDTO getChatResponse(ChatModel chat, String userId) {
+        ChatResponseDTO dto = new ChatResponseDTO();
+        BeanUtils.copyProperties(chat, dto);
+        long unreadCount = messageRepository.countByChatIdAndSenderIdNotAndReadFalse(chat.getId(), userId);
+        dto.setUnreadCount((int) unreadCount);
+
+        String lastMessageId = chat.getLastMessageId();
+        if (lastMessageId != null) {
+            Optional<MessageModel> lastMessage = messageRepository.findById(chat.getLastMessageId());
+            lastMessage.ifPresent(messageModel -> dto.setLastMessagePreview(messageModel.getContent()));
+        }
+        return dto;
+    }
+
+    public List<ChatResponseDTO> findAllByParticipantId(String userId) {
+        List<ChatModel> chatModels = chatRepository.findByParticipantsContains(userId);
+        return chatModels.stream()
+                .map(e -> getChatResponse(e, userId))
+                .toList();
+    }
 
     @Transactional
     public ChatModel createChat(CreateChatRequestDTO createChatRequestDTO) {
@@ -92,9 +117,7 @@ public class ChatService {
         }
     }
 
-    public List<ChatModel> findAllByParticipantId(String id) {
-        return chatRepository.findByParticipantsContains(id);
-    }
+
 
     public List<MessageModel> findMessagesByChatId(String chatId) {
         return messageRepository.findByChatIdOrderByTimestampDesc(chatId);
@@ -106,5 +129,18 @@ public class ChatService {
             message.setRead(true);
         }
         messageRepository.saveAll(messages);
+
+        Set<String> chatIds = new HashSet<>();
+        for (MessageModel message : messages) {
+            if (message.getChatId() != null) {
+                chatIds.add(message.getChatId());
+            }
+        }
+        List<ChatModel> chats = chatRepository.findAllById(chatIds);
+        long now = System.currentTimeMillis();
+        for (ChatModel chat : chats) {
+            chat.setUpdatedTimestamp(now);
+        }
+        chatRepository.saveAll(chats);
     }
 }

@@ -30,12 +30,7 @@ public class ChatController implements ChatContract {
 
     @Override
     public ResponseEntity<List<ChatResponseDTO>> getAllByParticipantId(String id) {
-        return ResponseEntity.ok(service.findAllByParticipantId(id).stream()
-                .map(e -> {
-                    ChatResponseDTO dto = new ChatResponseDTO();
-                    BeanUtils.copyProperties(e, dto);
-                    return dto;
-                }).toList());
+        return ResponseEntity.ok(service.findAllByParticipantId(id));
     }
 
     @Override
