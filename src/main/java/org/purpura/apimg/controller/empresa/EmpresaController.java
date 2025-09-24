@@ -1,8 +1,14 @@
 package org.purpura.apimg.controller.empresa;
 
 import jakarta.validation.Valid;
+import org.purpura.apimg.controller.empresa.openapi.ChavePixContract;
+import org.purpura.apimg.controller.empresa.openapi.EmpresaContract;
+import org.purpura.apimg.controller.empresa.openapi.EnderecoContract;
+import org.purpura.apimg.controller.empresa.openapi.ResiduoContract;
+import org.purpura.apimg.dto.mapper.empresa.ChavePixMapper;
 import org.purpura.apimg.dto.mapper.empresa.EmpresaMapper;
 import org.purpura.apimg.dto.mapper.empresa.EnderecoMapper;
+import org.purpura.apimg.dto.mapper.empresa.ResiduoMapper;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
@@ -25,17 +31,27 @@ import org.purpura.apimg.model.empresa.EnderecoModel;
 @RestController
 @RequestMapping("/empresa")
 @Validated
-public class EmpresaController implements EmpresaContract {
+public class EmpresaController implements EmpresaContract, EnderecoContract, ResiduoContract, ChavePixContract {
 
     private final EmpresaService empresaService;
     private final EmpresaMapper empresaMapper;
     private final EnderecoMapper enderecoMapper;
+    private final ChavePixMapper chavePixMapper;
+    private final ResiduoMapper residuoMapper;
 
 
-    public EmpresaController(EmpresaService empresaService, EmpresaMapper empresaMapper, EnderecoMapper enderecoMapper) {
+    public EmpresaController(
+            EmpresaService empresaService,
+            EmpresaMapper empresaMapper,
+            EnderecoMapper enderecoMapper,
+            ChavePixMapper chavePixMapper,
+            ResiduoMapper residuoMapper
+    ) {
         this.empresaService = empresaService;
         this.empresaMapper = empresaMapper;
         this.enderecoMapper = enderecoMapper;
+        this.chavePixMapper = chavePixMapper;
+        this.residuoMapper = residuoMapper;
     }
 
     // region EMPRESA
