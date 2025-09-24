@@ -11,6 +11,7 @@ import org.purpura.apimg.dto.mapper.empresa.EnderecoMapper;
 import org.purpura.apimg.dto.mapper.empresa.ResiduoMapper;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaResponseDTO;
+import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.model.empresa.ChavePixModel;
@@ -94,20 +95,21 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     // endregion EMPRESA
     // region Endereco endpoints
     @Override
-    public ResponseEntity<List<EnderecoModel>> getEnderecos(@PathVariable String cnpj) {
-        return ResponseEntity.ok(empresaService.findEnderecosByCnpj(cnpj));
+    public ResponseEntity<List<EnderecoResponseDTO>> getEnderecos(@PathVariable String cnpj) {
+        return ResponseEntity.ok(enderecoMapper.toResponseList(empresaService.findEnderecosByCnpj(cnpj)));
     }
 
     @Override
-    public ResponseEntity<EnderecoModel> getEndereco(@PathVariable String cnpj, @PathVariable String id) {
-        return ResponseEntity.ok(empresaService.findEnderecoById(cnpj, id));
+    public ResponseEntity<EnderecoResponseDTO> getEndereco(@PathVariable String cnpj, @PathVariable String id) {
+        return ResponseEntity.ok(enderecoMapper.toResponse(empresaService.findEnderecoById(cnpj, id)));
     }
 
     @Override
-    public ResponseEntity<Void> addEndereco(@PathVariable String cnpj,
+    public ResponseEntity<EnderecoResponseDTO> addEndereco(@PathVariable String cnpj,
                                             @RequestBody @Valid EnderecoRequestDTO endereco) {
-        empresaService.addEndereco(cnpj, endereco);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        EnderecoModel enderecoModel = empresaService.addEndereco(cnpj, endereco);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(enderecoMapper.toResponse(enderecoModel));
     }
 
     @Override

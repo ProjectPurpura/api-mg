@@ -87,7 +87,7 @@ public class EmpresaService {
         return empresaModel.getEnderecos();
     }
 
-    public void addEndereco(String cnpj, EnderecoRequestDTO endereco) {
+        public EnderecoModel addEndereco(String cnpj, EnderecoRequestDTO endereco) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
 
         EnderecoModel enderecoModel = new EnderecoModel();
@@ -96,6 +96,8 @@ public class EmpresaService {
 
         empresaModel.getEnderecos().add(enderecoModel);
         empresaRepository.save(empresaModel);
+
+        return enderecoModel;
     }
 
     public void deleteEndereco(String cnpj, String id) {
