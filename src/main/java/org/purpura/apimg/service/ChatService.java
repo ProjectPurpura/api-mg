@@ -99,4 +99,12 @@ public class ChatService {
     public List<MessageModel> findMessagesByChatId(String chatId) {
         return messageRepository.findByChatIdOrderByTimestampDesc(chatId);
     }
+
+    public void markMessagesRead(List<String> messageIds) {
+        List<MessageModel> messages = messageRepository.findAllById(messageIds);
+        for (MessageModel message : messages) {
+            message.setRead(true);
+        }
+        messageRepository.saveAll(messages);
+    }
 }
