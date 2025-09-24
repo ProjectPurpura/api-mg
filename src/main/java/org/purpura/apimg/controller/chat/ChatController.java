@@ -1,5 +1,6 @@
 package org.purpura.apimg.controller.chat;
 
+import org.purpura.apimg.controller.chat.oas.ChatContract;
 import org.purpura.apimg.dto.schemas.conversa.chat.ChatResponseDTO;
 import org.purpura.apimg.dto.schemas.conversa.chat.CreateChatRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
