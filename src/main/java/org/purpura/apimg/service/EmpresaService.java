@@ -134,13 +134,15 @@ public class EmpresaService {
         return findChavePixById(cnpj, id, empresaModel);
     }
 
-    public void addChavePix(String cnpj, ChavePixRequestDTO chavePixRequestDTO) {
+    public ChavePixModel addChavePix(String cnpj, ChavePixRequestDTO chavePixRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
         ChavePixModel model = new ChavePixModel();
         BeanUtils.copyProperties(chavePixRequestDTO, model);
         model.setId(java.util.UUID.randomUUID().toString());
         empresaModel.getChavesPix().add(model);
         empresaRepository.save(empresaModel);
+
+        return model;
     }
 
     public void deleteChavePix(String cnpj, String id) {
@@ -176,13 +178,14 @@ public class EmpresaService {
         return findResiduoById(cnpj, id, empresaModel);
     }
 
-    public void addResiduo(String cnpj, ResiduoRequestDTO residuoRequestDTO) {
+    public ResiduoModel addResiduo(String cnpj, ResiduoRequestDTO residuoRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
         ResiduoModel residuoModel = new ResiduoModel();
         BeanUtils.copyProperties(residuoRequestDTO, residuoModel);
         residuoModel.setId(java.util.UUID.randomUUID().toString());
         empresaModel.getResiduos().add(residuoModel);
         empresaRepository.save(empresaModel);
+        return residuoModel;
     }
 
     public void deleteResiduo(String cnpj, String id) {

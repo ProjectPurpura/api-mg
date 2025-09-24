@@ -15,9 +15,7 @@ import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
-import org.purpura.apimg.model.empresa.ChavePixModel;
-import org.purpura.apimg.model.empresa.EmpresaModel;
-import org.purpura.apimg.model.empresa.ResiduoModel;
+import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
 import org.purpura.apimg.search.base.SearchKeywords;
 import org.purpura.apimg.service.EmpresaService;
 import org.springframework.http.HttpStatus;
@@ -89,8 +87,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
 
     @Override
     public ResponseEntity<List<EmpresaResponseDTO>> search(@RequestParam @SearchKeywords @Valid String query) {
-        List<EmpresaModel> found = empresaService.search(query);
-        return ResponseEntity.ok(empresaMapper.toResponseList(found));
+        return ResponseEntity.ok(empresaMapper.toResponseList(empresaService.search(query)));
     }
 
     // endregion EMPRESA
@@ -133,25 +130,35 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     // region Chave Pix
     @Override
     public ResponseEntity<List<ChavePixResponseDTO>> getChaves(@PathVariable String cnpj) {
-        return ResponseEntity.ok(empresaService.findChavesPixByCnpj(cnpj));
+        List<ChavePixResponseDTO> chavesPix = chavePixMapper
+                .toResponseList(empresaService.findChavesPixByCnpj(cnpj));
+
+        return ResponseEntity.ok(chavesPix);
     }
 
     @Override
     public ResponseEntity<ChavePixResponseDTO> getChave(@PathVariable String cnpj, @PathVariable String id) {
-        return ResponseEntity.ok(empresaService.findChavePixById(cnpj, id));
+        ChavePixResponseDTO chavePix = chavePixMapper
+                .toResponse(empresaService.findChavePixById(cnpj, id));
+
+        return ResponseEntity.ok(chavePix);
     }
 
     @Override
     public ResponseEntity<ChavePixResponseDTO> addChave(@PathVariable String cnpj,
                                          @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
-        empresaService.addChavePix(cnpj, chavePixRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        ChavePixResponseDTO response = chavePixMapper
+                .toResponse(empresaService.addChavePix(cnpj, chavePixRequestDTO));
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(response);
     }
 
     @Override
     public ResponseEntity<Void> updateChavePix(@PathVariable String cnpj,
                                                @PathVariable String id,
                                                @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
+
         empresaService.updateChavePix(cnpj, id, chavePixRequestDTO);
         return ResponseEntity.ok().build();
     }
@@ -167,20 +174,24 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
 
     // region Resíduo
     @Override
-    public ResponseEntity<List<ResiduoModel>> getResiduos(@PathVariable String cnpj) {
-        return ResponseEntity.ok(empresaService.findResiduosByCnpj(cnpj));
+    public ResponseEntity<List<ResiduoResponseDTO>> getResiduos(@PathVariable String cnpj) {
+        List<ResiduoResponseDTO> responseDTOS = residuoMapper
+                .toResponseList(empresaService.findResiduosByCnpj(cnpj));
+
+        return ResponseEntity.ok(responseDTOS);
     }
 
     @Override
-    public ResponseEntity<ResiduoModel> getResiduo(@PathVariable String cnpj, @PathVariable String id) {
-        return ResponseEntity.ok(empresaService.findResiduoById(cnpj, id));
+    public ResponseEntity<ResiduoResponseDTO> getResiduo(@PathVariable String cnpj, @PathVariable String id) {
+        ResiduoResponseDTO responseDTO = residuoMapper.toResponse(empresaService.findResiduoById(cnpj, id));
+        return ResponseEntity.ok(responseDTO);
     }
 
     @Override
-    public ResponseEntity<Void> addResiduo(@PathVariable String cnpj,
-                                           @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
-        empresaService.addResiduo(cnpj, residuoRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ResiduoResponseDTO> addResiduo(@PathVariable String cnpj,
+                                                         @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
+        ResiduoResponseDTO responseDTO = residuoMapper.toResponse(empresaService.addResiduo(cnpj, residuoRequestDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
     @Override
