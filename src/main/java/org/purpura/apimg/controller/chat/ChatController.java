@@ -1,6 +1,7 @@
 package org.purpura.apimg.controller.chat;
 
 import org.purpura.apimg.controller.chat.oas.ChatContract;
+import org.purpura.apimg.dto.mapper.conversa.MessageMapper;
 import org.purpura.apimg.dto.schemas.conversa.chat.ChatResponseDTO;
 import org.purpura.apimg.dto.schemas.conversa.chat.CreateChatRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
@@ -24,9 +25,11 @@ import java.util.List;
 public class ChatController implements ChatContract {
 
     private final ChatService service;
+    private final MessageMapper messageMapper;
 
-    public ChatController(ChatService service) {
+    public ChatController(ChatService service, MessageMapper messageMapper) {
         this.service = service;
+        this.messageMapper = messageMapper;
     }
 
     @Override
@@ -59,14 +62,9 @@ public class ChatController implements ChatContract {
 
     @Override
     public ResponseEntity<List<MessageResponseDTO>> getMessagesByChatId(String chatId) {
-        List<MessageModel> messageModels = service.findMessagesByChatId(chatId);
-        List<MessageResponseDTO> responseDTOS = messageModels.stream()
-                .map(x -> {
-                    MessageResponseDTO dto = new MessageResponseDTO();
-                    BeanUtils.copyProperties(x, dto);
-                    return dto;
-                }).toList();
 
+        List<MessageResponseDTO> responseDTOS = messageMapper
+                .toResponseList(service.findMessagesByChatId(chatId));
         return ResponseEntity.ok(responseDTOS);
     }
 
