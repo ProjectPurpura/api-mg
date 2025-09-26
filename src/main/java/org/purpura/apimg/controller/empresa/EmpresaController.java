@@ -18,8 +18,6 @@ import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
 import org.purpura.apimg.search.base.SearchKeywords;
 import org.purpura.apimg.service.EmpresaService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,165 +57,141 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     // region EMPRESA
     @Override
     @CacheEvict(value = {"empresas", "empresa"}, allEntries = true)
-    public ResponseEntity<Void> save(@RequestBody @Valid EmpresaRequestDTO empresaRequestDTO) {
+    public void save(@RequestBody @Valid EmpresaRequestDTO empresaRequestDTO) {
         empresaService.insert(empresaRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
     @Cacheable(value = "empresa", key = "#cnpj")
-    public ResponseEntity<EmpresaResponseDTO> get(@PathVariable String cnpj) {
-        return ResponseEntity.ok(empresaMapper.toResponse(empresaService.findByCnpj(cnpj)));
+    public EmpresaResponseDTO get(@PathVariable String cnpj) {
+        return empresaMapper.toResponse(empresaService.findByCnpj(cnpj));
     }
 
     @Override
     @CacheEvict(value = {"empresas", "empresa"}, allEntries = true)
-    public ResponseEntity<Void> delete(@PathVariable String cnpj) {
+    public void delete(@PathVariable String cnpj) {
         empresaService.deleteByCnpj(cnpj);
-        return ResponseEntity.ok().build();
     }
 
     @Override
     @CacheEvict(value = {"empresas", "empresa"}, allEntries = true)
-    public ResponseEntity<Void> update(@PathVariable String cnpj,
-                                       @RequestBody @Valid EmpresaRequestDTO empresaUpdateRequestDTO)
-    {
+    public void update(@PathVariable String cnpj,
+                      @RequestBody @Valid EmpresaRequestDTO empresaUpdateRequestDTO) {
         empresaService.update(cnpj, empresaUpdateRequestDTO);
-        return ResponseEntity.ok().build();
     }
 
     @Override
     @Cacheable(value = "empresas")
-    public ResponseEntity<List<EmpresaResponseDTO>> findAll() {
-        return ResponseEntity.ok(empresaMapper.toResponseList(empresaService.findAll()));
+    public List<EmpresaResponseDTO> findAll() {
+        return empresaMapper.toResponseList(empresaService.findAll());
     }
 
     @Override
     @Cacheable(value = "empresas", key = "#query")
-    public ResponseEntity<List<EmpresaResponseDTO>> search(@RequestParam @SearchKeywords @Valid String query) {
-        return ResponseEntity.ok(empresaMapper.toResponseList(empresaService.search(query)));
+    public List<EmpresaResponseDTO> search(@RequestParam @SearchKeywords @Valid String query) {
+        return empresaMapper.toResponseList(empresaService.search(query));
     }
     // endregion EMPRESA
     // region Endereco endpoints
     @Override
     @Cacheable(value = "enderecos", key = "#cnpj")
-    public ResponseEntity<List<EnderecoResponseDTO>> getEnderecos(@PathVariable String cnpj) {
-        return ResponseEntity.ok(enderecoMapper.toResponseList(empresaService.findEnderecosByCnpj(cnpj)));
+    public List<EnderecoResponseDTO> getEnderecos(@PathVariable String cnpj) {
+        return enderecoMapper.toResponseList(empresaService.findEnderecosByCnpj(cnpj));
     }
 
     @Override
     @Cacheable(value = "endereco", key = "#cnpj + ':' + #id")
-    public ResponseEntity<EnderecoResponseDTO> getEndereco(@PathVariable String cnpj, @PathVariable String id) {
-        return ResponseEntity.ok(enderecoMapper.toResponse(empresaService.findEnderecoById(cnpj, id)));
+    public EnderecoResponseDTO getEndereco(@PathVariable String cnpj, @PathVariable String id) {
+        return enderecoMapper.toResponse(empresaService.findEnderecoById(cnpj, id));
     }
 
     @Override
     @CacheEvict(value = {"enderecos", "endereco"}, key = "#cnpj", allEntries = true)
-    public ResponseEntity<EnderecoResponseDTO> addEndereco(@PathVariable String cnpj,
-                                            @RequestBody @Valid EnderecoRequestDTO endereco) {
+    public EnderecoResponseDTO addEndereco(@PathVariable String cnpj,
+                                           @RequestBody @Valid EnderecoRequestDTO endereco) {
         EnderecoModel enderecoModel = empresaService.addEndereco(cnpj, endereco);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(enderecoMapper.toResponse(enderecoModel));
+        return enderecoMapper.toResponse(enderecoModel);
     }
 
     @Override
     @CacheEvict(value = {"enderecos", "endereco"}, key = "#cnpj", allEntries = true)
-    public ResponseEntity<Void> updateEndereco(@PathVariable String cnpj,
-                                               @PathVariable String id,
-                                               @RequestBody @Valid EnderecoRequestDTO endereco) {
+    public void updateEndereco(@PathVariable String cnpj,
+                              @PathVariable String id,
+                              @RequestBody @Valid EnderecoRequestDTO endereco) {
         empresaService.updateEndereco(cnpj, id, endereco);
-        return ResponseEntity.ok().build();
     }
 
     @Override
     @CacheEvict(value = {"enderecos", "endereco"}, key = "#cnpj", allEntries = true)
-    public ResponseEntity<Void> deleteEndereco(@PathVariable String cnpj,
-                                               @PathVariable String id) {
+    public void deleteEndereco(@PathVariable String cnpj,
+                              @PathVariable String id) {
         empresaService.deleteEndereco(cnpj, id);
-        return ResponseEntity.ok().build();
     }
     // endregion Endereco endpoints
     // region Chave Pix
     @Override
     @Cacheable(value = "chavesPix", key = "#cnpj")
-    public ResponseEntity<List<ChavePixResponseDTO>> getChaves(@PathVariable String cnpj) {
-        List<ChavePixResponseDTO> chavesPix = chavePixMapper
-                .toResponseList(empresaService.findChavesPixByCnpj(cnpj));
-
-        return ResponseEntity.ok(chavesPix);
+    public List<ChavePixResponseDTO> getChaves(@PathVariable String cnpj) {
+        return chavePixMapper.toResponseList(empresaService.findChavesPixByCnpj(cnpj));
     }
 
     @Override
     @Cacheable(value = "chavePix", key = "#cnpj + ':' + #id")
-    public ResponseEntity<ChavePixResponseDTO> getChave(@PathVariable String cnpj, @PathVariable String id) {
-        ChavePixResponseDTO chavePix = chavePixMapper
-                .toResponse(empresaService.findChavePixById(cnpj, id));
-
-        return ResponseEntity.ok(chavePix);
+    public ChavePixResponseDTO getChave(@PathVariable String cnpj, @PathVariable String id) {
+        return chavePixMapper.toResponse(empresaService.findChavePixById(cnpj, id));
     }
 
     @Override
     @CacheEvict(value = {"chavesPix", "chavePix"}, key = "#cnpj", allEntries = true)
-    public ResponseEntity<ChavePixResponseDTO> addChave(@PathVariable String cnpj,
-                                         @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
-        ChavePixResponseDTO response = chavePixMapper
-                .toResponse(empresaService.addChavePix(cnpj, chavePixRequestDTO));
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(response);
+    public ChavePixResponseDTO addChave(@PathVariable String cnpj,
+                                        @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
+        return chavePixMapper.toResponse(empresaService.addChavePix(cnpj, chavePixRequestDTO));
     }
 
     @Override
     @CacheEvict(value = {"chavesPix", "chavePix"}, key = "#cnpj", allEntries = true)
-    public ResponseEntity<Void> updateChavePix(@PathVariable String cnpj,
-                                               @PathVariable String id,
-                                               @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
-
+    public void updateChavePix(@PathVariable String cnpj,
+                              @PathVariable String id,
+                              @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
         empresaService.updateChavePix(cnpj, id, chavePixRequestDTO);
-        return ResponseEntity.ok().build();
     }
 
     @Override
     @CacheEvict(value = {"chavesPix", "chavePix"}, key = "#cnpj", allEntries = true)
-    public ResponseEntity<Void> deleteChave(@PathVariable String cnpj,
-                                            @PathVariable String id) {
+    public void deleteChave(@PathVariable String cnpj,
+                            @PathVariable String id) {
         empresaService.deleteChavePix(cnpj, id);
-        return ResponseEntity.ok().build();
     }
-
     // endregion Chave Pix
-
     // region Resíduo
     @Override
     @Cacheable(value = "residuos", key = "#cnpj")
-    public ResponseEntity<List<ResiduoResponseDTO>> getResiduos(@PathVariable String cnpj) {
-        return ResponseEntity.ok(residuoMapper.toResponseList(empresaService.findResiduosByCnpj(cnpj)));
+    public List<ResiduoResponseDTO> getResiduos(@PathVariable String cnpj) {
+        return residuoMapper.toResponseList(empresaService.findResiduosByCnpj(cnpj));
     }
 
     @Override
     @Cacheable(value = "residuo", key = "#cnpj + ':' + #id")
-    public ResponseEntity<ResiduoResponseDTO> getResiduo(@PathVariable String cnpj, @PathVariable String id) {
-        return ResponseEntity.ok(residuoMapper.toResponse(empresaService.findResiduoById(cnpj, id)));
+    public ResiduoResponseDTO getResiduo(@PathVariable String cnpj, @PathVariable String id) {
+        return residuoMapper.toResponse(empresaService.findResiduoById(cnpj, id));
     }
 
     @Override
     @CacheEvict(value = {"residuos", "residuo"}, key = "#cnpj", allEntries = true)
-    public ResponseEntity<ResiduoResponseDTO> addResiduo(@PathVariable String cnpj, @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(residuoMapper.toResponse(empresaService.addResiduo(cnpj, residuoRequestDTO)));
+    public ResiduoResponseDTO addResiduo(@PathVariable String cnpj, @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
+        return residuoMapper.toResponse(empresaService.addResiduo(cnpj, residuoRequestDTO));
     }
 
     @Override
     @CacheEvict(value = {"residuos", "residuo"}, key = "#cnpj", allEntries = true)
-    public ResponseEntity<Void> updateResiduo(@PathVariable String cnpj, @PathVariable String id, @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
+    public void updateResiduo(@PathVariable String cnpj, @PathVariable String id, @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
         empresaService.updateResiduo(cnpj, id, residuoRequestDTO);
-        return ResponseEntity.ok().build();
     }
 
     @Override
     @CacheEvict(value = {"residuos", "residuo"}, key = "#cnpj", allEntries = true)
-    public ResponseEntity<Void> deleteResiduo(@PathVariable String cnpj, @PathVariable String id) {
+    public void deleteResiduo(@PathVariable String cnpj, @PathVariable String id) {
         empresaService.deleteResiduo(cnpj, id);
-        return ResponseEntity.ok().build();
     }
     // endregion Resíduo
 }

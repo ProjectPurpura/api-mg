@@ -8,9 +8,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixResponseDTO;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
@@ -28,7 +29,8 @@ public interface ChavePixContract {
         }
     )
     @GetMapping(value = "/{cnpj}/pix/all")
-    ResponseEntity<List<ChavePixResponseDTO>> getChaves(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj);
+    @ResponseStatus(HttpStatus.OK)
+    List<ChavePixResponseDTO> getChaves(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj);
 
     @Operation(summary = "Buscar chave Pix por ID", description = "Retorna uma chave Pix específica da empresa.",
         responses = {
@@ -42,8 +44,9 @@ public interface ChavePixContract {
         }
     )
     @GetMapping(value = "/{cnpj}/pix/{id}")
-    ResponseEntity<ChavePixResponseDTO> getChave(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
-                                                 @Parameter(description = "ID da chave Pix", example = "1") @PathVariable String id);
+    @ResponseStatus(HttpStatus.OK)
+    ChavePixResponseDTO getChave(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
+                                 @Parameter(description = "ID da chave Pix", example = "1") @PathVariable String id);
 
     @Operation(summary = "Adicionar chave Pix à empresa", description = "Adiciona uma nova chave Pix à empresa.",
         responses = {
@@ -56,8 +59,9 @@ public interface ChavePixContract {
         }
     )
     @PostMapping(value = "/{cnpj}/pix")
-    ResponseEntity<ChavePixResponseDTO> addChave(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
-                                  @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO);
+    @ResponseStatus(HttpStatus.CREATED)
+    ChavePixResponseDTO addChave(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
+                                 @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO);
 
     @Operation(summary = "Atualizar chave Pix da empresa", description = "Atualiza uma chave Pix da empresa.",
         responses = {
@@ -66,9 +70,10 @@ public interface ChavePixContract {
         }
     )
     @PutMapping(value = "/{cnpj}/pix/{id}")
-    ResponseEntity<Void> updateChavePix(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
-                                        @Parameter(description = "ID da chave Pix", example = "1") @PathVariable String id,
-                                        @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO);
+    @ResponseStatus(HttpStatus.OK)
+    void updateChavePix(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
+                        @Parameter(description = "ID da chave Pix", example = "1") @PathVariable String id,
+                        @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO);
 
     @Operation(summary = "Excluir chave Pix da empresa", description = "Exclui uma chave Pix da empresa.",
         responses = {
@@ -77,6 +82,7 @@ public interface ChavePixContract {
         }
     )
     @DeleteMapping(value = "/{cnpj}/pix/{id}")
-    ResponseEntity<Void> deleteChave(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
-                                     @Parameter(description = "ID da chave Pix", example = "1") @PathVariable String id);
+    @ResponseStatus(HttpStatus.OK)
+    void deleteChave(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
+                     @Parameter(description = "ID da chave Pix", example = "1") @PathVariable String id);
 }

@@ -8,9 +8,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
@@ -28,7 +29,8 @@ public interface ResiduoContract {
         }
     )
     @GetMapping(value = "/{cnpj}/residuo/all")
-    ResponseEntity<List<ResiduoResponseDTO>> getResiduos(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj);
+    @ResponseStatus(HttpStatus.OK)
+    List<ResiduoResponseDTO> getResiduos(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj);
 
     @Operation(summary = "Buscar resíduo por ID", description = "Retorna um resíduo específico da empresa.",
         responses = {
@@ -42,8 +44,9 @@ public interface ResiduoContract {
         }
     )
     @GetMapping(value = "/{cnpj}/residuo/{id}")
-    ResponseEntity<ResiduoResponseDTO> getResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
-                                            @Parameter(description = "ID do resíduo", example = "1") @PathVariable String id);
+    @ResponseStatus(HttpStatus.OK)
+    ResiduoResponseDTO getResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
+                                  @Parameter(description = "ID do resíduo", example = "1") @PathVariable String id);
 
     @Operation(summary = "Adicionar resíduo à empresa", description = "Adiciona um novo resíduo à empresa.",
         responses = {
@@ -57,8 +60,9 @@ public interface ResiduoContract {
         }
     )
     @PostMapping(value = "/{cnpj}/residuo")
-    ResponseEntity<ResiduoResponseDTO> addResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
-                                    @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO);
+    @ResponseStatus(HttpStatus.CREATED)
+    ResiduoResponseDTO addResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
+                                  @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO);
 
     @Operation(summary = "Atualizar resíduo da empresa", description = "Atualiza um resíduo da empresa.",
         responses = {
@@ -67,17 +71,19 @@ public interface ResiduoContract {
         }
     )
     @PutMapping(value = "/{cnpj}/residuo/{id}")
-    ResponseEntity<Void> updateResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
-                                       @Parameter(description = "ID do resíduo", example = "1") @PathVariable String id,
-                                       @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO);
+    @ResponseStatus(HttpStatus.OK)
+    void updateResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
+                       @Parameter(description = "ID do resíduo", example = "1") @PathVariable String id,
+                       @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO);
 
     @Operation(summary = "Excluir resíduo da empresa", description = "Exclui um resíduo da empresa.",
         responses = {
             @ApiResponse(responseCode = "200", description = "Resíduo excluído com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Empresa / Resíduo não encontrado")
+            @ApiResponse(responseCode = "404", description = "Resíduo não encontrado")
         }
     )
     @DeleteMapping(value = "/{cnpj}/residuo/{id}")
-    ResponseEntity<Void> deleteResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
-                                       @Parameter(description = "ID do resíduo", example = "1") @PathVariable String id);
+    @ResponseStatus(HttpStatus.OK)
+    void deleteResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
+                       @Parameter(description = "ID do resíduo", example = "1") @PathVariable String id);
 }
