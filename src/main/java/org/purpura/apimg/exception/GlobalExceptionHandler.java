@@ -2,7 +2,9 @@ package org.purpura.apimg.exception;
 
 import com.mongodb.DuplicateKeyException;
 import jakarta.validation.ConstraintViolationException;
+import org.purpura.apimg.exception.base.DuplicateDataException;
 import org.purpura.apimg.exception.base.NotFoundException;
+import org.purpura.apimg.exception.conversa.ChatAlreadyExistsException;
 import org.purpura.apimg.exception.empresa.EmpresaNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(String.format("Internal Server Error: %s", ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(String.format("Erro interno do servidor, por favor contate os programadores de back-end: %s", ex.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -57,8 +59,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(empresaNotFoundException.getMessage());
     }
 
+    @ExceptionHandler(DuplicateDataException.class)
+    public ResponseEntity<String> handleDuplicateDataException(DuplicateDataException duplicateDataException) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(duplicateDataException.getMessage());
+    }
+
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<String> handleDuplicateKeyException(DuplicateKeyException duplicateKeyException) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(duplicateKeyException.getMessage());
+    }
+
+    @ExceptionHandler(ChatAlreadyExistsException.class)
+    public ResponseEntity<String> handle(ChatAlreadyExistsException chatAlreadyExistsException) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(chatAlreadyExistsException.getMessage());
     }
 }

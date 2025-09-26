@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChavePixResponseDTO {
+public class ChavePixResponseDTO implements java.io.Serializable {
     @Schema(description = "Identificador único da chave Pix", example = "c1a2b3c4-d5e6-7890-abcd-1234567890ef")
     private String id;
     @Schema(description = "Valor da chave Pix", example = "felix@email.com")

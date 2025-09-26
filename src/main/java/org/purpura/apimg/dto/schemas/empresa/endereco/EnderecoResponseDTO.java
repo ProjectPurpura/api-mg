@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "DTO para respostas de endereço de empresa.")
-public class EnderecoResponseDTO {
+public class EnderecoResponseDTO implements java.io.Serializable {
     @Schema(description = "Identificador único do endereço.", example = "e1234567-abcd-8901-2345-abcdef123456")
     private String id;
 
@@ -27,4 +27,3 @@ public class EnderecoResponseDTO {
     @Schema(description = "Número do endereço.", example = "100")
     private Integer numero;
 }
-
