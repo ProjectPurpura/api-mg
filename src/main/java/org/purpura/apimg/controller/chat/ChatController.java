@@ -1,5 +1,6 @@
 package org.purpura.apimg.controller.chat;
 
+import jakarta.validation.Valid;
 import org.purpura.apimg.controller.chat.oas.ChatContract;
 import org.purpura.apimg.dto.mapper.conversa.ChatMapper;
 import org.purpura.apimg.dto.mapper.conversa.MessageMapper;
@@ -59,7 +60,7 @@ public class ChatController implements ChatContract {
     }
 
     @Override
-    public void processMessage(MessageRequestDTO dto) {
+    public void processMessage(@Payload MessageRequestDTO dto) {
         service.sendMessage(dto);
     }
 

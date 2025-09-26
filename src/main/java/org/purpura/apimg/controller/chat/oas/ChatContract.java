@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import org.purpura.apimg.dto.schemas.conversa.chat.ChatResponseDTO;
 import org.purpura.apimg.dto.schemas.conversa.chat.CreateChatRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
@@ -67,6 +68,7 @@ public interface ChatContract {
             required = true,
             content = @Content(schema = @Schema(implementation = CreateChatRequestDTO.class))
         )
+        @org.springframework.web.bind.annotation.RequestBody @Valid
         CreateChatRequestDTO createChatRequestDTO
     );
 

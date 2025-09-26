@@ -69,7 +69,7 @@ public class ChatService {
 
     @Transactional
     public ChatModel createChat(CreateChatRequestDTO createChatRequestDTO) {
-        if (!chatRepository.findByParticipantsContainingAll(createChatRequestDTO.getParticipants()).isEmpty()) {
+        if (!chatRepository.findByParticipantsContainingAll(createChatRequestDTO.getParticipants().toArray(new String[]{})).isEmpty()) {
             throw new ChatAlreadyExistsException(createChatRequestDTO.getParticipants());
         }
         ChatModel model = ChatModel.builder()
