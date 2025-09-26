@@ -67,6 +67,11 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
         return empresaMapper.toResponse(empresaService.findByCnpj(cnpj));
     }
 
+    @Cacheable(value = "empresa", key = "#userHash")
+    public EmpresaResponseDTO getByUserHash(@PathVariable String userHash) {
+        return empresaMapper.toResponse(empresaService.findByUserHash(userHash));
+    }
+
     @Override
     @CacheEvict(value = {"empresas", "empresa"}, allEntries = true)
     public void delete(@PathVariable String cnpj) {
