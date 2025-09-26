@@ -8,6 +8,7 @@ import org.purpura.apimg.common.Constants;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -34,4 +35,7 @@ public class EmpresaModel {
 
     @Builder.Default
     private ArrayList<ResiduoModel> residuos = new ArrayList<>();
+
+    @Builder.Default
+    private String userHash = UUID.randomUUID().toString();
 }
