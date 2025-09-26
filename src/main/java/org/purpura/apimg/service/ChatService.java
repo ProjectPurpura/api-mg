@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.purpura.apimg.dto.schemas.conversa.chat.ChatResponseDTO;
 import org.purpura.apimg.dto.schemas.conversa.chat.CreateChatRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
+import org.purpura.apimg.exception.conversa.ChatAlreadyExistsException;
 import org.purpura.apimg.exception.conversa.ChatNotFoundException;
 import org.purpura.apimg.model.conversa.ChatModel;
 import org.purpura.apimg.model.conversa.MessageModel;
@@ -68,6 +69,9 @@ public class ChatService {
 
     @Transactional
     public ChatModel createChat(CreateChatRequestDTO createChatRequestDTO) {
+        if (!chatRepository.findByParticipantsContainingAll(createChatRequestDTO.getParticipants()).isEmpty()) {
+            throw new ChatAlreadyExistsException(createChatRequestDTO.getParticipants());
+        }
         ChatModel model = ChatModel.builder()
                 .participants(createChatRequestDTO.getParticipants())
                 .build();

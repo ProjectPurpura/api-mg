@@ -55,7 +55,8 @@ public interface ChatContract {
         responses = {
                 @ApiResponse(responseCode = "201", description = "Chat criado com sucesso",
                         content = @Content(mediaType = "application/json", schema = @Schema(implementation = ChatResponseDTO.class))),
-                @ApiResponse(responseCode = "400", description = "Requisição inválida")
+                @ApiResponse(responseCode = "400", description = "Requisição inválida"),
+                @ApiResponse(responseCode = "409", description = "Chat já existe para os participantes dados")
         }
     )
     @ResponseStatus(HttpStatus.CREATED)
@@ -84,22 +85,6 @@ public interface ChatContract {
         @PathVariable String chatId
     );
 
-    @Operation(
-        summary = "Enviar mensagem para o chat (WebSocket)",
-        description = "Processa e envia uma mensagem para o chat especificado via WebSocket.",
-        responses = {
-                @ApiResponse(responseCode = "200", description = "Mensagem enviada com sucesso"),
-                @ApiResponse(responseCode = "400", description = "Payload da mensagem inválido")
-        }
-    )
-    @ResponseStatus(HttpStatus.OK)
-    @MessageMapping("/chat")
-    void processMessage(
-        @Payload
-        @Parameter(description = "DTO contendo os dados da mensagem", required = true)
-        MessageRequestDTO dto
-    );
-
 
     @Operation(
             summary = "Buscar mensagens de um chat",
@@ -112,6 +97,23 @@ public interface ChatContract {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{chatId}/messages")
     List<MessageResponseDTO> getMessagesByChatId(@PathVariable String chatId);
+
+    @Operation(
+            summary = "Enviar mensagem para o chat (WebSocket)",
+            description = "Processa e envia uma mensagem para o chat especificado via WebSocket.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Mensagem enviada com sucesso"),
+                    @ApiResponse(responseCode = "400", description = "Payload da mensagem inválido")
+            }
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @MessageMapping("/chat")
+    void processMessage(
+            @Payload
+            @Parameter(description = "DTO contendo os dados da mensagem", required = true)
+            MessageRequestDTO dto
+    );
+
 
     @Operation(
             summary = "Marcar mensagens como lidas (WebSocket)",
