@@ -8,7 +8,6 @@ import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageResponseDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageBatchRequestDTO;
 import org.purpura.apimg.model.conversa.ChatModel;
-import org.purpura.apimg.model.conversa.MessageModel;
 import org.purpura.apimg.service.ChatService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
