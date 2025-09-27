@@ -43,7 +43,7 @@ public interface EmpresaContract {
     @ResponseStatus(HttpStatus.OK)
     EmpresaResponseDTO get(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj);
 
-    @GetMapping(value = "/{userHash}")
+    @GetMapping(value = "/hash/{userHash}")
     @ResponseStatus(HttpStatus.OK)
     EmpresaResponseDTO getByUserHash(@Parameter(description = "Hash de usuário da empresa", example = "s1253647a56aa780t0e0t195") @PathVariable String userHash);
 

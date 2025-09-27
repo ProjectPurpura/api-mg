@@ -1,6 +1,5 @@
 package org.purpura.apimg.controller.chat;
 
-import jakarta.validation.Valid;
 import org.purpura.apimg.controller.chat.oas.ChatContract;
 import org.purpura.apimg.dto.mapper.conversa.ChatMapper;
 import org.purpura.apimg.dto.mapper.conversa.MessageMapper;
