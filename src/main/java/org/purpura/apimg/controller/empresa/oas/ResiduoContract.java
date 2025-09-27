@@ -22,7 +22,7 @@ public interface ResiduoContract {
             @ApiResponse(responseCode = "200", description = "Resíduos retornados com sucesso",
                 content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ResiduoResponseDTO.class)
+                    schema = @Schema(implementation = ResiduoResponseDTO.class, type = "array")
                 )
             ),
             @ApiResponse(responseCode = "404", description = "Empresa não encontrada")
