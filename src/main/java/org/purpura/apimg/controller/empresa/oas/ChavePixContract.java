@@ -22,7 +22,7 @@ public interface ChavePixContract {
             @ApiResponse(responseCode = "200", description = "Chaves Pix retornadas com sucesso",
                 content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ChavePixResponseDTO.class)
+                    schema = @Schema(implementation = ChavePixResponseDTO.class, type = "array")
                 )
             ),
             @ApiResponse(responseCode = "404", description = "Empresa não encontrada")

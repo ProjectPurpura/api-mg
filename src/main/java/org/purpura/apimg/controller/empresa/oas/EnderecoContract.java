@@ -22,7 +22,7 @@ public interface EnderecoContract {
             @ApiResponse(responseCode = "200", description = "Endereços retornados com sucesso",
                 content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = EnderecoResponseDTO.class)
+                    schema = @Schema(implementation = EnderecoResponseDTO.class, type = "array")
                 )
             )
         }

@@ -69,6 +69,17 @@ public interface EmpresaContract {
     void update(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
                 @RequestBody @Valid EmpresaRequestDTO empresaUpdateRequestDTO);
 
+    @Operation(summary = "Buscar todas as empresas", description = "Retorna todas as empresas.",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Empresas encontradas",
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = EmpresaResponseDTO.class, type = "array")
+                )
+            ),
+            @ApiResponse(responseCode = "404", description = "Empresas não encontradas")
+        }
+    )
     @GetMapping(value = "/all")
     @ResponseStatus(HttpStatus.OK)
     List<EmpresaResponseDTO> findAll();
@@ -78,7 +89,7 @@ public interface EmpresaContract {
                     @ApiResponse(responseCode = "200", description = "Empresas encontradas",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = EmpresaResponseDTO.class)
+                                    schema = @Schema(implementation = EmpresaResponseDTO.class, type = "array")
                             )
                     )
             }

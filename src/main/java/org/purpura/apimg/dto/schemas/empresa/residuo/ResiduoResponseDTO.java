@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.purpura.apimg.model.empresa.Unidade;
+import org.purpura.apimg.model.empresa.TipoUnidade;
 
 @Data
 @Builder
@@ -13,18 +13,20 @@ import org.purpura.apimg.model.empresa.Unidade;
 @AllArgsConstructor
 @Schema(description = "Resíduo da empresa")
 public class ResiduoResponseDTO implements java.io.Serializable {
-    @Schema(description = "Identificador único do resíduo")
+    @Schema(description = "Identificador único do resíduo (UUID)", example = "123e4567-e89b-12d3-a456-426614174000")
     private String id;
-    @Schema(description = "Nome do resíduo")
+    @Schema(description = "Nome do resíduo", example = "Cana de açúcar")
     private String nome;
-    @Schema(description = "Descrição detalhada do resíduo")
+    @Schema(description = "Descrição detalhada do resíduo", example = "Cana de açúcar do estado de Minas Gerais")
     private String descricao;
-    @Schema(description = "Preço do resíduo")
+    @Schema(description = "Preço do resíduo", example = "10.50")
     private Double preco;
-    @Schema(description = "Unidade de medida do resíduo")
-    private Unidade unidade;
-    @Schema(description = "Quantidade em estoque do resíduo")
+    @Schema(description = "Peso do resíduo", example = "3.6")
+    private Double peso;
+    @Schema(description = "Unidade de medida do resíduo", example = "KG")
+    private TipoUnidade tipoUnidade;
+    @Schema(description = "Quantidade em estoque do resíduo", example = "100")
     private Long estoque;
-    @Schema(description = "URL da foto do resíduo")
+    @Schema(description = "URL da foto do resíduo", example = "https://www.naturalcura.com.br/wp-content/uploads/2017/12/benef%C3%ADcios-da-cana-de-a%C3%A7%C3%BAcar.jpg")
     private String urlFoto;
 }

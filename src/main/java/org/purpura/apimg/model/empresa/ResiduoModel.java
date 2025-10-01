@@ -17,8 +17,9 @@ public class ResiduoModel {
     private String id;
     private String nome;
     private String descricao;
+    private Double peso;
     private Double preco;
-    private Unidade unidade;
     private Long estoque;
+    private TipoUnidade tipoUnidade;
     private String urlFoto;
 }
