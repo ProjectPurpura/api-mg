@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
-import org.purpura.apimg.model.empresa.Unidade;
+import org.purpura.apimg.model.empresa.TipoUnidade;
 
 @Data
 @NoArgsConstructor
@@ -23,9 +23,14 @@ public class ResiduoRequestDTO {
     @Schema(description = "Descrição do resíduo.", example = "Resíduo reciclável de papelão.")
     private String descricao;
 
+    @Schema(description = "Peso do resíduo.", example = "10.50")
+    @NotNull(message = "O peso do resíduo precisa ser informado e não nulo")
+    @DecimalMin(value = "0.001", message = "O peso do resíduo deve ser maior que 0.001")
+    private Double peso;
+
     @Schema(description = "Preço do resíduo.", example = "10.50")
     @NotNull(message = "O preço do resíduo precisa ser informado e não nulo")
-    @DecimalMin(value = "0.01", message = "")
+    @DecimalMin(value = "0.001", message = "O preço do resíduo deve ser maior que 0.001")
     private Double preco;
 
     @Schema(description = "Quantidade em estoque.", example = "100")
@@ -34,11 +39,10 @@ public class ResiduoRequestDTO {
     private Long estoque;
 
     @Schema(description = "Unidade de medida do produto.", example = "KG")
-    @NotNull(message = "A unidade de medida do produto deve ser informada e não nula")
-    private Unidade unidade;
+    @NotNull(message = "A Unidade de medida do produto deve ser informada e não nula")
+    private TipoUnidade tipoUnidade;
 
-    @Schema(description = "URL da foto do resíduo.", example = "https://empresa.com/residuo.png")
+    @Schema(description = "URL da foto do resíduo.", example = "https://dicaparacasa.com.br/wp-content/uploads/2023/04/Quanto-Custa-1-kg-de-Papelao.png")
     @URL(message = "A URL da foto do resíduo precisa ser uma URL válida")
     private String urlFoto;
-
 }
