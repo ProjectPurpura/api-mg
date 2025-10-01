@@ -211,5 +211,15 @@ public class EmpresaService {
         BeanUtils.copyProperties(residuoRequestDTO, residuoModel);
         empresaRepository.save(empresaModel);
     }
+
+    public List<ResiduoModel> findAllResiduosView(String cnpj) {
+        List<EmpresaModel> empresaModels = findAll();
+
+        return empresaModels.stream()
+                .filter(e -> !e.getCnpj().equals(cnpj))
+                .map(EmpresaModel::getResiduos)
+                .flatMap(List::stream)
+                .toList();
+    }
     // endregion RESÍDUO
 }
