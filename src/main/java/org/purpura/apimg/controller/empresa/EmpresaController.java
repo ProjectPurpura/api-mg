@@ -178,7 +178,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
 
     @Override
     @Cacheable(value = "residuos", key = "#cnpj")
-    public List<ResiduoResponseDTO> getAllResiduosByCnpj(String cnpj) {
+    public List<ResiduoResponseDTO> getAllResiduosByCnpj(@PathVariable String cnpj) {
         return residuoMapper.toResponseList(empresaService.findResiduosByCnpj(cnpj));
     }
 
