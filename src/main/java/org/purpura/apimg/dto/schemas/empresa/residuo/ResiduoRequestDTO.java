@@ -45,4 +45,10 @@ public class ResiduoRequestDTO {
     @Schema(description = "URL da foto do resíduo.", example = "https://dicaparacasa.com.br/wp-content/uploads/2023/04/Quanto-Custa-1-kg-de-Papelao.png")
     @URL(message = "A URL da foto do resíduo precisa ser uma URL válida")
     private String urlFoto;
+
+    @Schema(description = "ID do endereço do CD do resíduo. (UUID)", example = "123e4567-e89b-12d3-a456-426614174000")
+    private String idEndereco;
+
+    @Schema(description = "ID da chave pix do CC da empresa. (UUID)", example = "123e45A7-e89b-42d3-a456-426b14574000")
+    private String idChavePix;
 }
