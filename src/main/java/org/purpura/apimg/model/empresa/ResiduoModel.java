@@ -22,4 +22,6 @@ public class ResiduoModel {
     private Long estoque;
     private TipoUnidade tipoUnidade;
     private String urlFoto;
+    private String idEndereco;
+    private String idChavePix;
 }

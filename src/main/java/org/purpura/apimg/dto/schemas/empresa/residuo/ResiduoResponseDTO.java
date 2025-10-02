@@ -29,4 +29,8 @@ public class ResiduoResponseDTO implements java.io.Serializable {
     private Long estoque;
     @Schema(description = "URL da foto do resíduo", example = "https://www.naturalcura.com.br/wp-content/uploads/2017/12/benef%C3%ADcios-da-cana-de-a%C3%A7%C3%BAcar.jpg")
     private String urlFoto;
+    @Schema(description = "ID do endereço do CD do resíduo. (UUID)", example = "123e4567-e89b-12d3-a456-426614174000")
+    private String idEndereco;
+    @Schema(description = "ID da chave pix do CC da empresa. (UUID)", example = "123e45A7-e89b-42d3-a456-426b14574000")
+    private String idChavePix;
 }

@@ -169,16 +169,23 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
     // endregion Chave Pix
     // region Resíduo
-    @Override
-    @Cacheable(value = "residuos", key = "#cnpj")
-    public List<ResiduoResponseDTO> getResiduos(@PathVariable String cnpj) {
-        return residuoMapper.toResponseList(empresaService.findResiduosByCnpj(cnpj));
-    }
 
     @Override
     @Cacheable(value = "residuo", key = "#cnpj + ':' + #id")
     public ResiduoResponseDTO getResiduo(@PathVariable String cnpj, @PathVariable String id) {
         return residuoMapper.toResponse(empresaService.findResiduoById(cnpj, id));
+    }
+
+    @Override
+    @Cacheable(value = "residuos", key = "#cnpj")
+    public List<ResiduoResponseDTO> getAllResiduosByCnpj(String cnpj) {
+        return residuoMapper.toResponseList(empresaService.findResiduosByCnpj(cnpj));
+    }
+
+    @Override
+    public List<ResiduoResponseDTO> getAllResiduosView(@PathVariable String cnpj, @RequestParam Integer limit, @RequestParam Integer page) {
+        return residuoMapper
+                .toResponseList(empresaService.findAllResiduosView(cnpj, limit, page));
     }
 
     @Override
