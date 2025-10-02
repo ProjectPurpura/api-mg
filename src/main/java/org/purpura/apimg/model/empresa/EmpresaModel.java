@@ -35,7 +35,4 @@ public class EmpresaModel {
 
     @Builder.Default
     private ArrayList<ResiduoModel> residuos = new ArrayList<>();
-
-    @Builder.Default
-    private String userHash = UUID.randomUUID().toString();
 }

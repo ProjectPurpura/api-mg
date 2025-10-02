@@ -16,6 +16,4 @@ public class EmpresaResponseDTO implements java.io.Serializable {
     private String nome;
     @Schema(description = "URL da foto da empresa.", example = "https://empresa.com/foto.png")
     private String urlFoto;
-    @Schema(description = "Hash do usuário.", example = "12345678000195")
-    private String userHash;
 }
