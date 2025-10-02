@@ -51,11 +51,6 @@ public class EmpresaService {
                 .orElseThrow(() -> new EmpresaNotFoundException(cnpj));
     }
 
-    public EmpresaModel findByUserHash(String hash) {
-        return empresaRepository.findByUserHash(hash)
-                .orElseThrow(() -> new EmpresaNotFoundException(hash));
-    }
-
     public List<EmpresaModel> findAll() {
         return empresaRepository.findAll();
     }
