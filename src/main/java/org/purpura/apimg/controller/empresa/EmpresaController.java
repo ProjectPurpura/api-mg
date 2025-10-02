@@ -67,11 +67,6 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
         return empresaMapper.toResponse(empresaService.findByCnpj(cnpj));
     }
 
-    @Cacheable(value = "empresa", key = "#userHash")
-    public EmpresaResponseDTO getByUserHash(@PathVariable String userHash) {
-        return empresaMapper.toResponse(empresaService.findByUserHash(userHash));
-    }
-
     @Override
     @CacheEvict(value = {"empresas", "empresa"}, allEntries = true)
     public void delete(@PathVariable String cnpj) {
@@ -178,7 +173,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
 
     @Override
     @Cacheable(value = "residuos", key = "#cnpj")
-    public List<ResiduoResponseDTO> getAllResiduosByCnpj(String cnpj) {
+    public List<ResiduoResponseDTO> getAllResiduosByCnpj(@PathVariable String cnpj) {
         return residuoMapper.toResponseList(empresaService.findResiduosByCnpj(cnpj));
     }
 
