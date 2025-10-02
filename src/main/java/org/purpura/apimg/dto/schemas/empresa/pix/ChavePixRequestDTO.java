@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.purpura.apimg.validation.chavepix.PixKey;
 
 @Data
 @NoArgsConstructor
@@ -22,5 +23,6 @@ public class ChavePixRequestDTO {
     @Schema(description = "Valor da chave Pix.", example = "123e4567-e89b-12d3-a456-426614174000")
     @NotNull(message = "A chave pix precisa ser informada e não nula")
     @Pattern(regexp = "\\S{5,77}", message = "A chave pix deve ter entre 5 e 77 caracteres alfanuméricos latinos ou especiais (ASCII) sem espaços.")
+    @PixKey(message = "A chave pix deve ser um CPF, CNPJ, telefone, email ou UUID aleatório válido.")
     private String chave;
 }
