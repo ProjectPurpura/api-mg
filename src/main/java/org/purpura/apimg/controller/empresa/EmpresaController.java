@@ -183,8 +183,9 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    public List<ResiduoResponseDTO> getAllResiduosView(@PathVariable String cnpj) {
-        return residuoMapper.toResponseList(empresaService.findAllResiduosView(cnpj));
+    public List<ResiduoResponseDTO> getAllResiduosView(@PathVariable String cnpj, @RequestParam Integer limit, @RequestParam Integer page) {
+        return residuoMapper
+                .toResponseList(empresaService.findAllResiduosView(cnpj, limit, page));
     }
 
     @Override

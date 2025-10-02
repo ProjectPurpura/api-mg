@@ -200,10 +200,6 @@ public class EmpresaService {
         empresaRepository.save(empresaModel);
     }
 
-    public List<ResiduoModel> findResiduosByCnpj(String cnpj) {
-        EmpresaModel empresaModel = findByCnpj(cnpj);
-        return empresaModel.getResiduos();
-    }
 
     public void updateResiduo(String cnpj, String id, ResiduoRequestDTO residuoRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
@@ -212,13 +208,23 @@ public class EmpresaService {
         empresaRepository.save(empresaModel);
     }
 
-    public List<ResiduoModel> findAllResiduosView(String cnpj) {
+    public List<ResiduoModel> findResiduosByCnpj(String cnpj) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        return empresaModel.getResiduos();
+    }
+
+    public List<ResiduoModel> findAllResiduosView(String cnpj, Integer limit, Integer currentPage) {
         List<EmpresaModel> empresaModels = findAll();
+
+        int skip = (currentPage != null && limit != null) ? (currentPage - 1) * limit : 0;
+        int max = (limit != null) ? limit : Integer.MAX_VALUE;
 
         return empresaModels.stream()
                 .filter(e -> !e.getCnpj().equals(cnpj))
                 .map(EmpresaModel::getResiduos)
                 .flatMap(List::stream)
+                .skip(skip)
+                .limit(max)
                 .toList();
     }
     // endregion RESÍDUO
