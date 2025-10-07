@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -15,7 +16,7 @@ import java.util.List;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
+@Validated
 public interface EnderecoContract {
     @Operation(summary = "Listar endereços da empresa", description = "Retorna todos os endereços de uma empresa.",
         responses = {
