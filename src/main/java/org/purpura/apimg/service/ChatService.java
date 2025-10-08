@@ -2,6 +2,7 @@ package org.purpura.apimg.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.purpura.apimg.dto.schemas.conversa.chat.ChatResponseDTO;
 import org.purpura.apimg.dto.schemas.conversa.chat.CreateChatRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
@@ -22,23 +23,12 @@ import java.util.Set;
 import java.util.HashSet;
 
 @Service
+@RequiredArgsConstructor
 public class ChatService {
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
     private final StringRedisTemplate redisTemplate;
     private final ObjectMapper objectMapper;
-
-    public ChatService(
-            ChatRepository chatRepository,
-            MessageRepository messageRepository,
-            StringRedisTemplate redisTemplate,
-            ObjectMapper objectMapper
-    ) {
-        this.messageRepository = messageRepository;
-        this.chatRepository = chatRepository;
-        this.redisTemplate = redisTemplate;
-        this.objectMapper = objectMapper;
-    }
 
     public ChatModel findById(String chatId) {
         return chatRepository

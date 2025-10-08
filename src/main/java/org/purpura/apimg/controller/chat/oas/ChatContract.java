@@ -15,11 +15,13 @@ import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
+@Validated
 public interface ChatContract {
 
     @Operation(

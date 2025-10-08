@@ -1,5 +1,6 @@
 package org.purpura.apimg.service;
 
+import lombok.RequiredArgsConstructor;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
@@ -21,14 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EmpresaService {
     private final EmpresaRepository empresaRepository;
     private final EmpresaSearcher empresaSearcher;
 
-    public EmpresaService(EmpresaRepository empresaRepository, EmpresaSearcher empresaSearcher) {
-        this.empresaRepository = empresaRepository;
-        this.empresaSearcher = empresaSearcher;
-    }
     // region EMPRESA
 
     @Transactional

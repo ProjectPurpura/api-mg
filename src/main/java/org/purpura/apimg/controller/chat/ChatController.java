@@ -1,5 +1,6 @@
 package org.purpura.apimg.controller.chat;
 
+import lombok.RequiredArgsConstructor;
 import org.purpura.apimg.controller.chat.oas.ChatContract;
 import org.purpura.apimg.dto.mapper.conversa.ChatMapper;
 import org.purpura.apimg.dto.mapper.conversa.MessageMapper;
@@ -17,18 +18,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/chat")
-@Validated
+@RequiredArgsConstructor
 public class ChatController implements ChatContract {
 
     private final ChatService service;
     private final MessageMapper messageMapper;
     private final ChatMapper chatMapper;
-
-    public ChatController(ChatService service, MessageMapper messageMapper, ChatMapper chatMapper) {
-        this.service = service;
-        this.messageMapper = messageMapper;
-        this.chatMapper = chatMapper;
-    }
 
     @Override
     public List<ChatResponseDTO> getAllByParticipantId(String id) {

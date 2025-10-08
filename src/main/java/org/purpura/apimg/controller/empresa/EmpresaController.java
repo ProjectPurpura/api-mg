@@ -1,6 +1,7 @@
 package org.purpura.apimg.controller.empresa;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.purpura.apimg.controller.empresa.oas.ChavePixContract;
 import org.purpura.apimg.controller.empresa.oas.EmpresaContract;
 import org.purpura.apimg.controller.empresa.oas.EnderecoContract;
@@ -30,7 +31,7 @@ import org.springframework.cache.annotation.CacheEvict;
 
 @RestController
 @RequestMapping("/empresa")
-@Validated
+@RequiredArgsConstructor
 public class EmpresaController implements EmpresaContract, EnderecoContract, ResiduoContract, ChavePixContract {
 
     private final EmpresaService empresaService;
@@ -38,21 +39,6 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     private final EnderecoMapper enderecoMapper;
     private final ChavePixMapper chavePixMapper;
     private final ResiduoMapper residuoMapper;
-
-
-    public EmpresaController(
-            EmpresaService empresaService,
-            EmpresaMapper empresaMapper,
-            EnderecoMapper enderecoMapper,
-            ChavePixMapper chavePixMapper,
-            ResiduoMapper residuoMapper
-    ) {
-        this.empresaService = empresaService;
-        this.empresaMapper = empresaMapper;
-        this.enderecoMapper = enderecoMapper;
-        this.chavePixMapper = chavePixMapper;
-        this.residuoMapper = residuoMapper;
-    }
 
     // region EMPRESA
     @Override
