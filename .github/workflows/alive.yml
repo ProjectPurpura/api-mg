@@ -1,7 +1,7 @@
 name: API Health Check
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
   schedule:
     - cron: "*/14 * * * *" # Roda a cada 14 minutos (tempo do idle)
 
