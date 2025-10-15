@@ -13,6 +13,7 @@ import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageBatchRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageResponseDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.validation.annotation.Validated;
@@ -54,17 +55,17 @@ public interface ChatContract {
 
     @Operation(
         summary = "Criar novo chat",
-        description = "Cria um novo chat com os participantes informados.",
+        description = "Cria um novo chat com os participantes informados se já existir retorna ele.",
         responses = {
                 @ApiResponse(responseCode = "201", description = "Chat criado com sucesso",
                         content = @Content(mediaType = "application/json", schema = @Schema(implementation = ChatResponseDTO.class))),
+                @ApiResponse(responseCode = "200", description = "Um chat existente foi encontrado.",
+                        content = @Content(mediaType = "application/json", schema = @Schema(implementation = ChatResponseDTO.class))),
                 @ApiResponse(responseCode = "400", description = "Requisição inválida"),
-                @ApiResponse(responseCode = "409", description = "Chat já existe para os participantes dados")
         }
     )
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/new")
-    ChatResponseDTO createChat(
+    ResponseEntity<ChatResponseDTO> createChat(
         @RequestBody(
             description = "DTO contendo os participantes para o novo chat",
             required = true,
