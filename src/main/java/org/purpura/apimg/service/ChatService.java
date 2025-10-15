@@ -57,13 +57,17 @@ public class ChatService {
                 .toList();
     }
 
-    @Transactional
-    public ChatModel createChat(CreateChatRequestDTO createChatRequestDTO) {
+    public ChatModel getExistingChatByParticipants(List<String> participants) {
         List<ChatModel> existingChats = chatRepository
-                .findByParticipantsContainingAll(createChatRequestDTO.getParticipants().toArray(new String[]{}));
+                .findByParticipantsContainingAll(participants.toArray(new String[]{}));
         if (!existingChats.isEmpty()) {
             return existingChats.getFirst();
         }
+        return null;
+    }
+
+    @Transactional
+    public ChatModel saveChat(CreateChatRequestDTO createChatRequestDTO) {
         ChatModel model = ChatModel.builder()
                 .participants(createChatRequestDTO.getParticipants())
                 .build();

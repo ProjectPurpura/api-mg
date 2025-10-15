@@ -9,9 +9,11 @@ import org.purpura.apimg.dto.schemas.conversa.chat.CreateChatRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageRequestDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageResponseDTO;
 import org.purpura.apimg.dto.schemas.conversa.mensagem.MessageBatchRequestDTO;
+import org.purpura.apimg.model.conversa.ChatModel;
 import org.purpura.apimg.service.ChatService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,9 +39,16 @@ public class ChatController implements ChatContract {
     }
 
     @Override
-    public ChatResponseDTO createChat(CreateChatRequestDTO createChatRequestDTO) {
-        return chatMapper
-                .toResponse(service.createChat(createChatRequestDTO));
+    public ResponseEntity<ChatResponseDTO> createChat(CreateChatRequestDTO createChatRequestDTO) {
+        ChatModel existingChat = service.getExistingChatByParticipants(createChatRequestDTO.getParticipants());
+        if (existingChat != null) {
+            return ResponseEntity.ok(chatMapper.toResponse(existingChat));
+        }
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(chatMapper
+                    .toResponse(service.saveChat(createChatRequestDTO))
+                );
     }
 
     @Override
