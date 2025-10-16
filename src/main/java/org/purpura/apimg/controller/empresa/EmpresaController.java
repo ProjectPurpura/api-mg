@@ -6,9 +6,6 @@ import org.purpura.apimg.controller.empresa.oas.ChavePixContract;
 import org.purpura.apimg.controller.empresa.oas.EmpresaContract;
 import org.purpura.apimg.controller.empresa.oas.EnderecoContract;
 import org.purpura.apimg.controller.empresa.oas.ResiduoContract;
-import org.purpura.apimg.dto.mapper.empresa.ChavePixMapper;
-import org.purpura.apimg.dto.mapper.empresa.EmpresaMapper;
-import org.purpura.apimg.dto.mapper.empresa.EnderecoMapper;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
@@ -89,8 +86,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     @CacheEvict(value = {"enderecos", "endereco"}, key = "#cnpj", allEntries = true)
     public EnderecoResponseDTO addEndereco(@PathVariable String cnpj,
                                            @RequestBody @Valid EnderecoRequestDTO endereco) {
-        EnderecoModel enderecoModel = empresaService.addEndereco(cnpj, endereco);
-        return enderecoMapper.toResponse(enderecoModel);
+        return empresaService.addEndereco(cnpj, endereco);
     }
 
     @Override
@@ -112,20 +108,20 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     @Override
     @Cacheable(value = "chavesPix", key = "#cnpj")
     public List<ChavePixResponseDTO> getChaves(@PathVariable String cnpj) {
-        return chavePixMapper.toResponseList(empresaService.findChavesPixByCnpj(cnpj));
+        return empresaService.findChavesPixByCnpj(cnpj);
     }
 
     @Override
     @Cacheable(value = "chavePix", key = "#cnpj + ':' + #id")
     public ChavePixResponseDTO getChave(@PathVariable String cnpj, @PathVariable String id) {
-        return chavePixMapper.toResponse(empresaService.findChavePixById(cnpj, id));
+        return empresaService.getChavePix(cnpj, id);
     }
 
     @Override
     @CacheEvict(value = {"chavesPix", "chavePix"}, key = "#cnpj", allEntries = true)
     public ChavePixResponseDTO addChave(@PathVariable String cnpj,
                                         @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
-        return chavePixMapper.toResponse(empresaService.addChavePix(cnpj, chavePixRequestDTO));
+        return empresaService.addChavePix(cnpj, chavePixRequestDTO);
     }
 
     @Override

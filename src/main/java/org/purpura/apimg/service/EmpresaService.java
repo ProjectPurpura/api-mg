@@ -10,6 +10,7 @@ import org.purpura.apimg.dto.schemas.empresa.base.EmpresaResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
 import org.purpura.apimg.exception.empresa.EmpresaNotFoundException;
@@ -143,44 +144,48 @@ public class EmpresaService {
 
     // region CHAVE PIX
 
-    private ChavePixModel findChavePixById(String cnpj, String id, EmpresaModel empresaModel) {
+    private ChavePixModel findChavePixById(String id, EmpresaModel empresaModel) {
         return empresaModel.getChavesPix().stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new ChavePixNotFoundException(cnpj, id));
+                .orElseThrow(() -> new ChavePixNotFoundException(empresaModel.getCnpj(), id));
     }
 
-    public ChavePixModel findChavePixById(String cnpj, String id) {
+    private ChavePixModel findChavePixById(String cnpj, String id) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        return findChavePixById(cnpj, id, empresaModel);
+        return findChavePixById(id, empresaModel);
     }
 
-    public ChavePixModel addChavePix(String cnpj, ChavePixRequestDTO chavePixRequestDTO) {
+    public ChavePixResponseDTO getChavePix(String cnpj, String id) {
+        return chavePixMapper
+                .toResponse(findChavePixById(id, cnpj));
+    }
+
+    public ChavePixResponseDTO addChavePix(String cnpj, ChavePixRequestDTO chavePixRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        ChavePixModel model = new ChavePixModel();
-        BeanUtils.copyProperties(chavePixRequestDTO, model);
-        model.setId(java.util.UUID.randomUUID().toString());
+        ChavePixModel model = chavePixMapper.toModel(chavePixRequestDTO);
         empresaModel.getChavesPix().add(model);
         empresaRepository.save(empresaModel);
 
-        return model;
+        return chavePixMapper.toResponse(model);
     }
 
     public void deleteChavePix(String cnpj, String id) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        ChavePixModel chavePixModel = findChavePixById(cnpj, id, empresaModel);
+        ChavePixModel chavePixModel = findChavePixById(id, empresaModel);
         empresaModel.getChavesPix().remove(chavePixModel);
         empresaRepository.save(empresaModel);
     }
 
-    public List<ChavePixModel> findChavesPixByCnpj(String cnpj) {
+    public List<ChavePixResponseDTO> findChavesPixByCnpj(String cnpj) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        return empresaModel.getChavesPix();
+        return chavePixMapper
+                .toResponseList(empresaModel.getChavesPix());
     }
 
     public void updateChavePix(String cnpj, String id, ChavePixRequestDTO chavePixRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        ChavePixModel chavePixModel = findChavePixById(cnpj, id, empresaModel);
+        ChavePixModel chavePixModel = findChavePixById(id, empresaModel);
         BeanUtils.copyProperties(chavePixRequestDTO, chavePixModel);
         empresaRepository.save(empresaModel);
     }

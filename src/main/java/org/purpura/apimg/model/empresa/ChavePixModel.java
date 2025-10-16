@@ -15,7 +15,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class ChavePixModel {
     @Id
-    private String id;
+    @Builder.Default
+    private String id = java.util.UUID.randomUUID().toString();
 
     @Indexed(unique = true)
     private String chave;
