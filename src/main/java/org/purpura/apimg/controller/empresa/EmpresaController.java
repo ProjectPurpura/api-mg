@@ -33,7 +33,6 @@ import org.springframework.cache.annotation.CacheEvict;
 public class EmpresaController implements EmpresaContract, EnderecoContract, ResiduoContract, ChavePixContract {
 
     private final EmpresaService empresaService;
-    private final EmpresaMapper empresaMapper;
     private final EnderecoMapper enderecoMapper;
     private final ChavePixMapper chavePixMapper;
 
@@ -47,7 +46,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     @Override
     @Cacheable(value = "empresa", key = "#cnpj")
     public EmpresaResponseDTO get(@PathVariable String cnpj) {
-        return empresaMapper.toResponse(empresaService.findByCnpj(cnpj));
+        return empresaService.getByCnpj(cnpj);
     }
 
     @Override
@@ -66,13 +65,13 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     @Override
     @Cacheable(value = "empresas")
     public List<EmpresaResponseDTO> findAll() {
-        return empresaMapper.toResponseList(empresaService.findAll());
+        return empresaService.getAll();
     }
 
     @Override
     @Cacheable(value = "empresas", key = "#query")
     public List<EmpresaResponseDTO> search(@RequestParam @SearchKeywords @Valid String query) {
-        return empresaMapper.toResponseList(empresaService.search(query));
+        return empresaService.search(query);
     }
     // endregion EMPRESA
     // region Endereco endpoints

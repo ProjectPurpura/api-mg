@@ -6,6 +6,7 @@ import org.purpura.apimg.dto.mapper.empresa.EmpresaMapper;
 import org.purpura.apimg.dto.mapper.empresa.EnderecoMapper;
 import org.purpura.apimg.dto.mapper.empresa.ResiduoMapper;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.base.EmpresaResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
@@ -40,15 +41,14 @@ public class EmpresaService {
 
     @Transactional
     public void insert(EmpresaRequestDTO empresaRequestDTO) {
-        EmpresaModel empresaModel = new EmpresaModel();
-        BeanUtils.copyProperties(empresaRequestDTO, empresaModel);
+        EmpresaModel empresaModel = empresaMapper.toModel(empresaRequestDTO);
         empresaRepository.save(empresaModel);
     }
 
     @Transactional
-    public void update(String cnpj, EmpresaRequestDTO empresaUpdateRequestDTO) {
+    public void update(String cnpj, EmpresaRequestDTO empresaRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        BeanUtils.copyProperties(empresaUpdateRequestDTO, empresaModel);
+        BeanUtils.copyProperties(empresaRequestDTO, empresaModel);
         empresaRepository.save(empresaModel);
     }
 
@@ -58,8 +58,17 @@ public class EmpresaService {
                 .orElseThrow(() -> new EmpresaNotFoundException(cnpj));
     }
 
-    public List<EmpresaModel> findAll() {
+    public EmpresaResponseDTO getByCnpj(String cnpj) {
+        return empresaMapper.toResponse(findByCnpj(cnpj));
+    }
+
+    private List<EmpresaModel> findAll() {
         return empresaRepository.findAll();
+    }
+
+    public List<EmpresaResponseDTO> getAll() {
+        return empresaMapper
+                .toResponseList(findAll().stream().toList());
     }
 
 
@@ -68,8 +77,9 @@ public class EmpresaService {
         empresaRepository.delete(findByCnpj(cnpj));
     }
 
-    public List<EmpresaModel> search(String keywords) {
-        return empresaSearcher.search(findAll(), keywords);
+    public List<EmpresaResponseDTO> search(String keywords) {
+        return empresaMapper
+                .toResponseList(empresaSearcher.search(findAll(), keywords));
     }
 
     // endregion EMPRESA
