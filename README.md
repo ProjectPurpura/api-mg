@@ -74,6 +74,63 @@ Bem-vindo à API do MongoDB do Purpura! Esta API foi projetada para gerenciar e 
 
 -----
 
+## **Uso de Padrões de Design 📐**
+
+Este projeto utiliza diversos **padrões de design** clássicos (**criacionais**, **estruturais**, **comportamentais**) em todo o seu código-fonte. Abaixo está um resumo, arquivo por arquivo, de onde e como esses padrões são aplicados:
+
+
+### 1. Padrão Builder (Criacional)
+- `src/main/java/org/purpura/apimg/service/ChatService.java`
+  Linhas 71, 91: Usa `ChatModel.builder()` e `MessageModel.builder()` para construir objetos de forma **flexível** e **passo a passo**.
+- `src/main/java/org/purpura/apimg/search/base/KeywordSearcher.java`
+  Linha 16: Usa `SearchOptions.builder().build()` para construir opções de pesquisa.
+- `src/main/java/org/purpura/apimg/config/redis/RedisCacheConfig.java`
+  Linha 34: Usa `RedisCacheManager.builder(...)` para a configuração do gerenciador de cache.
+
+
+### 2. Padrão Adapter (Estrutural)
+- `src/main/java/org/purpura/apimg/config/redis/RedisPubSubConfig.java`
+  Linha 8: Usa `MessageListenerAdapter` do Spring Data Redis para **adaptar interfaces de *message listener***.
+
+
+### 3. Stereotypes do Spring (Padrões Singleton/Factory/Proxy)
+As anotações do Spring como `@Configuration`, `@Component`, `@Service`, `@Repository` e `@ControllerAdvice` são **proxies** para os padrões **Singleton**, **Factory** e **Proxy** no container IoC do Spring.
+
+**@Configuration (Singleton/Factory):**
+- `src/main/java/org/purpura/apimg/config/SecurityConfig.java` (Linha 8)
+- `src/main/java/org/purpura/apimg/config/WebSocketConfig.java` (Linha 9)
+- `src/main/java/org/purpura/apimg/config/jackson/JacksonConfig.java` (Linha 8)
+- `src/main/java/org/purpura/apimg/config/CorsConfig.java` (Linha 6)
+- `src/main/java/org/purpura/apimg/config/redis/RedisCacheConfig.java` (Linha 15)
+- `src/main/java/org/purpura/apimg/config/redis/RedisPubSubConfig.java` (Linha 10)
+- `src/main/java/org/purpura/apimg/config/redis/RedisMessageConfig.java` (Linha 13)
+
+**@Component (Singleton/Proxy):**
+- `src/main/java/org/purpura/apimg/search/empresa/EmpresaSearcher.java` (Linha 7)
+- `src/main/java/org/purpura/apimg/dto/mapper/conversa/MessageMapper.java` (Linha 9)
+- `src/main/java/org/purpura/apimg/dto/mapper/empresa/EmpresaMapper.java` (Linha 10)
+- `src/main/java/org/purpura/apimg/dto/mapper/empresa/EnderecoMapper.java` (Linha 9)
+- `src/main/java/org/purpura/apimg/dto/mapper/empresa/ResiduoMapper.java` (Linha 10)
+- `src/main/java/org/purpura/apimg/dto/mapper/empresa/ChavePixMapper.java` (Linha 9)
+- `src/main/java/org/purpura/apimg/dto/mapper/conversa/ChatMapper.java` (Linha 9)
+
+**@Service (Singleton/Proxy):**
+- `src/main/java/org/purpura/apimg/service/EmpresaService.java` (Linha 24)
+- `src/main/java/org/purpura/apimg/service/ChatService.java` (Linha 25)
+- `src/main/java/org/purpura/apimg/config/redis/RedisMessageSubscriber.java` (Linha 8)
+
+**@Repository (Singleton/Proxy):**
+- `src/main/java/org/purpura/apimg/repository/MessageRepository.java` (Linha 9)
+- `src/main/java/org/purpura/apimg/repository/EmpresaRepository.java` (Linha 7)
+- `src/main/java/org/purpura/apimg/repository/ChatRepository.java` (Linha 10)
+
+**@ControllerAdvice (Proxy/Singleton):**
+- `src/main/java/org/purpura/apimg/exception/GlobalExceptionHandler.java` (Linha 19)
+
+
+----
+
+
 ## **Contribuidores 💃**
 
 Criado com 💜 por:
