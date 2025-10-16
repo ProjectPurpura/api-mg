@@ -158,7 +158,7 @@ public class EmpresaService {
 
     public ChavePixResponseDTO getChavePix(String cnpj, String id) {
         return chavePixMapper
-                .toResponse(findChavePixById(id, cnpj));
+                .toResponse(findChavePixById(cnpj, id));
     }
 
     public ChavePixResponseDTO addChavePix(String cnpj, ChavePixRequestDTO chavePixRequestDTO) {
