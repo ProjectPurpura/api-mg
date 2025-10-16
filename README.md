@@ -128,9 +128,6 @@ As anotações do Spring como `@Configuration`, `@Component`, `@Service`, `@Repo
 - `src/main/java/org/purpura/apimg/exception/GlobalExceptionHandler.java` (Linha 19)
 
 
-### 4. Python (websocket-test-api-mg/main.py)
-- `class ChatClient:` (Linha 10): **Encapsula** a lógica do cliente de chat. Embora não seja um padrão GoF clássico, demonstra **encapsulamento** e pode ser estendido para os padrões **Facade** ou **Strategy**.
-
 ----
 
 
