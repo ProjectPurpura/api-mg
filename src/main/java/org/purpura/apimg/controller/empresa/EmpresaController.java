@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
-import org.purpura.apimg.model.empresa.EnderecoModel;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
 
