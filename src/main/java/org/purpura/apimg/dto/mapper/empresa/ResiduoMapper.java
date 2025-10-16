@@ -12,4 +12,9 @@ public class ResiduoMapper extends BeanUtilMapper<ResiduoModel, ResiduoRequestDT
     public ResiduoMapper() {
         super(ResiduoModel.class, ResiduoResponseDTO.class);
     }
+
+    @Override
+    public ResiduoResponseDTO toResponse(ResiduoModel model) {
+        return super.toResponse(model);
+    }
 }
