@@ -1,0 +1,20 @@
+meta {
+  name: get_all_residuos_view
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{BASE_URL}}/empresa/17424290000101/residuo/viewmain?limit=50&page=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 50
+  page: 1
+}
+
+settings {
+  encodeUrl: true
+}
