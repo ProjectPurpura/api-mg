@@ -6,9 +6,6 @@ import org.purpura.apimg.controller.empresa.oas.ChavePixContract;
 import org.purpura.apimg.controller.empresa.oas.EmpresaContract;
 import org.purpura.apimg.controller.empresa.oas.EnderecoContract;
 import org.purpura.apimg.controller.empresa.oas.ResiduoContract;
-import org.purpura.apimg.dto.mapper.empresa.ChavePixMapper;
-import org.purpura.apimg.dto.mapper.empresa.EmpresaMapper;
-import org.purpura.apimg.dto.mapper.empresa.EnderecoMapper;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
-import org.purpura.apimg.model.empresa.EnderecoModel;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
 
@@ -33,9 +29,6 @@ import org.springframework.cache.annotation.CacheEvict;
 public class EmpresaController implements EmpresaContract, EnderecoContract, ResiduoContract, ChavePixContract {
 
     private final EmpresaService empresaService;
-    private final EmpresaMapper empresaMapper;
-    private final EnderecoMapper enderecoMapper;
-    private final ChavePixMapper chavePixMapper;
 
     // region EMPRESA
     @Override
@@ -47,7 +40,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     @Override
     @Cacheable(value = "empresa", key = "#cnpj")
     public EmpresaResponseDTO get(@PathVariable String cnpj) {
-        return empresaMapper.toResponse(empresaService.findByCnpj(cnpj));
+        return empresaService.getByCnpj(cnpj);
     }
 
     @Override
@@ -66,34 +59,33 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     @Override
     @Cacheable(value = "empresas")
     public List<EmpresaResponseDTO> findAll() {
-        return empresaMapper.toResponseList(empresaService.findAll());
+        return empresaService.getAll();
     }
 
     @Override
     @Cacheable(value = "empresas", key = "#query")
     public List<EmpresaResponseDTO> search(@RequestParam @SearchKeywords @Valid String query) {
-        return empresaMapper.toResponseList(empresaService.search(query));
+        return empresaService.search(query);
     }
     // endregion EMPRESA
     // region Endereco endpoints
     @Override
     @Cacheable(value = "enderecos", key = "#cnpj")
     public List<EnderecoResponseDTO> getEnderecos(@PathVariable String cnpj) {
-        return enderecoMapper.toResponseList(empresaService.findEnderecosByCnpj(cnpj));
+        return empresaService.findEnderecosByCnpj(cnpj);
     }
 
     @Override
     @Cacheable(value = "endereco", key = "#cnpj + ':' + #id")
     public EnderecoResponseDTO getEndereco(@PathVariable String cnpj, @PathVariable String id) {
-        return enderecoMapper.toResponse(empresaService.findEnderecoById(cnpj, id));
+        return empresaService.getEndereco(cnpj, id);
     }
 
     @Override
     @CacheEvict(value = {"enderecos", "endereco"}, key = "#cnpj", allEntries = true)
     public EnderecoResponseDTO addEndereco(@PathVariable String cnpj,
                                            @RequestBody @Valid EnderecoRequestDTO endereco) {
-        EnderecoModel enderecoModel = empresaService.addEndereco(cnpj, endereco);
-        return enderecoMapper.toResponse(enderecoModel);
+        return empresaService.addEndereco(cnpj, endereco);
     }
 
     @Override
@@ -115,20 +107,20 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     @Override
     @Cacheable(value = "chavesPix", key = "#cnpj")
     public List<ChavePixResponseDTO> getChaves(@PathVariable String cnpj) {
-        return chavePixMapper.toResponseList(empresaService.findChavesPixByCnpj(cnpj));
+        return empresaService.findChavesPixByCnpj(cnpj);
     }
 
     @Override
     @Cacheable(value = "chavePix", key = "#cnpj + ':' + #id")
     public ChavePixResponseDTO getChave(@PathVariable String cnpj, @PathVariable String id) {
-        return chavePixMapper.toResponse(empresaService.findChavePixById(cnpj, id));
+        return empresaService.getChavePix(cnpj, id);
     }
 
     @Override
     @CacheEvict(value = {"chavesPix", "chavePix"}, key = "#cnpj", allEntries = true)
     public ChavePixResponseDTO addChave(@PathVariable String cnpj,
                                         @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
-        return chavePixMapper.toResponse(empresaService.addChavePix(cnpj, chavePixRequestDTO));
+        return empresaService.addChavePix(cnpj, chavePixRequestDTO);
     }
 
     @Override
