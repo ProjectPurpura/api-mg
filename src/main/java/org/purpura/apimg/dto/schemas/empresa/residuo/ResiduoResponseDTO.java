@@ -35,5 +35,5 @@ public class ResiduoResponseDTO implements java.io.Serializable {
     private String idChavePix;
 
     @Schema(description = "CNPJ da empresa que possui o resíduo", example = "12345678000195")
-    private String cnpjEmpresa;
+    private String empresaCnpj;
 }
