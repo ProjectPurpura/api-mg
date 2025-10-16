@@ -33,8 +33,6 @@ import org.springframework.cache.annotation.CacheEvict;
 public class EmpresaController implements EmpresaContract, EnderecoContract, ResiduoContract, ChavePixContract {
 
     private final EmpresaService empresaService;
-    private final EnderecoMapper enderecoMapper;
-    private final ChavePixMapper chavePixMapper;
 
     // region EMPRESA
     @Override
@@ -78,13 +76,13 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     @Override
     @Cacheable(value = "enderecos", key = "#cnpj")
     public List<EnderecoResponseDTO> getEnderecos(@PathVariable String cnpj) {
-        return enderecoMapper.toResponseList(empresaService.findEnderecosByCnpj(cnpj));
+        return empresaService.findEnderecosByCnpj(cnpj);
     }
 
     @Override
     @Cacheable(value = "endereco", key = "#cnpj + ':' + #id")
     public EnderecoResponseDTO getEndereco(@PathVariable String cnpj, @PathVariable String id) {
-        return enderecoMapper.toResponse(empresaService.findEnderecoById(cnpj, id));
+        return empresaService.getEndereco(cnpj, id);
     }
 
     @Override

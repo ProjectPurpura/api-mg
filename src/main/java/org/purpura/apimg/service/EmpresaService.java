@@ -8,6 +8,7 @@ import org.purpura.apimg.dto.mapper.empresa.ResiduoMapper;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
@@ -87,39 +88,42 @@ public class EmpresaService {
     // region ENDERECO
 
 
-    private EnderecoModel findEnderecoById(String cnpj, String id, EmpresaModel empresaModel) {
+    private EnderecoModel findEnderecoById(String id, EmpresaModel empresaModel) {
         return empresaModel.getEnderecos().stream()
                 .filter(e -> e.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new EnderecoNotFoundException(cnpj, id));
+                .orElseThrow(() -> new EnderecoNotFoundException(empresaModel.getCnpj(), id));
     }
 
-    public EnderecoModel findEnderecoById(String cnpj, String id) {
+    private EnderecoModel findEnderecoById(String cnpj, String id) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        return findEnderecoById(cnpj, id, empresaModel);
+        return findEnderecoById(id, empresaModel);
     }
 
-    public List<EnderecoModel> findEnderecosByCnpj(String cnpj) {
-        EmpresaModel empresaModel = findByCnpj(cnpj);
-        return empresaModel.getEnderecos();
+    public EnderecoResponseDTO getEndereco(String cnpj, String id) {
+        return enderecoMapper.toResponse(findEnderecoById(cnpj, id));
     }
 
-        public EnderecoModel addEndereco(String cnpj, EnderecoRequestDTO endereco) {
+    public List<EnderecoResponseDTO> findEnderecosByCnpj(String cnpj) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        return enderecoMapper
+                .toResponseList(empresaModel.getEnderecos());
+    }
+
+    public EnderecoResponseDTO addEndereco(String cnpj, EnderecoRequestDTO endereco) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
 
-        EnderecoModel enderecoModel = new EnderecoModel();
-        BeanUtils.copyProperties(endereco, enderecoModel);
-        enderecoModel.setId(java.util.UUID.randomUUID().toString());
+        EnderecoModel enderecoModel = enderecoMapper.toModel(endereco);
 
         empresaModel.getEnderecos().add(enderecoModel);
         empresaRepository.save(empresaModel);
 
-        return enderecoModel;
+        return enderecoMapper.toResponse(enderecoModel);
     }
 
     public void deleteEndereco(String cnpj, String id) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        EnderecoModel enderecoModel = findEnderecoById(cnpj, id, empresaModel);
+        EnderecoModel enderecoModel = findEnderecoById(id, empresaModel);
 
         empresaModel.getEnderecos().remove(enderecoModel);
         empresaRepository.save(empresaModel);
@@ -129,7 +133,7 @@ public class EmpresaService {
     public void updateEndereco(String cnpj, String id, EnderecoRequestDTO endereco) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
 
-        EnderecoModel enderecoModel = findEnderecoById(cnpj, id, empresaModel);
+        EnderecoModel enderecoModel = findEnderecoById(id, empresaModel);
         
         BeanUtils.copyProperties(endereco, enderecoModel);
         empresaRepository.save(empresaModel);
