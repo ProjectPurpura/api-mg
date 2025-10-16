@@ -70,7 +70,7 @@ public class EmpresaService {
 
     public List<EmpresaResponseDTO> getAll() {
         return empresaMapper
-                .toResponseList(findAll().stream().toList());
+                .toResponseList(findAll());
     }
 
 
