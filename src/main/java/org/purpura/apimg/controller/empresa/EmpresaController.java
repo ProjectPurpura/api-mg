@@ -9,7 +9,6 @@ import org.purpura.apimg.controller.empresa.oas.ResiduoContract;
 import org.purpura.apimg.dto.mapper.empresa.ChavePixMapper;
 import org.purpura.apimg.dto.mapper.empresa.EmpresaMapper;
 import org.purpura.apimg.dto.mapper.empresa.EnderecoMapper;
-import org.purpura.apimg.dto.mapper.empresa.ResiduoMapper;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
@@ -19,7 +18,6 @@ import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
 import org.purpura.apimg.search.base.SearchKeywords;
 import org.purpura.apimg.service.EmpresaService;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +36,6 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     private final EmpresaMapper empresaMapper;
     private final EnderecoMapper enderecoMapper;
     private final ChavePixMapper chavePixMapper;
-    private final ResiduoMapper residuoMapper;
 
     // region EMPRESA
     @Override
@@ -154,25 +151,24 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     @Override
     @Cacheable(value = "residuo", key = "#cnpj + ':' + #id")
     public ResiduoResponseDTO getResiduo(@PathVariable String cnpj, @PathVariable String id) {
-        return residuoMapper.toResponse(empresaService.findResiduoById(cnpj, id));
+        return empresaService.getResiduo(cnpj, id);
     }
 
     @Override
     @Cacheable(value = "residuos", key = "#cnpj")
     public List<ResiduoResponseDTO> getAllResiduosByCnpj(@PathVariable String cnpj) {
-        return residuoMapper.toResponseList(empresaService.findResiduosByCnpj(cnpj));
+        return empresaService.getAllResiduosByCnpj(cnpj);
     }
 
     @Override
     public List<ResiduoResponseDTO> getAllResiduosView(@PathVariable String cnpj, @RequestParam Integer limit, @RequestParam Integer page) {
-        return residuoMapper
-                .toResponseList(empresaService.findAllResiduosView(cnpj, limit, page));
+        return empresaService.getAllResiduosView(cnpj, limit, page);
     }
 
     @Override
     @CacheEvict(value = {"residuos", "residuo"}, key = "#cnpj", allEntries = true)
     public ResiduoResponseDTO addResiduo(@PathVariable String cnpj, @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
-        return residuoMapper.toResponse(empresaService.addResiduo(cnpj, residuoRequestDTO));
+        return empresaService.addResiduo(cnpj, residuoRequestDTO);
     }
 
     @Override

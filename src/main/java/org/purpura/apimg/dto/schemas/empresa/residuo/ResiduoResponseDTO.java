@@ -33,4 +33,7 @@ public class ResiduoResponseDTO implements java.io.Serializable {
     private String idEndereco;
     @Schema(description = "ID da chave pix do CC da empresa. (UUID)", example = "123e45A7-e89b-42d3-a456-426b14574000")
     private String idChavePix;
+
+    @Schema(description = "CNPJ da empresa que possui o resíduo", example = "12345678000195")
+    private String empresaCnpj;
 }

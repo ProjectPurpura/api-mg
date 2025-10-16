@@ -1,10 +1,15 @@
 package org.purpura.apimg.service;
 
 import lombok.RequiredArgsConstructor;
+import org.purpura.apimg.dto.mapper.empresa.ChavePixMapper;
+import org.purpura.apimg.dto.mapper.empresa.EmpresaMapper;
+import org.purpura.apimg.dto.mapper.empresa.EnderecoMapper;
+import org.purpura.apimg.dto.mapper.empresa.ResiduoMapper;
 import org.purpura.apimg.dto.schemas.empresa.base.EmpresaRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
+import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
 import org.purpura.apimg.exception.empresa.EmpresaNotFoundException;
 import org.purpura.apimg.exception.empresa.EnderecoNotFoundException;
 import org.purpura.apimg.exception.empresa.ChavePixNotFoundException;
@@ -26,6 +31,10 @@ import java.util.List;
 public class EmpresaService {
     private final EmpresaRepository empresaRepository;
     private final EmpresaSearcher empresaSearcher;
+    private final ResiduoMapper residuoMapper;
+    private final EmpresaMapper empresaMapper;
+    private final ChavePixMapper chavePixMapper;
+    private final EnderecoMapper enderecoMapper;
 
     // region EMPRESA
 
@@ -164,31 +173,35 @@ public class EmpresaService {
     // endregion CHAVE PIX
 
     // region RESÍDUO
-    private ResiduoModel findResiduoById(String cnpj, String id, EmpresaModel empresaModel) {
+    private ResiduoModel findResiduoById(String id, EmpresaModel empresaModel) {
         return empresaModel.getResiduos().stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new ResiduoNotFoundException(cnpj, id));
+                .orElseThrow(() -> new ResiduoNotFoundException(empresaModel.getCnpj(), id));
     }
 
-    public ResiduoModel findResiduoById(String cnpj, String id) {
+    private ResiduoModel findResiduoById(String id, String cnpj) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        return findResiduoById(cnpj, id, empresaModel);
+        return findResiduoById(id, empresaModel);
     }
 
-    public ResiduoModel addResiduo(String cnpj, ResiduoRequestDTO residuoRequestDTO) {
+    public ResiduoResponseDTO getResiduo(String cnpj, String id) {
+        return residuoMapper
+                .toResponse(findResiduoById(id, cnpj), cnpj);
+    }
+
+    public ResiduoResponseDTO addResiduo(String cnpj, ResiduoRequestDTO residuoRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        ResiduoModel residuoModel = new ResiduoModel();
-        BeanUtils.copyProperties(residuoRequestDTO, residuoModel);
-        residuoModel.setId(java.util.UUID.randomUUID().toString());
+        ResiduoModel residuoModel = residuoMapper.toModel(residuoRequestDTO);
         empresaModel.getResiduos().add(residuoModel);
         empresaRepository.save(empresaModel);
-        return residuoModel;
+
+        return residuoMapper.toResponse(residuoModel, empresaModel.getCnpj());
     }
 
     public void deleteResiduo(String cnpj, String id) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        ResiduoModel residuoModel = findResiduoById(cnpj, id, empresaModel);
+        ResiduoModel residuoModel = findResiduoById(id, empresaModel);
         empresaModel.getResiduos().remove(residuoModel);
         empresaRepository.save(empresaModel);
     }
@@ -196,17 +209,19 @@ public class EmpresaService {
 
     public void updateResiduo(String cnpj, String id, ResiduoRequestDTO residuoRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        ResiduoModel residuoModel = findResiduoById(cnpj, id, empresaModel);
+        ResiduoModel residuoModel = findResiduoById(id, empresaModel);
         BeanUtils.copyProperties(residuoRequestDTO, residuoModel);
         empresaRepository.save(empresaModel);
     }
 
-    public List<ResiduoModel> findResiduosByCnpj(String cnpj) {
+
+    public List<ResiduoResponseDTO> getAllResiduosByCnpj(String cnpj) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        return empresaModel.getResiduos();
+        return residuoMapper
+                .toResponseList(empresaModel.getResiduos(), empresaModel.getCnpj());
     }
 
-    public List<ResiduoModel> findAllResiduosView(String cnpj, Integer limit, Integer currentPage) {
+    public List<ResiduoResponseDTO> getAllResiduosView(String cnpj, Integer limit, Integer currentPage) {
         List<EmpresaModel> empresaModels = findAll();
 
         int skip = (currentPage != null && limit != null) ? (currentPage - 1) * limit : 0;
@@ -214,8 +229,10 @@ public class EmpresaService {
 
         return empresaModels.stream()
                 .filter(e -> !e.getCnpj().equals(cnpj))
-                .map(EmpresaModel::getResiduos)
-                .flatMap(List::stream)
+                .flatMap(empresaModel ->
+                        empresaModel.getResiduos().stream()
+                                .map(r -> residuoMapper.toResponse(r, empresaModel.getCnpj()))
+                )
                 .skip(skip)
                 .limit(max)
                 .toList();
