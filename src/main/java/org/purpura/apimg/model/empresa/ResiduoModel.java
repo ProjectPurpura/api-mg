@@ -14,7 +14,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class ResiduoModel {
     @Id
-    private String id;
+    @Builder.Default
+    private String id = java.util.UUID.randomUUID().toString();
     private String nome;
     private String descricao;
     private Double peso;
