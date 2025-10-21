@@ -23,8 +23,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/purpuraambiental/api-mg:${{ github.run_number }}
-            ghcr.io/purpuraambiental/api-mg:latest
+            ghcr.io/projectpurpura/api-mg:${{ github.run_number }}
+            ghcr.io/projectpurpura/api-mg:latest
 
       - name: Trigger Render Deploy
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
