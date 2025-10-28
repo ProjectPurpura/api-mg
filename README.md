@@ -55,7 +55,7 @@ Bem-vindo à API do MongoDB do Purpura! Esta API foi projetada para gerenciar e 
 
 ### **Swagger**
 - Explore e teste os endpoints da API diretamente no Swagger:
-  [https://mongodb-api-purpura.onrender.com/swagger-ui/index.html#](https://mongodb-api-purpura.onrender.com/swagger-ui/index.html#)
+  [https://mongodb-api-purpura.onrender.com/swagger-ui/index.html#](https://api-mg-purpura.onrender.com/swagger-ui/index.html#)
 
 ### **WebSockets**
 - Teste a funcionalidade de WebSockets utilizando o projeto Python disponível em:
