@@ -7,10 +7,10 @@ import io.swagger.v3.oas.annotations.info.License;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "API MongoDB do Purpura",
+                title = "API MongoDB do PurPura",
                 version = "v1",
                 description = "Documentação da API",
-                contact = @Contact(name = "Purpura Ambiental", email = "grupopurpura@gmail.com"),
+                contact = @Contact(name = "PurPura Ambiental", email = "purpuraambiental4@gmail.com"),
                 license = @License(name = "Apache-2.0")
         )
 )
