@@ -1,4 +1,4 @@
-# **API para Acesso ao MongoDB do Purpura 💜**
+# **API para Acesso ao MongoDB do PurPura 💜**
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
@@ -13,7 +13,7 @@
 
 ## **Overview 📝**
 
-Bem-vindo à API do MongoDB do Purpura! Esta API foi projetada para gerenciar e organizar os dados essenciais do Purpura, abrangendo os seguintes domínios:
+Bem-vindo à API do MongoDB do PurPura! Esta API foi projetada para gerenciar e organizar os dados essenciais do Purpura, abrangendo os seguintes domínios:
 
 - **Empresas**: Gerencie informações de empresas cadastradas.
 - **Chaves Pix**: Controle e organize chaves Pix associadas.
