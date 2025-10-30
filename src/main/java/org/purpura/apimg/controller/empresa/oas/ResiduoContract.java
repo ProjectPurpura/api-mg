@@ -6,9 +6,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
-import org.purpura.apimg.validation.generic.NonZero;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -124,6 +124,6 @@ public interface ResiduoContract {
     @ResponseStatus(HttpStatus.OK)
     ResiduoResponseDTO downturnResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
                        @Parameter(description = "ID do resíduo", example = "1") @PathVariable String id,
-                       @Parameter(description = "Quantidade a ser baixada", example = "10") @RequestParam @NonZero Integer quantity);
+                       @Parameter(description = "Quantidade a ser baixada", example = "10") @RequestParam @Min(1) Integer quantity);
 
 }
