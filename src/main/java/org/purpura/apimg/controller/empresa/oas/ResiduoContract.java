@@ -117,7 +117,7 @@ public interface ResiduoContract {
                 )
             ),
             @ApiResponse(responseCode = "404", description = "Resíduo não encontrado"),
-            @ApiResponse(responseCode = "400", description = "Não é possível abaixar o estoque, quantidade insuficiente oui inválida")
+            @ApiResponse(responseCode = "400", description = "Não é possível abaixar o estoque, quantidade insuficiente ou inválida")
         }
     )
     @PatchMapping(value = "/{cnpj}/residuo/{id}/downturn")
