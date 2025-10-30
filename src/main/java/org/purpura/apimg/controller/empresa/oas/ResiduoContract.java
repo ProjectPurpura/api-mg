@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
+import org.purpura.apimg.validation.generic.NonZero;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -116,13 +117,13 @@ public interface ResiduoContract {
                 )
             ),
             @ApiResponse(responseCode = "404", description = "Resíduo não encontrado"),
-            @ApiResponse(responseCode = "400", description = "Não é possível abaixar o estoque, estoque insuficiente para baixa")
+            @ApiResponse(responseCode = "400", description = "Não é possível abaixar o estoque, quantidade insuficiente oui inválida")
         }
     )
     @PatchMapping(value = "/{cnpj}/residuo/{id}/downturn")
     @ResponseStatus(HttpStatus.OK)
     ResiduoResponseDTO downturnResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
                        @Parameter(description = "ID do resíduo", example = "1") @PathVariable String id,
-                       @Parameter(description = "Quantidade a ser baixada", example = "10") @RequestParam Integer quantity);
+                       @Parameter(description = "Quantidade a ser baixada", example = "10") @RequestParam @NonZero Integer quantity);
 
 }
