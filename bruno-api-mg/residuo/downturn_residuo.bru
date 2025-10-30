@@ -1,0 +1,20 @@
+meta {
+  name: downturn_residuo
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{BASE_URL}}/empresa/17424290000101/residuo/85336782-2927-45b2-a275-4f6afc4509cd/downturn?quantity=2
+  body: none
+  auth: inherit
+}
+
+params:query {
+  quantity: 2
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
 import org.springframework.http.HttpStatus;
@@ -107,4 +108,24 @@ public interface ResiduoContract {
     @ResponseStatus(HttpStatus.OK)
     void deleteResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
                        @Parameter(description = "ID do resíduo", example = "1") @PathVariable String id);
+
+    @Operation(summary = "Baixa de um estoque de resíduo", description = "Faz uma baixa no estoque de um resíduo da empresa",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Baixa com sucesso",
+                content = @Content(
+                        schema = @Schema(implementation = ResiduoResponseDTO.class)
+                )
+            ),
+            @ApiResponse(responseCode = "404", description = "Resíduo não encontrado"),
+            @ApiResponse(responseCode = "400", description = "Não é possível abaixar o estoque, quantidade insuficiente ou inválida")
+        }
+    )
+    @PatchMapping(value = "/{cnpj}/residuo/{id}/downturn")
+    @ResponseStatus(HttpStatus.OK)
+    ResiduoResponseDTO downturnResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
+                       @Parameter(description = "ID do resíduo", example = "1") @PathVariable String id,
+                       @Parameter(description = "Quantidade a ser baixada", example = "10")
+                       @Min(value = 1, message = "A quantidade da baixa deve ser no mínimo 1 unidade.") @RequestParam Long quantity);
+
+
 }

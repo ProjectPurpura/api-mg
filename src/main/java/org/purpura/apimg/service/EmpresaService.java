@@ -13,10 +13,7 @@ import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
-import org.purpura.apimg.exception.empresa.EmpresaNotFoundException;
-import org.purpura.apimg.exception.empresa.EnderecoNotFoundException;
-import org.purpura.apimg.exception.empresa.ChavePixNotFoundException;
-import org.purpura.apimg.exception.empresa.ResiduoNotFoundException;
+import org.purpura.apimg.exception.empresa.*;
 import org.purpura.apimg.model.empresa.ChavePixModel;
 import org.purpura.apimg.model.empresa.EmpresaModel;
 import org.purpura.apimg.model.empresa.EnderecoModel;
@@ -255,6 +252,20 @@ public class EmpresaService {
                 .skip(skip)
                 .limit(max)
                 .toList();
+    }
+
+    @Transactional
+    public ResiduoResponseDTO downturnResiduo(String cnpj, String id, Long quantity) {
+        EmpresaModel empresaModel = findByCnpj(cnpj);
+        ResiduoModel residuoModel = findResiduoById(id, empresaModel);
+
+        if (residuoModel.getEstoque() < quantity) {
+            throw new ResiduoInsufficientStockException(id, quantity);
+        }
+
+        residuoModel.setEstoque(residuoModel.getEstoque() - quantity);
+        empresaRepository.save(empresaModel);
+        return residuoMapper.toResponse(residuoModel, empresaModel.getCnpj());
     }
     // endregion RESÍDUO
 }

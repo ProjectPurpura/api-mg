@@ -174,5 +174,11 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     public void deleteResiduo(@PathVariable String cnpj, @PathVariable String id) {
         empresaService.deleteResiduo(cnpj, id);
     }
+
+    @Override
+    public ResiduoResponseDTO downturnResiduo(String cnpj, String id, Long quantity) {
+        return empresaService.downturnResiduo(cnpj, id, quantity);
+    }
+
     // endregion Resíduo
 }
