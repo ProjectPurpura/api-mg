@@ -124,6 +124,8 @@ public interface ResiduoContract {
     @ResponseStatus(HttpStatus.OK)
     ResiduoResponseDTO downturnResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
                        @Parameter(description = "ID do resíduo", example = "1") @PathVariable String id,
-                       @Parameter(description = "Quantidade a ser baixada", example = "10") @RequestParam @Min(1) Integer quantity);
+                       @Parameter(description = "Quantidade a ser baixada", example = "10")
+                       @Min(value = 1, message = "A quantidade da baixa deve ser no mínimo 1 unidade.") @RequestParam Integer quantity);
+
 
 }
