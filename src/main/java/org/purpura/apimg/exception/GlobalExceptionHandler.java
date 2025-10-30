@@ -6,6 +6,7 @@ import org.purpura.apimg.exception.base.DuplicateDataException;
 import org.purpura.apimg.exception.base.NotFoundException;
 import org.purpura.apimg.exception.conversa.ChatAlreadyExistsException;
 import org.purpura.apimg.exception.empresa.EmpresaNotFoundException;
+import org.purpura.apimg.exception.empresa.ResiduoInsufficientStockException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -72,5 +73,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ChatAlreadyExistsException.class)
     public ResponseEntity<String> handle(ChatAlreadyExistsException chatAlreadyExistsException) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(chatAlreadyExistsException.getMessage());
+    }
+
+    @ExceptionHandler(ResiduoInsufficientStockException.class)
+    public ResponseEntity<String> handle(ResiduoInsufficientStockException residuoInsufficientStockException) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(residuoInsufficientStockException.getMessage());
     }
 }
