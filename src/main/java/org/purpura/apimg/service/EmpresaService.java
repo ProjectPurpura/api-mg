@@ -255,7 +255,7 @@ public class EmpresaService {
     }
 
     @Transactional
-    public ResiduoResponseDTO downturnResiduo(String cnpj, String id, Integer quantity) {
+    public ResiduoResponseDTO downturnResiduo(String cnpj, String id, Long quantity) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
         ResiduoModel residuoModel = findResiduoById(id, empresaModel);
 
