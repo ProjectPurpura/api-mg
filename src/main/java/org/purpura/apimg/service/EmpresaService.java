@@ -255,7 +255,7 @@ public class EmpresaService {
     }
 
     @Transactional
-    public void downturnResiduo(String cnpj, String id, Integer quantity) {
+    public ResiduoResponseDTO downturnResiduo(String cnpj, String id, Integer quantity) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
         ResiduoModel residuoModel = findResiduoById(id, empresaModel);
 
@@ -265,6 +265,7 @@ public class EmpresaService {
 
         residuoModel.setEstoque(residuoModel.getEstoque() - quantity);
         empresaRepository.save(empresaModel);
+        return residuoMapper.toResponse(residuoModel, empresaModel.getCnpj());
     }
     // endregion RESÍDUO
 }

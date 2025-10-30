@@ -176,8 +176,8 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    public void downturnResiduo(String cnpj, String id, Integer quantity) {
-        empresaService.downturnResiduo(cnpj, id, quantity);
+    public ResiduoResponseDTO downturnResiduo(String cnpj, String id, Integer quantity) {
+        return empresaService.downturnResiduo(cnpj, id, quantity);
     }
 
     // endregion Resíduo
