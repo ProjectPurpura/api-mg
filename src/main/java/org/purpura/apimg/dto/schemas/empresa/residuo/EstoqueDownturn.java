@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @Schema(name="EstoqueDownturn", description = "Representa a requisição de baixa de um resíduo específico")
 public class EstoqueDownturn {
     @Schema(name = "ID do resíduo")
-    @NotEmpty(message = "A lista de baixas deve ter pelo menos um item e não pode ser nula")
+    @NotEmpty(message = "O id do resíduo relativo a essa baixa deve ser informado e não nulo")
     private String idResiduo;
 
     @Schema(name = "Quantidade da baixa, valores negativos aumentam o estoque")
-    @NotNull(message = "O id do resíduo relativo a essa baixa deve ser informado e não nulo")
+    @NotNull(message = "A lista de baixas deve ter pelo menos um item e não pode ser nula")
     private Long quantidade;
 }
