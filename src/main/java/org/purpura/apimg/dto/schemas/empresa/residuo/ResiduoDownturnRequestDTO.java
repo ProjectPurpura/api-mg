@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @Schema(name="ResiduoDownturnRequestDTO", description = "Representa a requisição de baixa de vários resíduos")
 public class ResiduoDownturnRequestDTO {
-    @Schema(description = "Requsição de baixa de um resíduo específico")
+    @Schema(description = "Lista de baixas de estoque de resíduos")
     @Size(min = 1, message = "A lista de baixas deve ter pelo menos um item e não nula")
     @NotNull(message = "A lista de baixas deve ser informada e não nula")
     @DownturnUnique
