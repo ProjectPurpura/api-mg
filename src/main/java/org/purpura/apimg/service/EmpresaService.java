@@ -11,10 +11,7 @@ import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixResponseDTO;
-import org.purpura.apimg.dto.schemas.empresa.residuo.Downturn;
-import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoDownturnRequestDTO;
-import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
-import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
+import org.purpura.apimg.dto.schemas.empresa.residuo.*;
 import org.purpura.apimg.exception.empresa.*;
 import org.purpura.apimg.model.empresa.ChavePixModel;
 import org.purpura.apimg.model.empresa.EmpresaModel;
@@ -26,6 +23,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -257,13 +255,13 @@ public class EmpresaService {
     }
 
     @Transactional
-    public Integer downturnResiduo(String cnpj, ResiduoDownturnRequestDTO residuoDownturnRequestDTO) {
+    public List<Downturn> downturnResiduo(String cnpj, ResiduoDownturnRequestDTO residuoDownturnRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
 
-        List<Downturn> downturns = residuoDownturnRequestDTO.getDownturns();
+        List<Downturn> downturnRequests = residuoDownturnRequestDTO.getDownturns();
+        List<Downturn> downturnResponses = new ArrayList<>();
 
-        int downturnCount = 0;
-        for (Downturn downturn : downturns) {
+        for (Downturn downturn : downturnRequests) {
             Long quantidade = downturn.getQuantidade();
             String idResiduo = downturn.getIdResiduo();
 
@@ -273,12 +271,15 @@ public class EmpresaService {
                 throw new ResiduoInsufficientStockException(idResiduo, quantidade);
             }
 
-            residuoModel.setEstoque(residuoModel.getEstoque() - quantidade);
-            downturnCount++;
+            Long newEstoque = residuoModel.getEstoque() - quantidade;
+            residuoModel.setEstoque(newEstoque);
+
+            downturnResponses.add(new Downturn(idResiduo, quantidade));
         }
 
         empresaRepository.save(empresaModel);
-        return downturnCount;
+
+        return downturnResponses;
     }
     // endregion RESÍDUO
 }

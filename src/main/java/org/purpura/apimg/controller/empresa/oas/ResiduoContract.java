@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
+import org.purpura.apimg.dto.schemas.empresa.residuo.Downturn;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoDownturnRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
@@ -123,8 +124,8 @@ public interface ResiduoContract {
     )
     @PatchMapping(value = "/{cnpj}/residuo/downturn")
     @ResponseStatus(HttpStatus.OK)
-    Integer downturnResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
-                                       @RequestBody @Valid ResiduoDownturnRequestDTO residuoDownturnRequestDTO
+    List<Downturn> downturnResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
+                                   @RequestBody @Valid ResiduoDownturnRequestDTO residuoDownturnRequestDTO
     );
 
 
