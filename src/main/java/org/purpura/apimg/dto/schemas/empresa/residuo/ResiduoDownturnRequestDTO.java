@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.purpura.apimg.validation.residuo.DownturnUnique;
 
 import java.util.List;
 
@@ -17,5 +18,6 @@ import java.util.List;
 public class ResiduoDownturnRequestDTO {
     @Schema(description = "Requsição de baixa de um resíduo específico")
     @Size(min = 1, message = "A lista de baixas deve ter pelo menos um item")
+    @DownturnUnique
     private List<EstoqueDownturn> estoqueDownturns;
 }

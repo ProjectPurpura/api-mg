@@ -261,6 +261,10 @@ public class EmpresaService {
         List<EstoqueDownturn> estoqueDownturnRequests = residuoDownturnRequestDTO.getEstoqueDownturns();
         List<EstoqueDownturn> estoqueDownturnResponses = new ArrayList<>();
 
+        if (estoqueDownturnRequests == null || estoqueDownturnRequests.isEmpty()) {
+            throw new IllegalArgumentException("Requisição de baixa não pode ser nula ou vazia.");
+        }
+
         for (EstoqueDownturn estoqueDownturn : estoqueDownturnRequests) {
             Long quantidade = estoqueDownturn.getQuantidade();
             String idResiduo = estoqueDownturn.getIdResiduo();
