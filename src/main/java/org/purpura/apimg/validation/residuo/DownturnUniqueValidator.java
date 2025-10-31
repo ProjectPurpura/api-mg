@@ -9,6 +9,6 @@ import java.util.List;
 public class DownturnUniqueValidator implements ConstraintValidator<DownturnUnique, List<EstoqueDownturn>> {
     @Override
     public boolean isValid(List<EstoqueDownturn> estoqueDownturns, ConstraintValidatorContext constraintValidatorContext) {
-        return estoqueDownturns.stream().distinct().count() == estoqueDownturns.size();
+        return estoqueDownturns.stream().map(EstoqueDownturn::getIdResiduo).distinct().count() == estoqueDownturns.size();
     }
 }
