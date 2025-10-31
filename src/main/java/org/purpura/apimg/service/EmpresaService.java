@@ -257,7 +257,7 @@ public class EmpresaService {
     }
 
     @Transactional
-    public Integer downturnResiduos(String cnpj, ResiduoDownturnRequestDTO residuoDownturnRequestDTO) {
+    public Integer downturnResiduo(String cnpj, ResiduoDownturnRequestDTO residuoDownturnRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
 
         List<Downturn> downturns = residuoDownturnRequestDTO.getDownturns();
