@@ -5,16 +5,41 @@ meta {
 }
 
 patch {
-  url: {{BASE_URL}}/empresa/17424290000101/residuo/85336782-2927-45b2-a275-4f6afc4509cd/downturn?quantity=2
-  body: none
+  url: {{BASE_URL}}/empresa/17424290000101/residuo/downturn
+  body: json
   auth: inherit
 }
 
-params:query {
-  quantity: 2
+body:json {
+  {
+    "estoqueDownturns": [
+      {
+        "idResiduo": "85336782-2927-45b2-a275-4f6afc4509cd",
+        "quantidade": 2
+      }
+    ]
+  }
 }
 
 settings {
   encodeUrl: true
   timeout: 0
+}
+
+docs {
+  1. Requisição com duplicados (JSON):
+  ```json
+  {
+    "estoqueDownturns": [
+      {
+        "idResiduo": "85336782-2927-45b2-a275-4f6afc4509cd",
+        "quantidade": -2
+      },
+      {
+        "idResiduo": "85336782-2927-45b2-a275-4f6afc4509cd",
+        "quantidade": -2
+      }
+    ]
+  }
+  ``` 
 }

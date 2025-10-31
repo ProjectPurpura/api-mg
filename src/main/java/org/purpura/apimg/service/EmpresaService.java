@@ -11,8 +11,7 @@ import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixResponseDTO;
-import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
-import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
+import org.purpura.apimg.dto.schemas.empresa.residuo.*;
 import org.purpura.apimg.exception.empresa.*;
 import org.purpura.apimg.model.empresa.ChavePixModel;
 import org.purpura.apimg.model.empresa.EmpresaModel;
@@ -24,6 +23,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -255,17 +255,32 @@ public class EmpresaService {
     }
 
     @Transactional
-    public ResiduoResponseDTO downturnResiduo(String cnpj, String id, Long quantity) {
+    public List<EstoqueDownturn> downturnResiduos(String cnpj, ResiduoDownturnRequestDTO residuoDownturnRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        ResiduoModel residuoModel = findResiduoById(id, empresaModel);
 
-        if (residuoModel.getEstoque() < quantity) {
-            throw new ResiduoInsufficientStockException(id, quantity);
+        List<EstoqueDownturn> estoqueDownturnRequests = residuoDownturnRequestDTO.getEstoqueDownturns();
+        List<EstoqueDownturn> estoqueDownturnResponses = new ArrayList<>();
+
+
+        for (EstoqueDownturn estoqueDownturn : estoqueDownturnRequests) {
+            Long quantidade = estoqueDownturn.getQuantidade();
+            String idResiduo = estoqueDownturn.getIdResiduo();
+
+            ResiduoModel residuoModel = findResiduoById(idResiduo, empresaModel);
+
+            if (residuoModel.getEstoque() < quantidade) {
+                throw new ResiduoInsufficientStockException(idResiduo, quantidade);
+            }
+
+            Long newEstoque = residuoModel.getEstoque() - quantidade;
+            residuoModel.setEstoque(newEstoque);
+
+            estoqueDownturnResponses.add(new EstoqueDownturn(idResiduo, newEstoque));
         }
 
-        residuoModel.setEstoque(residuoModel.getEstoque() - quantity);
         empresaRepository.save(empresaModel);
-        return residuoMapper.toResponse(residuoModel, empresaModel.getCnpj());
+
+        return estoqueDownturnResponses;
     }
     // endregion RESÍDUO
 }
