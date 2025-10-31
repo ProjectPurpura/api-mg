@@ -6,10 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
-import org.purpura.apimg.dto.schemas.empresa.residuo.Downturn;
-import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoDownturnRequestDTO;
-import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
-import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
+import org.purpura.apimg.dto.schemas.empresa.residuo.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -110,12 +107,12 @@ public interface ResiduoContract {
     void deleteResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
                        @Parameter(description = "ID do resíduo", example = "1") @PathVariable String id);
 
-    @Operation(summary = "Baixa/Aumenta de um estoque de resíduo", description = "Faz uma baixa/aumento no estoque de um resíduo da empresa",
+    @Operation(summary = "Aplicar múltiplas mudanças no estoque", description = "Faz uma baixa/aumento nos estoques dos resíduos da empresa em BATCH",
         responses = {
-            @ApiResponse(responseCode = "200", description = "Baixa com sucesso",
+            @ApiResponse(responseCode = "200", description = "Baixas com sucesso",
                 content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = Integer.class)
+                    schema = @Schema(implementation = ResiduoDownturnResponseDTO.class)
                 )
             ),
             @ApiResponse(responseCode = "404", description = "Resíduo não encontrado"),
@@ -124,8 +121,8 @@ public interface ResiduoContract {
     )
     @PatchMapping(value = "/{cnpj}/residuo/downturn")
     @ResponseStatus(HttpStatus.OK)
-    List<Downturn> downturnResiduos(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
-                                    @RequestBody @Valid ResiduoDownturnRequestDTO residuoDownturnRequestDTO
+    List<EstoqueDownturn> downturnResiduos(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
+                                           @RequestBody @Valid ResiduoDownturnRequestDTO residuoDownturnRequestDTO
     );
 
 

@@ -255,15 +255,15 @@ public class EmpresaService {
     }
 
     @Transactional
-    public List<Downturn> downturnResiduos(String cnpj, ResiduoDownturnRequestDTO residuoDownturnRequestDTO) {
+    public List<EstoqueDownturn> downturnResiduos(String cnpj, ResiduoDownturnRequestDTO residuoDownturnRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
 
-        List<Downturn> downturnRequests = residuoDownturnRequestDTO.getDownturns();
-        List<Downturn> downturnResponses = new ArrayList<>();
+        List<EstoqueDownturn> estoqueDownturnRequests = residuoDownturnRequestDTO.getEstoqueDownturns();
+        List<EstoqueDownturn> estoqueDownturnResponses = new ArrayList<>();
 
-        for (Downturn downturn : downturnRequests) {
-            Long quantidade = downturn.getQuantidade();
-            String idResiduo = downturn.getIdResiduo();
+        for (EstoqueDownturn estoqueDownturn : estoqueDownturnRequests) {
+            Long quantidade = estoqueDownturn.getQuantidade();
+            String idResiduo = estoqueDownturn.getIdResiduo();
 
             ResiduoModel residuoModel = findResiduoById(idResiduo, empresaModel);
 
@@ -274,12 +274,12 @@ public class EmpresaService {
             Long newEstoque = residuoModel.getEstoque() - quantidade;
             residuoModel.setEstoque(newEstoque);
 
-            downturnResponses.add(new Downturn(idResiduo, quantidade));
+            estoqueDownturnResponses.add(new EstoqueDownturn(idResiduo, newEstoque));
         }
 
         empresaRepository.save(empresaModel);
 
-        return downturnResponses;
+        return estoqueDownturnResponses;
     }
     // endregion RESÍDUO
 }

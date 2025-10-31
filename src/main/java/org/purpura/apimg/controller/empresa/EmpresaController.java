@@ -11,7 +11,7 @@ import org.purpura.apimg.dto.schemas.empresa.base.EmpresaResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixResponseDTO;
-import org.purpura.apimg.dto.schemas.empresa.residuo.Downturn;
+import org.purpura.apimg.dto.schemas.empresa.residuo.EstoqueDownturn;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoDownturnRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
@@ -178,7 +178,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    public List<Downturn> downturnResiduos(String cnpj, ResiduoDownturnRequestDTO downturnRequestDTO) {
+    public List<EstoqueDownturn> downturnResiduos(String cnpj, @Valid ResiduoDownturnRequestDTO downturnRequestDTO) {
         return empresaService.downturnResiduos(cnpj, downturnRequestDTO);
     }
 

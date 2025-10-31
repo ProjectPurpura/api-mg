@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Schema(name="Downturn", description = "Representa a requisição de baixa de um resíduo específico")
-public class Downturn {
+@Schema(name="EstoqueDownturn", description = "Representa a requisição de baixa de um resíduo específico")
+public class EstoqueDownturn {
     @Schema(name = "ID do resíduo")
     @NotNull(
             message = "O id do resíduo relativo a essa baixa deve ser informado e não nulo"

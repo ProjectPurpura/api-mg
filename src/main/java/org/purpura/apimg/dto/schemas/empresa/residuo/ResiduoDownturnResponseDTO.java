@@ -13,9 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Schema(name="ResiduoDownturnRequestDTO", description = "Representa a requisição de baixa de vários resíduos")
-public class ResiduoDownturnRequestDTO {
-    @Schema(description = "Requsição de baixa de um resíduo específico")
+@Schema(name="ResiduoDownturnResponseDTO", description = "Representa a requisição de baixa de vários resíduos")
+public class ResiduoDownturnResponseDTO {
+    @Schema(description = "Lista de baixas de estoque de resíduos")
     @Size(min = 1, message = "A lista de baixas deve ter pelo menos um item")
     private List<EstoqueDownturn> estoqueDownturns;
 }
