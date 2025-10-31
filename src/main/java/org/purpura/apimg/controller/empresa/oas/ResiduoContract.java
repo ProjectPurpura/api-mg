@@ -124,8 +124,8 @@ public interface ResiduoContract {
     )
     @PatchMapping(value = "/{cnpj}/residuo/downturn")
     @ResponseStatus(HttpStatus.OK)
-    List<Downturn> downturnResiduo(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
-                                   @RequestBody @Valid ResiduoDownturnRequestDTO residuoDownturnRequestDTO
+    List<Downturn> downturnResiduos(@Parameter(description = "CNPJ da empresa", example = "12345678000195") @PathVariable String cnpj,
+                                    @RequestBody @Valid ResiduoDownturnRequestDTO residuoDownturnRequestDTO
     );
 
 
