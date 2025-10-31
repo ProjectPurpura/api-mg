@@ -11,6 +11,8 @@ import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.endereco.EnderecoResponseDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.pix.ChavePixResponseDTO;
+import org.purpura.apimg.dto.schemas.empresa.residuo.Downturn;
+import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoDownturnRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoRequestDTO;
 import org.purpura.apimg.dto.schemas.empresa.residuo.ResiduoResponseDTO;
 import org.purpura.apimg.exception.empresa.*;
@@ -255,17 +257,28 @@ public class EmpresaService {
     }
 
     @Transactional
-    public ResiduoResponseDTO downturnResiduo(String cnpj, String id, Long quantity) {
+    public Integer downturnResiduos(String cnpj, ResiduoDownturnRequestDTO residuoDownturnRequestDTO) {
         EmpresaModel empresaModel = findByCnpj(cnpj);
-        ResiduoModel residuoModel = findResiduoById(id, empresaModel);
 
-        if (residuoModel.getEstoque() < quantity) {
-            throw new ResiduoInsufficientStockException(id, quantity);
+        List<Downturn> downturns = residuoDownturnRequestDTO.getDownturns();
+
+        int downturnCount = 0;
+        for (Downturn downturn : downturns) {
+            Long quantidade = downturn.getQuantidade();
+            String idResiduo = downturn.getIdResiduo();
+
+            ResiduoModel residuoModel = findResiduoById(idResiduo, empresaModel);
+
+            if (residuoModel.getEstoque() < quantidade) {
+                throw new ResiduoInsufficientStockException(idResiduo, quantidade);
+            }
+
+            residuoModel.setEstoque(residuoModel.getEstoque() - quantidade);
+            downturnCount++;
         }
 
-        residuoModel.setEstoque(residuoModel.getEstoque() - quantity);
         empresaRepository.save(empresaModel);
-        return residuoMapper.toResponse(residuoModel, empresaModel.getCnpj());
+        return downturnCount;
     }
     // endregion RESÍDUO
 }

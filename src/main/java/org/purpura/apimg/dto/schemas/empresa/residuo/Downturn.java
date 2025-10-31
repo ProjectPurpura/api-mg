@@ -23,5 +23,5 @@ public class Downturn {
     @NotNull(
             message = "A quantidade de baixa deve ser informada e não nula"
     )
-    private Double quantidade;
+    private Long quantidade;
 }
