@@ -19,6 +19,6 @@ public class EstoqueDownturn {
     private String idResiduo;
 
     @Schema(name = "Quantidade da baixa, valores negativos aumentam o estoque")
-    @NotNull(message = "A lista de baixas deve ter pelo menos um item e não pode ser nula")
+    @NotNull(message = "A quantidade da baixa deve ser informada e não pode ser nula")
     private Long quantidade;
 }
