@@ -65,10 +65,10 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             # 1. Loga o Docker
-            echo ${{ secrets.GHCR_PAT }} | sudo docker login ghcr.io -u ${{ secrets.GHCR_USER }} --password-stdin
+            printf '%s' "${{ secrets.GHCR_PAT }}" | sudo docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
             
             # 2. Puxa a imagem nova
-            sudo docker pull ${{ secrets.IMAGE_NAME }}:latest
+            sudo docker pull ghcr.io/projectpurpura/api-mg:latest
 
             # 3. Para o container antigo
             sudo docker stop api-mg || true
@@ -82,7 +82,7 @@ jobs:
               --name api-mg \
               --restart unless-stopped \
               --env-file /home/ubuntu/api.env \
-              ${{ secrets.IMAGE_NAME }}:latest
+              ghcr.io/projectpurpura/api-mg:latest
             
             # 6. Limpa imagens antigas
             sudo docker image prune -af
