@@ -82,7 +82,7 @@ jobs:
               --name api-mg \
               --restart unless-stopped \
               --env-file /home/ubuntu/api.env \
-              ${{ secrets.IMAGE_NAME }}:latest
+              ghcr.io/projectpurpura/api-mg:latest
             
             # 6. Limpa imagens antigas
             sudo docker image prune -af
