@@ -27,7 +27,6 @@ public class EnderecoRequestDTO {
     private String cep;
 
     @Schema(description = "Complemento do endereço.", example = "Sala 101")
-    @NotBlank(message = "O complemento do endereço não pode ser vazio")
     private String complemento;
 
     @Schema(description = "Número do endereço.", example = "100")
