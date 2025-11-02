@@ -55,7 +55,7 @@ Bem-vindo à API do MongoDB do PurPura! Esta API foi projetada para gerenciar e 
 
 ### **Swagger**
 - Explore e teste os endpoints da API diretamente no Swagger:
-  [https://xolyxnqo4j.execute-api.us-east-1.amazonaws.com](https://xolyxnqo4j.execute-api.us-east-1.amazonaws.com)
+  [https://xolyxnqo4j.execute-api.us-east-1.amazonaws.com/swagger-ui/index.html#](https://xolyxnqo4j.execute-api.us-east-1.amazonaws.com/swagger-ui/index.html#)
 
 ### **WebSockets**
 - Teste a funcionalidade de WebSockets utilizando o projeto Python disponível em:
