@@ -5,15 +5,16 @@ meta {
 }
 
 get {
-  url: {{BASE_URL}}/empresa/search?query=empresa
+  url: {{BASE_URL}}/empresa/search?query=t
   body: none
   auth: inherit
 }
 
 params:query {
-  query: empresa
+  query: t
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
