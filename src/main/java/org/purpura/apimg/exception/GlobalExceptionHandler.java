@@ -14,7 +14,6 @@ import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,68 +22,68 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String handleRuntimeException(RuntimeException ex) {
-        return String.format("Erro interno do servidor, por favor contate os programadores de back-end: %s", ex.getMessage());
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(String.format("Erro interno do servidor, por favor contate os programadores de back-end: %s", ex.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleIllegalArgumentException(IllegalArgumentException ex) {
-        return "Erro ao processar a solicitação: " + ex.getMessage();
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body("Erro ao processar a solicitação: " + ex.getMessage());
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleConstraintViolationException(ConstraintViolationException ex) {
-        return "Erro de validação: " + ex.getMessage();
+    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException ex) {
+        return ResponseEntity.badRequest().body("Erro de validação: " + ex.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        return "Formato da requisição JSON inválido: " + ex.getMessage();
+    public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        return ResponseEntity.badRequest().body("Formato da requisição JSON inválido: " + ex.getMessage());
     }
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-    public String handleHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException ex) {
-        return "Tipo de mídia não suportado: " + ex.getMessage();
+    public ResponseEntity<String> handleHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException ex) {
+        return ResponseEntity.status(HttpStatus.valueOf(415)).body("Tipo de mídia não suportado: " + ex.getMessage());
     }
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new LinkedHashMap<>();
         ex.getBindingResult()
                 .getFieldErrors()
                 .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
 
-        return errors;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<String> handleNotFoundException(NotFoundException notFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(notFoundException.getMessage());
+    }
+
+    @ExceptionHandler(EmpresaNotFoundException.class)
+    public ResponseEntity<String> handleEmpresaNotFoundException(EmpresaNotFoundException empresaNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(empresaNotFoundException.getMessage());
+    }
+
+    @ExceptionHandler(DuplicateDataException.class)
+    public ResponseEntity<String> handleDuplicateDataException(DuplicateDataException duplicateDataException) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(duplicateDataException.getMessage());
+    }
+
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<String> handleDuplicateKeyException(DuplicateKeyException duplicateKeyException) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(duplicateKeyException.getMessage());
+    }
+
+    @ExceptionHandler(ChatAlreadyExistsException.class)
+    public ResponseEntity<String> handle(ChatAlreadyExistsException chatAlreadyExistsException) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(chatAlreadyExistsException.getMessage());
     }
 
     @ExceptionHandler(ResiduoInsufficientStockException.class)
     public ResponseEntity<String> handle(ResiduoInsufficientStockException residuoInsufficientStockException) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(residuoInsufficientStockException.getMessage());
     }
-
-    @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleNotFoundException(NotFoundException notFoundException) {
-        return notFoundException.getMessage();
-    }
-
-    @ExceptionHandler(DuplicateDataException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public String handleDuplicateDataException(DuplicateDataException duplicateDataException) {
-        return duplicateDataException.getMessage();
-    }
-
-    @ExceptionHandler(DuplicateKeyException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public String handleDuplicateKeyException(DuplicateKeyException duplicateKeyException) {
-        return duplicateKeyException.getMessage();
-    }
-
 }
