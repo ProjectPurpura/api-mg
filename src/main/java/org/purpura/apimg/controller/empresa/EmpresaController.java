@@ -2,6 +2,7 @@ package org.purpura.apimg.controller.empresa;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.purpura.apimg.config.redis.RedisKeys;
 import org.purpura.apimg.controller.empresa.oas.ChavePixContract;
 import org.purpura.apimg.controller.empresa.oas.EmpresaContract;
 import org.purpura.apimg.controller.empresa.oas.EnderecoContract;
@@ -34,25 +35,25 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
 
     // region EMPRESA
     @Override
-    @CacheEvict(value = {"empresa"}, allEntries = true)
+    @CacheEvict(value = {RedisKeys.EMPRESA_KEY}, allEntries = true)
     public void save(@RequestBody @Valid EmpresaRequestDTO empresaRequestDTO) {
         empresaService.insert(empresaRequestDTO);
     }
 
     @Override
-    @Cacheable(value = "empresa", key = "#p0")
+    @Cacheable(value = RedisKeys.EMPRESA_KEY, key = "#p0")
     public EmpresaResponseDTO get(@PathVariable String cnpj) {
         return empresaService.getByCnpj(cnpj);
     }
 
     @Override
-    @CacheEvict(value = {"empresa"}, allEntries = true)
+    @CacheEvict(value = {RedisKeys.EMPRESA_KEY}, allEntries = true)
     public void delete(@PathVariable String cnpj) {
         empresaService.deleteByCnpj(cnpj);
     }
 
     @Override
-    @CacheEvict(value = {"empresa"}, allEntries = true)
+    @CacheEvict(value = {RedisKeys.EMPRESA_KEY}, allEntries = true)
     public void update(@PathVariable String cnpj,
                       @RequestBody @Valid EmpresaRequestDTO empresaUpdateRequestDTO) {
         empresaService.update(cnpj, empresaUpdateRequestDTO);
@@ -75,20 +76,20 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    @Cacheable(value = "endereco", key = "#p0 + ':' + #p1")
+    @Cacheable(value = RedisKeys.ENDERECO_KEY, key = "#p0 + ':' + #p1")
     public EnderecoResponseDTO getEndereco(@PathVariable String cnpj, @PathVariable String id) {
         return empresaService.getEndereco(cnpj, id);
     }
 
     @Override
-    @CacheEvict(value = {"endereco"}, key = "#p0", allEntries = true)
+    @CacheEvict(value = {RedisKeys.ENDERECO_KEY}, key = "#p0", allEntries = true)
     public EnderecoResponseDTO addEndereco(@PathVariable String cnpj,
                                            @RequestBody @Valid EnderecoRequestDTO endereco) {
         return empresaService.addEndereco(cnpj, endereco);
     }
 
     @Override
-    @CacheEvict(value = {"endereco"}, key = "#p0", allEntries = true)
+    @CacheEvict(value = {RedisKeys.ENDERECO_KEY}, key = "#p0", allEntries = true)
     public void updateEndereco(@PathVariable String cnpj,
                               @PathVariable String id,
                               @RequestBody @Valid EnderecoRequestDTO endereco) {
@@ -96,7 +97,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    @CacheEvict(value = {"endereco"}, key = "#p0", allEntries = true)
+    @CacheEvict(value = {RedisKeys.ENDERECO_KEY}, key = "#p0", allEntries = true)
     public void deleteEndereco(@PathVariable String cnpj,
                               @PathVariable String id) {
         empresaService.deleteEndereco(cnpj, id);
@@ -109,20 +110,20 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    @Cacheable(value = "chavePix", key = "#p0 + ':' + #p1")
+    @Cacheable(value = RedisKeys.CHAVE_PIX_KEY, key = "#p0 + ':' + #p1")
     public ChavePixResponseDTO getChave(@PathVariable String cnpj, @PathVariable String id) {
         return empresaService.getChavePix(cnpj, id);
     }
 
     @Override
-    @CacheEvict(value = {"chavePix"}, key = "#p0", allEntries = true)
+    @CacheEvict(value = {RedisKeys.CHAVE_PIX_KEY}, key = "#p0", allEntries = true)
     public ChavePixResponseDTO addChave(@PathVariable String cnpj,
                                         @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
         return empresaService.addChavePix(cnpj, chavePixRequestDTO);
     }
 
     @Override
-    @CacheEvict(value = {"chavePix"}, key = "#p0", allEntries = true)
+    @CacheEvict(value = {RedisKeys.CHAVE_PIX_KEY}, key = "#p0", allEntries = true)
     public void updateChavePix(@PathVariable String cnpj,
                               @PathVariable String id,
                               @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
@@ -130,7 +131,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    @CacheEvict(value = {"chavePix"}, key = "#p0", allEntries = true)
+    @CacheEvict(value = {RedisKeys.CHAVE_PIX_KEY}, key = "#p0", allEntries = true)
     public void deleteChave(@PathVariable String cnpj,
                             @PathVariable String id) {
         empresaService.deleteChavePix(cnpj, id);
@@ -139,7 +140,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     // region Resíduo
 
     @Override
-    @Cacheable(value = "residuo", key = "#p0 + ':' + #p1")
+    @Cacheable(value = RedisKeys.RESIDUO_KEY, key = "#p0 + ':' + #p1")
     public ResiduoResponseDTO getResiduo(@PathVariable String cnpj, @PathVariable String id) {
         return empresaService.getResiduo(cnpj, id);
     }
@@ -155,19 +156,19 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    @CacheEvict(value = {"residuo"}, key = "#p0", allEntries = true)
+    @CacheEvict(value = {RedisKeys.RESIDUO_KEY}, key = "#p0", allEntries = true)
     public ResiduoResponseDTO addResiduo(@PathVariable String cnpj, @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
         return empresaService.addResiduo(cnpj, residuoRequestDTO);
     }
 
     @Override
-    @CacheEvict(value = {"residuo"}, key = "#p0", allEntries = true)
+    @CacheEvict(value = {RedisKeys.RESIDUO_KEY}, key = "#p0", allEntries = true)
     public void updateResiduo(@PathVariable String cnpj, @PathVariable String id, @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
         empresaService.updateResiduo(cnpj, id, residuoRequestDTO);
     }
 
     @Override
-    @CacheEvict(value = {"residuo"}, key = "#p0", allEntries = true)
+    @CacheEvict(value = {RedisKeys.RESIDUO_KEY}, key = "#p0", allEntries = true)
     public void deleteResiduo(@PathVariable String cnpj, @PathVariable String id) {
         empresaService.deleteResiduo(cnpj, id);
     }
