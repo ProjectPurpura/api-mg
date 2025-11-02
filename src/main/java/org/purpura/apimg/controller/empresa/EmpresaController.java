@@ -40,7 +40,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    @Cacheable(value = "empresa", key = "#cnpj")
+    @Cacheable(value = "empresa", key = "#p0")
     public EmpresaResponseDTO get(@PathVariable String cnpj) {
         return empresaService.getByCnpj(cnpj);
     }
@@ -65,33 +65,33 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    @Cacheable(value = "empresas", key = "#query")
+    @Cacheable(value = "empresas", key = "#p0")
     public List<EmpresaResponseDTO> search(@RequestParam @SearchKeywords @Valid String query) {
         return empresaService.search(query);
     }
     // endregion EMPRESA
     // region Endereco endpoints
     @Override
-    @Cacheable(value = "enderecos", key = "#cnpj")
+    @Cacheable(value = "enderecos", key = "#p0")
     public List<EnderecoResponseDTO> getEnderecos(@PathVariable String cnpj) {
         return empresaService.findEnderecosByCnpj(cnpj);
     }
 
     @Override
-    @Cacheable(value = "endereco", key = "#cnpj + ':' + #id")
+    @Cacheable(value = "endereco", key = "#p0 + ':' + #p1")
     public EnderecoResponseDTO getEndereco(@PathVariable String cnpj, @PathVariable String id) {
         return empresaService.getEndereco(cnpj, id);
     }
 
     @Override
-    @CacheEvict(value = {"enderecos", "endereco"}, key = "#cnpj", allEntries = true)
+    @CacheEvict(value = {"enderecos", "endereco"}, key = "#p0", allEntries = true)
     public EnderecoResponseDTO addEndereco(@PathVariable String cnpj,
                                            @RequestBody @Valid EnderecoRequestDTO endereco) {
         return empresaService.addEndereco(cnpj, endereco);
     }
 
     @Override
-    @CacheEvict(value = {"enderecos", "endereco"}, key = "#cnpj", allEntries = true)
+    @CacheEvict(value = {"enderecos", "endereco"}, key = "#p0", allEntries = true)
     public void updateEndereco(@PathVariable String cnpj,
                               @PathVariable String id,
                               @RequestBody @Valid EnderecoRequestDTO endereco) {
@@ -99,7 +99,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    @CacheEvict(value = {"enderecos", "endereco"}, key = "#cnpj", allEntries = true)
+    @CacheEvict(value = {"enderecos", "endereco"}, key = "#p0", allEntries = true)
     public void deleteEndereco(@PathVariable String cnpj,
                               @PathVariable String id) {
         empresaService.deleteEndereco(cnpj, id);
@@ -107,26 +107,26 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     // endregion Endereco endpoints
     // region Chave Pix
     @Override
-    @Cacheable(value = "chavesPix", key = "#cnpj")
+    @Cacheable(value = "chavesPix", key = "#p0")
     public List<ChavePixResponseDTO> getChaves(@PathVariable String cnpj) {
         return empresaService.findChavesPixByCnpj(cnpj);
     }
 
     @Override
-    @Cacheable(value = "chavePix", key = "#cnpj + ':' + #id")
+    @Cacheable(value = "chavePix", key = "#p0 + ':' + #p1")
     public ChavePixResponseDTO getChave(@PathVariable String cnpj, @PathVariable String id) {
         return empresaService.getChavePix(cnpj, id);
     }
 
     @Override
-    @CacheEvict(value = {"chavesPix", "chavePix"}, key = "#cnpj", allEntries = true)
+    @CacheEvict(value = {"chavesPix", "chavePix"}, key = "#p0", allEntries = true)
     public ChavePixResponseDTO addChave(@PathVariable String cnpj,
                                         @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
         return empresaService.addChavePix(cnpj, chavePixRequestDTO);
     }
 
     @Override
-    @CacheEvict(value = {"chavesPix", "chavePix"}, key = "#cnpj", allEntries = true)
+    @CacheEvict(value = {"chavesPix", "chavePix"}, key = "#p0", allEntries = true)
     public void updateChavePix(@PathVariable String cnpj,
                               @PathVariable String id,
                               @RequestBody @Valid ChavePixRequestDTO chavePixRequestDTO) {
@@ -134,7 +134,7 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    @CacheEvict(value = {"chavesPix", "chavePix"}, key = "#cnpj", allEntries = true)
+    @CacheEvict(value = {"chavesPix", "chavePix"}, key = "#p0", allEntries = true)
     public void deleteChave(@PathVariable String cnpj,
                             @PathVariable String id) {
         empresaService.deleteChavePix(cnpj, id);
@@ -143,13 +143,13 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     // region Resíduo
 
     @Override
-    @Cacheable(value = "residuo", key = "#cnpj + ':' + #id")
+    @Cacheable(value = "residuo", key = "#p0 + ':' + #p1")
     public ResiduoResponseDTO getResiduo(@PathVariable String cnpj, @PathVariable String id) {
         return empresaService.getResiduo(cnpj, id);
     }
 
     @Override
-    @Cacheable(value = "residuos", key = "#cnpj")
+    @Cacheable(value = "residuos", key = "#p0")
     public List<ResiduoResponseDTO> getAllResiduosByCnpj(@PathVariable String cnpj) {
         return empresaService.getAllResiduosByCnpj(cnpj);
     }
@@ -160,19 +160,19 @@ public class EmpresaController implements EmpresaContract, EnderecoContract, Res
     }
 
     @Override
-    @CacheEvict(value = {"residuos", "residuo"}, key = "#cnpj", allEntries = true)
+    @CacheEvict(value = {"residuos", "residuo"}, key = "#p0", allEntries = true)
     public ResiduoResponseDTO addResiduo(@PathVariable String cnpj, @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
         return empresaService.addResiduo(cnpj, residuoRequestDTO);
     }
 
     @Override
-    @CacheEvict(value = {"residuos", "residuo"}, key = "#cnpj", allEntries = true)
+    @CacheEvict(value = {"residuos", "residuo"}, key = "#p0", allEntries = true)
     public void updateResiduo(@PathVariable String cnpj, @PathVariable String id, @RequestBody @Valid ResiduoRequestDTO residuoRequestDTO) {
         empresaService.updateResiduo(cnpj, id, residuoRequestDTO);
     }
 
     @Override
-    @CacheEvict(value = {"residuos", "residuo"}, key = "#cnpj", allEntries = true)
+    @CacheEvict(value = {"residuos", "residuo"}, key = "#p0", allEntries = true)
     public void deleteResiduo(@PathVariable String cnpj, @PathVariable String id) {
         empresaService.deleteResiduo(cnpj, id);
     }
