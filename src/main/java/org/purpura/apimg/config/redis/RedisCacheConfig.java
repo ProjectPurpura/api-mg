@@ -2,9 +2,7 @@ package org.purpura.apimg.config.redis;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.jspecify.annotations.NonNull;
 import org.springframework.cache.Cache;
 import org.springframework.cache.interceptor.CacheErrorHandler;
@@ -30,17 +28,12 @@ public class RedisCacheConfig {
     @Bean
     public RedisCacheConfiguration defaultCacheConfig() {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.activateDefaultTyping(
                 LaissezFaireSubTypeValidator.instance,
-                ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE,
-                JsonTypeInfo.As.PROPERTY
+                ObjectMapper.DefaultTyping.NON_FINAL,
+                JsonTypeInfo.As.WRAPPER_ARRAY
         );
-
-
         GenericJackson2JsonRedisSerializer jacksonSerializer = new GenericJackson2JsonRedisSerializer(mapper);
-
         return RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofHours(1))
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
@@ -51,22 +44,17 @@ public class RedisCacheConfig {
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheConfiguration defaultConfig = defaultCacheConfig();
-        // optional: per-cache overrides
+
         Map<String, RedisCacheConfiguration> cacheConfigs = new HashMap<>();
-        cacheConfigs.put("empresa", defaultCacheConfig().entryTtl(Duration.ofMinutes(60)));
-        cacheConfigs.put("empresas", defaultCacheConfig().entryTtl(Duration.ofMinutes(10)));
-        cacheConfigs.put("enderecos", defaultCacheConfig().entryTtl(Duration.ofMinutes(10)));
-        cacheConfigs.put("endereco", defaultCacheConfig().entryTtl(Duration.ofMinutes(60)));
-        cacheConfigs.put("chavesPix", defaultCacheConfig().entryTtl(Duration.ofMinutes(10)));
-        cacheConfigs.put("chavePix", defaultCacheConfig().entryTtl(Duration.ofMinutes(60)));
-        cacheConfigs.put("residuo", defaultCacheConfig().entryTtl(Duration.ofMinutes(60)));
-        cacheConfigs.put("residuos", defaultCacheConfig().entryTtl(Duration.ofMinutes(10)));
+        cacheConfigs.put("empresa", defaultConfig.entryTtl(Duration.ofMinutes(60)));
+        cacheConfigs.put("endereco", defaultConfig.entryTtl(Duration.ofMinutes(60)));
+        cacheConfigs.put("chavePix", defaultConfig.entryTtl(Duration.ofMinutes(60)));
+        cacheConfigs.put("residuo", defaultConfig.entryTtl(Duration.ofMinutes(60)));
 
-        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.builder(connectionFactory)
+        return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(defaultConfig)
-                .withInitialCacheConfigurations(cacheConfigs);
-
-        return builder.build();
+                .withInitialCacheConfigurations(cacheConfigs)
+                .build();
     }
 
     @Bean
