@@ -1,6 +1,7 @@
 package org.purpura.apimg.dto.schemas.conversa.chat;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,5 +18,5 @@ import java.util.List;
 public class CreateChatRequestDTO {
     @Schema(description = "Lista de IDs dos participantes que serão adicionados ao novo chat")
     @Size(min = 2, message = "O chat deve ter pelo menos dois participantes")
-    private List<String> participants;
+    private List<@NotNull String> participants;
 }
